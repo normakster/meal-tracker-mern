@@ -3,6 +3,7 @@
 # project specific
 .env
 /backend/node_modules
+/backend/log/*
 
 # dependencies
 /node_modules
