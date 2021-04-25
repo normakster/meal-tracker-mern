@@ -1,5 +1,14 @@
 import logo from './logo.svg';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
+import { BrowserRouter as Router, Route} from "react-router-dom";
+
+import Navbar from "./components/navbar.component"
+import Home from "./components/home.component"
+import Meal from "./components/meal.component";
+import FoodList from "./components/food-list.component";
+
+import { foods, foodSchema, quickies, mealSchema, meals } from './dumby/data'
 
 function App() {
   return (
@@ -19,6 +28,26 @@ function App() {
         </a>
       </header>
     </div>
+    <Router>
+      <div className="container">
+      <Navbar />
+      <br/>
+      <Route path="/" exact >
+        <Home quickies={quickies}/>
+      </Route>
+      <Route path="/Meal" exact >
+        <Meal
+          meals={meals}
+          schema={mealSchema}
+          foodSchema={foodSchema}
+          foods={foods}
+        />
+      </Route>
+      <Route path="/FoodList" exact >
+        <FoodList foods={foods} schema={foodSchema} />
+      </Route>
+      </div>
+    </Router>
   );
 }
 
