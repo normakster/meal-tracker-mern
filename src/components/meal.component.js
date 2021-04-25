@@ -1,84 +1,74 @@
-import React, { Component, useState } from 'react';
-import Table from './table.component'
-import Modal from "./modal.component";
-import FoodList from "./food-list.component";
+import { useState } from 'react';
+import FoodList from './food-list.component';
+import IngredientsList from './ingredient-list.component';
+import Modal from './modal.component';
 
-const InputText = (props) => {
-  return(
-    <input
-      type="text"
-      className="form-control"
-      value={props.value}
-      onChange={props.onChange}
-    />
+function Meal({ foods, ...props }) {
+  const [modal, setModal] = useState(false);
+  const [save, setSave] = useState(false);
+  const [meal, setMeal] = useState(props.meals[0]);
+  const [date, setDate] = useState(props.meals[0].date);
+  const [time, setTime] = useState(props.meals[0].time);
+  const [location, setLocation] = useState(props.meals[0].location);
+  const [ingredients, setIngredients] = useState(props.meals[0].ingredients);
+  const [filterValue, setFilterValue] = useState('');
+
+  function removeIngredient(i) {
+    const arr = ingredients.filter(e => e.id !== i);
+    setIngredients(arr);
+  }
+
+  function saveMeal() {
+    let prev = meal;
+    prev.date = date;
+    prev.time = time;
+    prev.locatoin = location;
+    setMeal(prev);
+    setSave(!save);
+  }
+
+  return (
+    <div><div>{date}</div>
+      <InputText label={'Date'} name={'date'} value={date} callback={(e) => {setDate(e.target.value)}} />
+      <InputText label={'Time'} name={'time'} value={time} callback={(e) => {setTime(e.target.value)}} />
+      <InputText label={'Location'} name={'location'} value={location} callback={(e) => {setLocation(e.target.value)}} />
+      <div>
+        <IngredientsList arr={ingredients} callback={removeIngredient}/>
+        <button onClick={() => setModal(true)} >Add</button>
+        <Modal show={modal} handleClose={() => setModal(false)} >
+          <InputText label={'Search Foods: '} name={'searchInput'} value={filterValue} callback={(e) => {setFilterValue(e.target.value)}} />
+          <FoodList foods={foods} cache={ingredients} callback={setIngredients} filterValue={filterValue} />
+        </Modal>
+      </div>
+
+
+      <button onClick={(e) => {saveMeal()}} >Save</button>
+      <br />
+      <br />
+      <div className={save ? "d-block" : "d-none"}>
+        {JSON.stringify(meal, undefined, 2)}
+      </div>
+    </div>
   )
 }
 
-export default function Meal(props) {
-  const [modal, setModal] = useState(false);
-  const [meal, setMeal] = useState(props.meals[0]);
-  function modalOpen() {
-    setModal(true);
-  }
-
-  function modalClose() {
-    setModal(false);
-  }
-
-  function handleChange(key,e) {
-    const mealNew = Object.assign({}, meal);
-    mealNew[key] = e.target.value;
-    setMeal(mealNew);
-  }
-
-  function addNew(food) {
-    const newMeal = meal;
-    newMeal.ingredients.push(food);
-    setMeal(newMeal);
-  }
-
-  function removeNew(obj) {
-    setMeal(meal);
-  }
-
-    const { schema, foodSchema, foods } = props;
-    return (
-      <div><div>{meal.date}</div>
-        {
-          schema.map(s => {
-            return (
-              <div>
-                <label>{s.title}
-                  { ( s.value === 'ingredients' )
-                    ? <div>
-                        <Table
-                          list={meal[s.value]}
-                          schema={foodSchema}
-                          action={removeNew}
-                          actionName={'remove'}
-                        />
-                        <button onClick={e => modalOpen()} >Add</button>
-                        <Modal show={modal} handleClose={e => modalClose()} >
-                          <FoodList
-                            foods={foods}
-                            schema={foodSchema}
-                            action={addNew}
-                            actionName={'remove'}
-                          />
-                        </Modal>
-                      </div>
-                    : <InputText
-                        value={meal[s.value]}
-                        onChange={handleChange.bind(this,s.value)}
-                      />
-                  }
-                </label>
-              </div>
-            )
-          })
-        }
-        <button  >Save</button>
-      </div>
-    )
+const InputText = ({ label, name, value, callback}) => {
+  return (
+    <div className='form-group'>
+      <label>{label}</label>
+      <input
+        type="text"
+        className="form-control"
+        name={name}
+        value={value}
+        onChange={callback}
+      />
+    </div>
+  )
 }
+
+export {
+  InputText
+}
+export default Meal;
 
