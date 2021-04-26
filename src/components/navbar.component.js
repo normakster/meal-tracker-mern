@@ -15,9 +15,6 @@ export default class Navbar extends Component {
           <li className="navbar-item">
           <Link to="/Meal" className="nav-link">Meal</Link>
           </li>
-          <li className="navbar-item">
-          <Link to="/FoodList" className="nav-link">Food List</Link>
-          </li>
         </ul>
         </div>
       </nav>

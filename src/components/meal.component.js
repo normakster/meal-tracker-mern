@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FoodList from './food-list.component';
 import IngredientsList from './ingredient-list.component';
 import Modal from './modal.component';
@@ -6,38 +6,43 @@ import Modal from './modal.component';
 function Meal({ foods, ...props }) {
   const [modal, setModal] = useState(false);
   const [save, setSave] = useState(false);
-  const [meal, setMeal] = useState(props.meals[0]);
-  const [date, setDate] = useState(props.meals[0].date);
-  const [time, setTime] = useState(props.meals[0].time);
-  const [location, setLocation] = useState(props.meals[0].location);
-  const [ingredients, setIngredients] = useState(props.meals[0].ingredients);
-  const [filterValue, setFilterValue] = useState('');
+  const [meal, setMeal] = useState({});
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [location, setLocation] = useState('');
+  const [ingredients, setIngredients] = useState([]);
 
   function removeIngredient(i) {
     const arr = ingredients.filter(e => e.id !== i);
     setIngredients(arr);
   }
 
-  function saveMeal() {
+  function assembleMeal() {
     let prev = meal;
     prev.date = date;
     prev.time = time;
-    prev.locatoin = location;
+    prev.location = location;
+    prev.ingredients = ingredients;
     setMeal(prev);
+  }
+
+  function saveMeal() {
+    assembleMeal();
     setSave(!save);
   }
 
   return (
     <div><div>{date}</div>
-      <InputText label={'Date'} name={'date'} value={date} callback={(e) => {setDate(e.target.value)}} />
-      <InputText label={'Time'} name={'time'} value={time} callback={(e) => {setTime(e.target.value)}} />
-      <InputText label={'Location'} name={'location'} value={location} callback={(e) => {setLocation(e.target.value)}} />
+      <div className='form-row'>
+        <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
+        <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
+        <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
+      </div>
       <div>
-        <IngredientsList arr={ingredients} callback={removeIngredient}/>
+        <IngredientsList cache={ingredients} removeIngredient={removeIngredient}/>
         <button onClick={() => setModal(true)} >Add</button>
         <Modal show={modal} handleClose={() => setModal(false)} >
-          <InputText label={'Search Foods: '} name={'searchInput'} value={filterValue} callback={(e) => {setFilterValue(e.target.value)}} />
-          <FoodList foods={foods} cache={ingredients} callback={setIngredients} filterValue={filterValue} />
+          <FoodList foods={foods} cache={ingredients} setCache={setIngredients} />
         </Modal>
       </div>
 
@@ -52,13 +57,13 @@ function Meal({ foods, ...props }) {
   )
 }
 
-const InputText = ({ label, name, value, callback}) => {
+const InputText = ({ addGroup, addControl, label, name, value, callback}) => {
   return (
-    <div className='form-group'>
-      <label>{label}</label>
+    <div className={'form-group ' + addGroup}>
+      {label ? <label>{label}</label> : null }
       <input
         type="text"
-        className="form-control"
+        className={'form-control ' + addControl}
         name={name}
         value={value}
         onChange={callback}
@@ -71,4 +76,3 @@ export {
   InputText
 }
 export default Meal;
-

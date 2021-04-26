@@ -1,90 +1,60 @@
 import { useState, useEffect } from 'react';
+import { FoodItem } from './food-item.component';
 
-function FoodList({ foods, filterValue, cache, callback }) {
-  let filteredFoods = filterItemsBy(foods,filterValue,'name');
+function FoodList({ foods, cache, setCache }) {
+  const [filterValue, setFilterValue] = useState('');
+  let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
 
-  useEffect(() => {
-      filteredFoods.forEach((food, i) => {
-        food.added = false;
-      });
-      console.log('Reset Foods list !!');
-    },
-    [foods],
-  );
-
-  function filterItemsBy(arr, query, by) {
-    return arr.filter(el => el[by].toLowerCase().indexOf(query.toLowerCase()) !== -1)
-  }
-
-  function handleAction(food,added) {
+  function handleUpdate(food,added) {
     if(added) {
+      console.log('Adding ' + food.name);
       const arr = cache;
-      arr.push({serv: 0, food: food});
-      callback(arr);
+      const id = arr.length + 1;
+      arr.push({id: id, serv: 0, food: food});
+      setCache(arr);
     } else {
+      console.log('Trying to un-add ' + food.name);
       const arr = cache.filter(e => e.food._id !== food._id);
-      callback(arr);
+      setCache(arr);
     }
   }
 
   return (
     <div>
       <h5>Food List:</h5>
-      <table className='table table-sm'>
-        <thead className='thead-dark'>
-          <tr>
-            <td>Name</td>
-            <td>Desc.</td>
-            <td>kCal</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            filteredFoods.map((food,i) => {
-              return (
-                <FoodRow food={food} id={i} callback={handleAction} />
-              )
-            })
-          }
-        </tbody>
-      </table>
+      <SearchInput filterValue={filterValue} setFilterValue={setFilterValue} />
+      <div className='container'>
+        <div className='row'>
+          <div className='col'>Name</div>
+          <div className='col'>Desc.</div>
+          <div className='col'>kCal</div>
+          <div className='col'></div>
+        </div>
+        {
+          filteredFoods.map((food,i) => {
+            return (
+              <FoodItem food={food} cache={cache} handleUpdate={handleUpdate} key={food._id} />
+            )
+          })
+        }
+      </div>
     </div>
   )
 }
 
-const FoodRow = ({ food, id, callback }) => {
-
-  function handleClick(added) {
-    food.added = added;
-    callback(food,added);
-  }
-
+const SearchInput = ({ filterValue, setFilterValue  }) => {
+  const label = 'Search Foods: ';
   return (
-    <tr key={food._id}>
-      <td>{food.name}</td>
-      <td>{food.added ? 'TRUE' : 'FALSE'}</td>
-      <td>{food.kCal}</td>
-      <td><FoodButton callback={handleClick} added={food.added} /></td>
-    </tr>
-  )
-}
-
-const FoodButton = ({ callback, added }) => {
-  const [text, setText] = useState('[ ]');
-
-  useEffect(() => {
-    setText(added ? '[X]' : '[ ]')
-  },
-    [added],
-  );
-
-  function handleClick() {
-    added = !added;
-    callback(added);
-  }
-  return (
-    <button onClick={handleClick}>{text}</button>
+    <div>
+      <label>{label}</label>
+      <input
+        type="text"
+        name='searchInput'
+        className="form-control"
+        value={filterValue}
+        onChange={(e) => {setFilterValue(e.target.value)}}
+        />
+    </div>
   )
 }
 
