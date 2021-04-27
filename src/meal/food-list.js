@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FoodItem } from './food-item.component';
+import { FoodItem } from './food-item';
 
 function FoodList({ foods, cache, setCache }) {
   const [filterValue, setFilterValue] = useState('');

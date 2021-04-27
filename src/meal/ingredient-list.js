@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {InputText} from './meal.component';
+import {InputText} from './meal';
 
 function IngredientsList({ cache, removeIngredient }) {
   return (

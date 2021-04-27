@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import FoodList from './food-list.component';
-import IngredientsList from './ingredient-list.component';
-import Modal from './modal.component';
+import FoodList from './food-list';
+import IngredientsList from './ingredient-list';
+import Modal from '../component/modal.component';
 
 function Meal({ foods, ...props }) {
   const [modal, setModal] = useState(false);

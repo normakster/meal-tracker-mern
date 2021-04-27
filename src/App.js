@@ -2,9 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 
-import Navbar from "./components/navbar.component"
-import Home from "./components/home.component"
-import Meal from "./components/meal.component";
+import Navbar from "./main/navbar.component"
+import Home from "./main/home.component"
+import Meal from "./meal/meal";
 
 import { foods, quickies, meals } from './dumby/data'
 
