@@ -1,25 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 
-const FoodItem = ({ food, cache, handleUpdate }) => {
+// Business Logic
+
+
+// Components
+
+const FoodItem = ({ food, ingredients, ingrDispatch }) => {
   const [inCache, setInCache] = useState(false);
 
   useEffect(() => {
     setInCache(false);
-    cache.forEach((c) => {
+    ingredients.forEach((c) => {
       if(food._id === c.food._id) {
         setInCache(true);
       }
     });
-  },[cache])
+  },[ingredients])
 
   function handleClick() {
-    let added = !inCache;
-    setInCache(added);
-    handleUpdate(food,added);
+    if(!inCache) {
+      ingrDispatch({type: 'ADD_INGR', food: food});
+    } else {
+      ingrDispatch({type: 'REMOVE_INGR_BYFOOD', food: food});
+    }
   }
 
   return (
-    <ReadOnly food={food} onClick={handleClick} inCache={inCache} />
+    <ReadOnly food={food} onClick={() => handleClick()} inCache={inCache} />
   )
 }
 
@@ -33,14 +40,6 @@ const ReadOnly = ({ food, onClick, inCache }) => {
     </div>
   )
 }
-
-  //
-  // <tr key={food._id}>
-  //   <td>{food.name}</td>
-  //   <td>{inCache ? 'TRUE' : 'FALSE'}</td>
-  //   <td>{food.kCal}</td>
-  //   <td><button onClick={handleClick}>{inCache ? '[X]' : '[ ]'}</button></td>
-  // </tr>
 
 const Editable = ({ food, onClick, inCache }) => {
   const [name, setName] = useState(food.name);

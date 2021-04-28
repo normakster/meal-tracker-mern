@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
+
+// Initial State
+
+// Business Logic
+
+// Components
 
 const Home = ({ quickies }) => {
+
   return (
     <div>
       <Dashboard />
       <QuickBites quickies={quickies} />
+      <br />
     </div>
   )
 }

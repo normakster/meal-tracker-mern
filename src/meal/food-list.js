@@ -1,23 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { FoodItem } from './food-item';
 
-function FoodList({ foods, cache, setCache }) {
+// Business Logic
+
+
+
+// Components
+
+const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
-
-  function handleUpdate(food,added) {
-    if(added) {
-      console.log('Adding ' + food.name);
-      const arr = cache;
-      const id = arr.length + 1;
-      arr.push({id: id, serv: 0, food: food});
-      setCache(arr);
-    } else {
-      console.log('Trying to un-add ' + food.name);
-      const arr = cache.filter(e => e.food._id !== food._id);
-      setCache(arr);
-    }
-  }
 
   return (
     <div>
@@ -33,7 +25,7 @@ function FoodList({ foods, cache, setCache }) {
         {
           filteredFoods.map((food,i) => {
             return (
-              <FoodItem food={food} cache={cache} handleUpdate={handleUpdate} key={food._id} />
+              <FoodItem food={food} ingredients={ingredients} ingrDispatch={ingrDispatch} key={food._id} />
             )
           })
         }

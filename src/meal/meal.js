@@ -1,57 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import FoodList from './food-list';
 import IngredientsList from './ingredient-list';
-import Modal from '../component/modal.component';
+import Modal from '../components/modal.component';
+import { ingredientsReducer } from './ingredient-reducer'
 
-function Meal({ foods, ...props }) {
+// Initial State
+
+const initialState = {
+  ingredients: [],
+}
+
+// Business Logic
+
+
+// Components
+
+const Meal = ({ foods, ...props }) => {
+  const [ingredients, ingrDispatch] = useReducer(ingredientsReducer,initialState.ingredients)
+
   const [modal, setModal] = useState(false);
+
   const [save, setSave] = useState(false);
-  const [meal, setMeal] = useState({});
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
-  const [ingredients, setIngredients] = useState([]);
-
-  function removeIngredient(i) {
-    const arr = ingredients.filter(e => e.id !== i);
-    setIngredients(arr);
-  }
-
-  function assembleMeal() {
-    let prev = meal;
-    prev.date = date;
-    prev.time = time;
-    prev.location = location;
-    prev.ingredients = ingredients;
-    setMeal(prev);
-  }
 
   function saveMeal() {
-    assembleMeal();
+    setModal(!modal);
     setSave(!save);
+    return {
+      date: date,
+      time: time,
+      location: location,
+      ingredients: ingredients
+    }
   }
 
   return (
-    <div><div>{date}</div>
+    <div>
       <div className='form-row'>
         <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
         <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
         <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
       </div>
-      <div>
-        <IngredientsList cache={ingredients} removeIngredient={removeIngredient}/>
-        <button onClick={() => setModal(true)} >Add</button>
-        <Modal show={modal} handleClose={() => setModal(false)} >
-          <FoodList foods={foods} cache={ingredients} setCache={setIngredients} />
-        </Modal>
+      <div className='form-row'>
+        <IngredientsList
+          ingredients={ingredients}
+          ingrDispatch={ingrDispatch}
+          />
       </div>
-
-
+      <br /><br />
+      <FoodList foods={foods}
+        ingredients={ingredients}
+        ingrDispatch={ingrDispatch}
+        />
       <button onClick={(e) => {saveMeal()}} >Save</button>
+      <TestingBox save={save} modal={modal} setModal={setModal} ingredients={ingredients} />
+    </div>
+  )
+}
+
+const TestingBox = ({ save, modal, ingredients, setModal }) => {
+  return (
+    <div>
       <br />
       <br />
       <div className={save ? "d-block" : "d-none"}>
-        {JSON.stringify(meal, undefined, 2)}
+        <button onClick={() => setModal(true)} >Alert()</button>
+        <Modal show={modal} handleClose={() => setModal(false)} >
+          <div>{JSON.stringify(ingredients)}</div>
+        </Modal>
+        // {JSON.stringify(ingredients, undefined, 2)}
       </div>
     </div>
   )

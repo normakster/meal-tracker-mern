@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import {InputText} from './meal';
 
-function IngredientsList({ cache, removeIngredient }) {
+function IngredientsList({ ingredients, ingrDispatch }) {
   return (
-    <div>
+    <div className='col'>
       <h3>Ingredient List</h3>
       <div className=''>
         <div className='row'>
@@ -16,10 +16,10 @@ function IngredientsList({ cache, removeIngredient }) {
       </div>
       <div className=''>
         {
-          cache.map((ingr,i) => {
+          ingredients.map((ingr,i) => {
             return (
               <div key={i}>
-                <Ingredient ingredient={ingr} removeIngredient={removeIngredient} />
+                <Ingredient ingredient={ingr} ingrDispatch={ingrDispatch} key={ingr.id} />
               </div>
             )
           })
@@ -29,9 +29,10 @@ function IngredientsList({ cache, removeIngredient }) {
   )
 }
 
-const Ingredient = ({ ingredient, removeIngredient }) => {
+const Ingredient = ({ ingredient, ingrDispatch }) => {
   const [serv, setServ] = useState(0);
 
+  // Assigns Serv to Ingredient instead of handleServUpdate()
   useEffect(() => {
       ingredient.serv = serv;
     },
@@ -54,7 +55,7 @@ const Ingredient = ({ ingredient, removeIngredient }) => {
       <div className='col'>{ingredient.food.name}</div>
       <div className='col'>{ingredient.food.kCal}</div>
       <div className='col'>
-        <button onClick={(e) => removeIngredient(ingredient.id)}>-</button>
+        <button onClick={() => ingrDispatch({type:'REMOVE_INGR', id: ingredient.id})}>-</button>
       </div>
     </div>
   )
