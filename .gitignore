@@ -1,9 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # project specific
-.env
-/backend/node_modules
+*.env
+*node_modules
 /backend/log/*
+*package-lock.json
+*yarn.lock
 
 # dependencies
 /node_modules
