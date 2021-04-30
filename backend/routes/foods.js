@@ -12,12 +12,12 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
   const name = req.body.name;
-  const type = req.body.type;
+  const desc = req.body.desc;
   const kCal = Number(req.body.kCal);
 
   const newFood = new Food({
     name,
-    type,
+    desc,
     kCal,
   });
 
@@ -47,7 +47,7 @@ router.route('/update/:id').post((req, res) => {
   Food.findById(req.params.id)
     .then(food => {
       food.name = req.body.name;
-      food.type = req.body.type;
+      food.desc = req.body.desc;
       food.kCal = Number(req.body.kCal);
 
       food.save()

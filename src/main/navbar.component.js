@@ -13,6 +13,9 @@ import { Link } from 'react-router-dom';
         <li className="navbar-item">
         <Link to="/Meal" className="nav-link">Meal</Link>
         </li>
+        <li className="navbar-item">
+        <Link to="/Foods" className="nav-link">Food</Link>
+        </li>
       </ul>
       </div>
     </nav>

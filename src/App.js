@@ -1,10 +1,11 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 
-import Navbar from "./main/navbar.component"
-import Home from "./main/home.component"
-import Meal from "./meal/meal";
+import Navbar from './main/navbar.component'
+import Home from './main/home.component'
+import Meal from './meal/meal'
+import { NewFood } from './meal/food-item'
 
 import { foods, quickies, meals } from './dumby/data'
 
@@ -22,6 +23,9 @@ function App() {
           meals={meals}
           foods={foods}
         />
+      </Route>
+      <Route path='/Foods' exact >
+        <NewFood />
       </Route>
       </div>
     </Router>

@@ -25,7 +25,7 @@ const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
         {
           filteredFoods.map((food,i) => {
             return (
-              <FoodItem food={food} ingredients={ingredients} ingrDispatch={ingrDispatch} key={food._id} />
+              <FoodItem foodItem={food} ingredients={ingredients} ingrDispatch={ingrDispatch} key={food._id} />
             )
           })
         }

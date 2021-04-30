@@ -32,8 +32,8 @@ app.use(express.json());
 // Path routing
 const usersRouter = require('./routes/users');
 const foodsRouter = require('./routes/foods');
-app.use('/users', usersRouter);
-app.use('/foods', foodsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/foods', foodsRouter);
 
 // -----------------------------------------------------
 
