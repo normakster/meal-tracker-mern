@@ -11,8 +11,12 @@ log4js.configure(traceLogConfig);
 var logger = log4js.getLogger("app");
 
 // Setting up database
-const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  // useFindAndModify: false,
+  // useUnifiedTopology: true,
+});
 const connection = mongoose.connection;
 connection.once('open', () => {
   logger.info("MongoDB database connection established successfully");
@@ -26,7 +30,15 @@ var port = process.env.PORT || '5000';
 
 // Install Middleware
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
-app.use(cors());
+app.use(cors({
+      origin: [
+        `https://${process.env.HOST}`,
+        `http://${process.env.HOST}`,
+        `${process.env.HOST}`
+      ],
+      methods: ["GET", "POST", "PUT"],
+      credentials: false // enable set cookie
+    }));
 app.use(express.json());
 
 // Path routing

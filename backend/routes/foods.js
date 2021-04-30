@@ -4,13 +4,11 @@ var logger = require('log4js').getLogger();
 
 const Foods = []
 
-router.route('/').get((req, res) => {
-  Food.find()
-    .then(foods => res.json(foods))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// router.route('/').get((req, res) => {
 
-router.route('/add').post((req, res) => {
+// })
+
+router.route('/').post((req, res) => {
   const name = req.body.name;
   const desc = req.body.desc;
   const kCal = Number(req.body.kCal);
@@ -37,13 +35,7 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
-  Food.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Food deleted.'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
   Food.findById(req.params.id)
     .then(food => {
       food.name = req.body.name;
@@ -54,6 +46,18 @@ router.route('/update/:id').post((req, res) => {
         .then(() => res.json('Food updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
     })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+  Food.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Food deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/all').get((req, res) => {
+  Food.find()
+    .then(foods => res.json(foods))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
