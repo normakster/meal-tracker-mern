@@ -2,6 +2,7 @@ import { useState, useEffect, useReducer } from 'react';
 import api from '../api'
 import { foodsReducer } from './foods-reducer'
 import { FoodItem, NewFood } from './food-item';
+import SearchInput from '../components/search-component'
 
 // Business Logic
 
@@ -71,28 +72,6 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
         onClick={() => console.log(foods)}
         className='btn btn-light'
       >CHECK_STATE</div>
-    </div>
-  )
-}
-
-const SearchInput = ({ filterValue, setFilterValue  }) => {
-  const label = 'Search: ';
-
-  function handleClear() {
-    setFilterValue('');
-  }
-
-  return (
-    <div className='row'>
-      <label className='col-auto'>{label}</label>
-      <input
-        type="text"
-        name='searchInput'
-        className="col-2"
-        value={filterValue}
-        onChange={(e) => {setFilterValue(e.target.value)}}
-      />
-      <div className='col-auto btn btn-light' onClick={() => handleClear()}>X</div>
     </div>
   )
 }
