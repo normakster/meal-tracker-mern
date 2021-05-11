@@ -9,6 +9,8 @@ const Foods = []
 // })
 
 router.route('/').post((req, res) => {
+  logger.debug(req.body);
+
   const name = req.body.name;
   const desc = req.body.desc;
   const kCal = Number(req.body.kCal);
@@ -35,7 +37,7 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').put((req, res) => {
+router.route('/:id').put((req, res) => {
   Food.findById(req.params.id)
     .then(food => {
       food.name = req.body.name;
@@ -43,7 +45,7 @@ router.route('/update/:id').put((req, res) => {
       food.kCal = Number(req.body.kCal);
 
       food.save()
-        .then(() => res.json('Food updated!'))
+        .then(() => res.json(food))
         .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));
@@ -55,7 +57,7 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/all').get((req, res) => {
+router.route('/').get((req, res) => {
   Food.find()
     .then(foods => res.json(foods))
     .catch(err => res.status(400).json('Error: ' + err));
