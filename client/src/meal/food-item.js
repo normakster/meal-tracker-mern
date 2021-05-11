@@ -1,6 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
-// import http from '../services/http.service'
 import { foodReducer } from './food-reducer'
+import api from '../api'
 
 // Business Logic
 
@@ -28,7 +28,10 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
   }
 
   function handleSave(updatedFood) {
+    api.putFood(updatedFood).then(data => {
+      foodsDispatch({type:'UPDATE_FOOD', food: updatedFood});
       setIsEditable(false);
+    })
   }
 
   function handleCancel(e) {
@@ -77,6 +80,9 @@ const NewFood = ({ callback }) => {
   const [isEditable, setIsEditable] = useState(true)
 
   async function handleSave(updatedFood) {
+    await api.postFood(updatedFood).then(data => {
+      console.log(data);
+    })
     callback();
   }
 

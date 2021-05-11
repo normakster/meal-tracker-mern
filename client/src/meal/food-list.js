@@ -1,4 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
+import api from '../api'
 import { foodsReducer } from './foods-reducer'
 import { FoodItem, NewFood } from './food-item';
 
@@ -13,6 +14,12 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
   let [newFoodItem, setNewFoodItem] = useState(null);
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
+
+  useEffect(() => {
+    api.getAllFoods().then(data => {
+      foodsDispatch({type:'FETCH_ALL',foods:data});
+    })
+  },[newFoodItem])
 
   function resetNewFood() {
     // setNFI(null);
