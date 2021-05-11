@@ -1,6 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
-import { FoodItem } from './food-item';
 import { foodsReducer } from './foods-reducer'
+import { FoodItem, NewFood } from './food-item';
 
 // Business Logic
 
@@ -10,8 +10,14 @@ import { foodsReducer } from './foods-reducer'
 
 const FoodList = ({ ingredients, ingrDispatch }) => {
   const [foods,foodsDispatch] = useReducer(foodsReducer,[]);
+  let [newFoodItem, setNewFoodItem] = useState(null);
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
+
+  function resetNewFood() {
+    // setNFI(null);
+  }
+
 
   return (
     <div>
@@ -44,6 +50,15 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
             )
           })
         }
+        {newFoodItem}
+        <br />
+        <br />
+        <div
+          onClick={() => setNewFoodItem(<NewFood callback={resetNewFood}/>)}
+          className='btn btn-info'
+        >Add New</div>
+        <br />
+        <br />
       </div>
     </div>
   )
