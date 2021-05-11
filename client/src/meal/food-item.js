@@ -53,7 +53,7 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
       : <ReadOnly food={food} >
           <div className='btn btn-danger' onClick={() => setIsEditable(true)} >Edit</div>
           &nbsp; or &nbsp;
-          <div className='btn btn-warning' onClick={handleAddRemove} >{inCache ? '[X]' : '[ ]'}</div>
+          <div className='btn btn-warning' onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</div>
         </ReadOnly>
     }
     </div>

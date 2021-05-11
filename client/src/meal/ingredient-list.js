@@ -3,11 +3,11 @@ import {InputText} from './meal';
 
 function IngredientsList({ ingredients, ingrDispatch }) {
   return (
-    <div className='col'>
-      <h3>Ingredient List</h3>
+    <div className='container border border-dark'>
+      <h5>Ingredient List</h5>
       <div className=''>
         <div className='row'>
-          <div className='col'>#</div>
+          <div className='col col-1'>#</div>
           <div className='col'>Servings</div>
           <div className='col'>Ingredients</div>
           <div className='col'>kCal</div>
@@ -33,7 +33,7 @@ const Ingredient = ({ ingredient, ingrDispatch }) => {
 
   return (
     <div className='row'>
-      <div className='col'>{ingredient.id}</div>
+      <div className='col col-1'>{ingredient.id}</div>
       <div className='col'>
         <div className={'form-group '}>
           <input type="text"
@@ -47,7 +47,7 @@ const Ingredient = ({ ingredient, ingrDispatch }) => {
       <div className='col'>{ingredient.food.name}</div>
       <div className='col'>{ingredient.food.kCal}</div>
       <div className='col'>
-        <button onClick={() => ingrDispatch({type:'REMOVE_INGR', id: ingredient.id})}>-</button>
+        <div className='btn btn-warning' onClick={() => ingrDispatch({type:'REMOVE_INGR', id: ingredient.id})}>X</div>
       </div>
     </div>
   )

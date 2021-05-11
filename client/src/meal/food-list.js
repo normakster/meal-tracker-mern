@@ -22,7 +22,7 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
   },[newFoodItem])
 
   function resetNewFood() {
-    // setNFI(null);
+    setNewFoodItem(null);
   }
 
 
@@ -30,7 +30,7 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
     <div>
       <h5>Food List:</h5>
       <SearchInput filterValue={filterValue} setFilterValue={setFilterValue} />
-      <div className='container'>
+      <div className='container border border-info'>
         <div className='row'>
           <div className='col'>Name</div>
           <div className='col'>Desc.</div>
@@ -58,15 +58,19 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
           })
         }
         {newFoodItem}
-        <br />
-        <br />
-        <div
-          onClick={() => setNewFoodItem(<NewFood callback={resetNewFood}/>)}
-          className='btn btn-info'
-        >Add New</div>
-        <br />
-        <br />
       </div>
+      <br />
+      <br />
+      <div
+        onClick={() => setNewFoodItem(<NewFood callback={resetNewFood}/>)}
+        className='btn btn-info'
+      >Add New</div>
+      <br />
+      <br />
+      <div
+        onClick={() => console.log(foods)}
+        className='btn btn-light'
+      >CHECK_STATE</div>
     </div>
   )
 }
@@ -88,7 +92,7 @@ const SearchInput = ({ filterValue, setFilterValue  }) => {
         value={filterValue}
         onChange={(e) => {setFilterValue(e.target.value)}}
       />
-      <div className='col-1 btn btn-light' onClick={() => handleClear()}>X</div>
+      <div className='col-auto btn btn-light' onClick={() => handleClear()}>X</div>
     </div>
   )
 }

@@ -49,23 +49,37 @@ const Meal = ({ ...props }) => {
 
   return (
     <div>
-      <div className='form-row'>
-        <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
-        <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
-        <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
+      <div className='container border border-dark'>
+        <div className='form-row'>
+          <h5>Meal Data:</h5>
+        </div>
+        <div className='form-row'>
+          <br />
+          <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
+          <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
+          <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
+        {/**/}
+        </div>
+        <br /><br />
+        <div className='form-row'>
+          <IngredientsList
+            ingredients={ingredients}
+            ingrDispatch={ingrDispatch}
+            />
+          </div>
+      </div>
+      <br /><br />
+      <div className='container border border-dark'>
         <StatsBox cache={ingredients}/>
       </div>
-      <div className='form-row'>
-        <IngredientsList
+      <br /><br />
+      <div className='container border border-dark'>
+        <FoodList
           ingredients={ingredients}
           ingrDispatch={ingrDispatch}
           />
       </div>
       <br /><br />
-      <FoodList
-        ingredients={ingredients}
-        ingrDispatch={ingrDispatch}
-        />
       <button onClick={(e) => {saveMeal()}} >Save</button>
       <TestingBox save={save} modal={modal} setModal={setModal} ingredients={ingredients} />
     </div>
