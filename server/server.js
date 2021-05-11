@@ -30,15 +30,16 @@ var port = process.env.PORT || '5000';
 
 // Install Middleware
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
-app.use(cors({
-      origin: [
-        `https://${process.env.HOST}`,
-        `http://${process.env.HOST}`,
-        `${process.env.HOST}`
-      ],
-      methods: ["GET", "POST", "PUT"],
-      credentials: false // enable set cookie
-    }));
+const corsOptions = {
+  origin: [
+    `https://${process.env.HOST}`,
+    `http://${process.env.HOST}`,
+    `${process.env.HOST}`
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true // enable set cookie
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Path routing
