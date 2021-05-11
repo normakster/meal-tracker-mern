@@ -116,8 +116,8 @@ const StatsBox = ({cache, ...props }) => {
   function statReducer(state = initialState.stats, action) {
     switch (action.type) {
       case 'kCal':
-        console.log(state.kCal);
-        console.log(action.payload);
+        // console.log(state.kCal);
+        // console.log(action.payload);
         return {...state, kCal: (state.kCal + action.payload)}
         break;
       case 'reset':

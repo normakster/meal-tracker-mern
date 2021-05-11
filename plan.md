@@ -1,4 +1,4 @@
-## Features
+## Wants / Features
 - Tells user
   - Per [meal, day, week]
     - Total kCal, remaining, macro %

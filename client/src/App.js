@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Navbar from './main/navbar.component'
 import Home from './main/home.component'
 import Meal from './meal/meal'
-// import { NewFood } from './meal/food-item'
 
 import { quickies, meals } from './dumby/data'
 
@@ -29,7 +28,3 @@ function App() {
 }
 
 export default App;
-
-// <Route path="/FoodList" exact >
-//   <FoodList foods={foods} schema={foodSchema} />
-// </Route>

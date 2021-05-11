@@ -22,8 +22,8 @@ const initialState = {
 // Components
 
 const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
-  const [food,foodDispatch] = useReducer(foodReducer,foodItem);
-  const [isEditable, setIsEditable] = useState(false);
+  const [food,foodDispatch] = useReducer(foodReducer,foodItem)
+  const [isEditable, setIsEditable] = useState(false)
 
   function handleAddRemove() {
     if(!inCache) {
@@ -86,7 +86,7 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
 }
 
 const NewFood = ({ callback }) => {
-  const [food,foodDispatch] = useReducer(foodReducer,initialState.food);
+  const [food,foodDispatch] = useReducer(foodReducer,initialState.food)
   const [isEditable, setIsEditable] = useState(true)
 
   async function handleSave(updatedFood) {
