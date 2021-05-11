@@ -14,9 +14,9 @@ var logger = log4js.getLogger("app");
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  // useFindAndModify: false,
-  // useUnifiedTopology: true,
 });
+// useFindAndModify: false,
+// useUnifiedTopology: true,
 const connection = mongoose.connection;
 connection.once('open', () => {
   logger.info("MongoDB database connection established successfully");
