@@ -35,17 +35,23 @@ const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
 }
 
 const SearchInput = ({ filterValue, setFilterValue  }) => {
-  const label = 'Search Foods: ';
+  const label = 'Search: ';
+
+  function handleClear() {
+    setFilterValue('');
+  }
+
   return (
-    <div>
-      <label>{label}</label>
+    <div className='row'>
+      <label className='col-auto'>{label}</label>
       <input
         type="text"
         name='searchInput'
-        className="form-control"
+        className="col-2"
         value={filterValue}
         onChange={(e) => {setFilterValue(e.target.value)}}
-        />
+      />
+      <div className='col-1 btn btn-light' onClick={() => handleClear()}>X</div>
     </div>
   )
 }
