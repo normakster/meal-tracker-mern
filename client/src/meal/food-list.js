@@ -35,7 +35,7 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
 
             return (
               <FoodItem
-                food={food}
+                foodItem={food}
                 foodsDispatch={foodsDispatch}
                 ingrDispatch={ingrDispatch}
                 inCache={inCache}

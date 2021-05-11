@@ -15,9 +15,9 @@ const initialState = {
 
 // Components
 
-const FoodItem = ({ food, foodsDispatch, ingrDispatch, inCache }) => {
+const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
+  const [food,foodDispatch] = useReducer(foodReducer,foodItem);
   const [isEditable, setIsEditable] = useState(false);
-  // const [food, foodDispatch] = useReducer(foodReducer,(foodItem)?foodItem:initialState.food)
 
 
   function handleClick() {
