@@ -30,14 +30,6 @@ function IngredientsList({ ingredients, ingrDispatch }) {
 }
 
 const Ingredient = ({ ingredient, ingrDispatch }) => {
-  const [serv, setServ] = useState(0);
-
-  // Assigns Serv to Ingredient instead of handleServUpdate()
-  useEffect(() => {
-      ingredient.serv = serv;
-    },
-    [serv],
-  );
 
   return (
     <div className='row'>
@@ -47,8 +39,8 @@ const Ingredient = ({ ingredient, ingrDispatch }) => {
           <input type="text"
             className='form-control '
             name='servings'
-            value={serv}
-            onChange={(e) => {ingredient.serv = e.target.value}}
+            value={ingredient.serv}
+            onChange={(e) => ingrDispatch({type:'EDIT_INGR_SERV',id:ingredient.id,serv:e.target.value})}
           />
         </div>
       </div>

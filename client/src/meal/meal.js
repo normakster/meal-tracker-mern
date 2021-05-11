@@ -3,11 +3,22 @@ import FoodList from './food-list';
 import IngredientsList from './ingredient-list';
 import Modal from '../components/modal.component';
 import { ingredientsReducer } from './ingredient-reducer'
+import { Tbl } from '../components/table.components'
 
 // Initial State
 
 const initialState = {
   ingredients: [],
+  stats: {
+    kCal: 0,
+    fat: 0,
+    protien:0,
+    carb: 0,
+  },
+  statBoxLayot: {
+    row: 'row',
+    col: 'col',
+  }
 }
 
 // Business Logic
@@ -42,6 +53,7 @@ const Meal = ({ ...props }) => {
         <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
         <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
         <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
+        <StatsBox cache={ingredients}/>
       </div>
       <div className='form-row'>
         <IngredientsList
@@ -56,6 +68,62 @@ const Meal = ({ ...props }) => {
         />
       <button onClick={(e) => {saveMeal()}} >Save</button>
       <TestingBox save={save} modal={modal} setModal={setModal} ingredients={ingredients} />
+    </div>
+  )
+}
+
+const StatsBox = ({cache, ...props }) => {
+  const [stats,statsDispatch] = useReducer(statReducer,initialState.stats);
+  // const [stats,setStats] = useState(initialState.stats);
+  const layout = {...(initialState.statBoxLayot)};
+  const statNames = ['kCal','fat','protien','carb'];
+
+  useEffect(() => {
+    calcStats();
+  },[cache])
+
+  function headerFormat(value) {
+    return <span>{value}s:</span>
+  }
+
+  function rowFormat(value) {
+    return <span>{value}</span>
+  }
+
+  function calcStats() {
+    statsDispatch({type:'reset'})
+    cache.map(c => {
+      console.log(c.food);
+      const kCal = c.food.kCal * c.serv
+      statsDispatch({type:'kCal',payload:kCal})
+    })
+  }
+
+  function statReducer(state = initialState.stats, action) {
+    switch (action.type) {
+      case 'kCal':
+        console.log(state.kCal);
+        console.log(action.payload);
+        return {...state, kCal: (state.kCal + action.payload)}
+        break;
+      case 'reset':
+        return {...state, ...(initialState.stats)}
+        break;
+      default:
+        return state
+    }
+  }
+
+  return (
+    <div className=''>
+      <h5>Stats:</h5>
+      <Tbl
+        layout={layout}
+        keys={statNames}
+        data={[stats]}
+        headerFormat={headerFormat}
+        rowFormat={rowFormat}
+      />
     </div>
   )
 }
