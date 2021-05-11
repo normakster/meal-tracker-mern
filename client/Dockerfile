@@ -6,6 +6,6 @@ WORKDIR /opt/app
 COPY package.json ./
 RUN npm install
 
-COPY . ./
+#COPY . ./
 
 ENTRYPOINT [ "npm", "start" ]
