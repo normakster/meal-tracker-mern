@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - web
+      - proxy-net
     # restart: always
     stdin_open: true
     volumes:
@@ -24,8 +24,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    depends_on:
-      - mongo
+    # depends_on:
+    #   - mongo
     env_file:
      - ./server/.env
     labels:
@@ -36,10 +36,11 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - web
+      - proxy-net
     # restart: always
     volumes:
       - ./server:/opt/app
       - /opt/app/node_modules
 networks:
-  web:
+  proxy-net:
+    name: web
