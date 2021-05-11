@@ -1,3 +1,28 @@
+export const TblRowSet = ({ layout, keys, data, headerFormat, rowFormat }) => {
+  return (
+    <div className='container'>
+      <div className={layout.row}>
+      {
+        keys.map((key,i) => {
+          return (
+            <div className={layout.col} key={i}>
+              <div className={layout.row}>
+                {headerFormat(key)}
+              </div>
+              <div className={layout.row}>
+                {rowFormat(data[key])}
+              </div>
+            </div>
+          )
+        })
+      }
+      </div>
+    </div>
+  )
+}
+
+  // <div className={layout.row}>
+  // </div>
 export const Tbl = ({ layout, keys, data, headerFormat, rowFormat }) => {
   return (
     <div className='container'>

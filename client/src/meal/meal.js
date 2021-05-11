@@ -3,7 +3,7 @@ import FoodList from './food-list';
 import IngredientsList from './ingredient-list';
 import Modal from '../components/modal.component';
 import { ingredientsReducer } from './ingredient-reducer'
-import { Tbl } from '../components/table.components'
+import { Tbl } from '../components/table.component'
 
 // Initial State
 
