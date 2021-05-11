@@ -40,6 +40,11 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
 
   function handleRemove(e) {
     console.log('TODO: Deleting - ' + food._id);
+    api.deleteFood(food._id).then(() => {
+      api.getAllFoods().then(data => {
+        foodsDispatch({type:'FETCH_ALL',foods:data});
+      })
+    })
   }
 
   return (

@@ -41,7 +41,21 @@ const putFood = async ( food ) => {
     return null
   }
 }
-const deleteFood = ( id ) => http.delete(`/foods/${id}`);
+const deleteFood = async ( id ) => {
+  try {
+    let result = await http.delete(`/foods/${id}`)
+      .then(res => {
+        if (res.status >= 400 && res.status < 600) {
+          throw new Error("Bad response");
+        }
+        return res.data;
+      })
+    return result
+  } catch (e) {
+    console.error(e);
+    return null
+  }
+};
 
 const getAllFoods = async () => {
   try {
