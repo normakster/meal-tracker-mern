@@ -24,8 +24,20 @@ const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
         </div>
         {
           filteredFoods.map((food,i) => {
+            let inCache = false;
+            ingredients.forEach((c) => {
+              if(food._id === c.food._id) {
+                inCache = true;
+              }
+            });
+
             return (
-              <FoodItem foodItem={food} ingredients={ingredients} ingrDispatch={ingrDispatch} key={food._id} />
+              <FoodItem
+                food={food}
+                ingrDispatch={ingrDispatch}
+                inCache={inCache}
+                key={food._id}
+                />
             )
           })
         }

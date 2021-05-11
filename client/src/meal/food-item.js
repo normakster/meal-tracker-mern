@@ -15,20 +15,10 @@ const initialState = {
 
 // Components
 
-const FoodItem = ({ food, ingredients, ingrDispatch }) => {
-  const [inCache, setInCache] = useState(false);
+const FoodItem = ({ food, ingrDispatch, inCache }) => {
   const [isEditable, setIsEditable] = useState(false);
   // const [food, foodDispatch] = useReducer(foodReducer,(foodItem)?foodItem:initialState.food)
 
-
-  useEffect(() => {
-    setInCache(false);
-    ingredients.forEach((c) => {
-      if(food._id === c.food._id) {
-        setInCache(true);
-      }
-    });
-  },[ingredients])
 
   function handleClick() {
     if(!inCache) {
