@@ -7,7 +7,7 @@ import Home from './main/home.component'
 import Meal from './meal/meal'
 import { NewFood } from './meal/food-item'
 
-import { foods, quickies, meals } from './dumby/data'
+import { quickies, meals } from './dumby/data'
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
       <Route path="/Meal" exact >
         <Meal
           meals={meals}
-          foods={foods}
         />
       </Route>
       <Route path='/Foods' exact >

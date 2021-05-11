@@ -15,7 +15,7 @@ const initialState = {
 
 // Components
 
-const Meal = ({ foods, ...props }) => {
+const Meal = ({ ...props }) => {
   const [ingredients, ingrDispatch] = useReducer(ingredientsReducer,initialState.ingredients)
 
   const [modal, setModal] = useState(false);
@@ -50,7 +50,7 @@ const Meal = ({ foods, ...props }) => {
           />
       </div>
       <br /><br />
-      <FoodList foods={foods}
+      <FoodList
         ingredients={ingredients}
         ingrDispatch={ingrDispatch}
         />

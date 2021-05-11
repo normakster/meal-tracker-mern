@@ -15,7 +15,7 @@ const initialState = {
 
 // Components
 
-const FoodItem = ({ food, ingrDispatch, inCache }) => {
+const FoodItem = ({ food, foodsDispatch, ingrDispatch, inCache }) => {
   const [isEditable, setIsEditable] = useState(false);
   // const [food, foodDispatch] = useReducer(foodReducer,(foodItem)?foodItem:initialState.food)
 

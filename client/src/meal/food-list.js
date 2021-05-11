@@ -1,5 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
 import { FoodItem } from './food-item';
+import { foodsReducer } from './foods-reducer'
 
 // Business Logic
 
@@ -7,7 +8,8 @@ import { FoodItem } from './food-item';
 
 // Components
 
-const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
+const FoodList = ({ ingredients, ingrDispatch }) => {
+  const [foods,foodsDispatch] = useReducer(foodsReducer,[]);
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
 
@@ -34,6 +36,7 @@ const FoodList = ({ foods, ingredients, setCache, ingrDispatch }) => {
             return (
               <FoodItem
                 food={food}
+                foodsDispatch={foodsDispatch}
                 ingrDispatch={ingrDispatch}
                 inCache={inCache}
                 key={food._id}
