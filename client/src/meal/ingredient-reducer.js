@@ -3,13 +3,13 @@ import { updateObject, updateItemInArray, createReducer }  from './utilities'
 // Actions and assemble Reducer
 // *acceptable immutable functions: concat, slice, map, filter
 
-function addIngr(ingrState, action) {
+function addIngr(state, action) {
   console.log('Adding Ingredient');
-  console.log(JSON.stringify(ingrState));
-  const newID = ingrState.reduce((maxId,item) => {
+  console.log(JSON.stringify(state));
+  const newID = state.reduce((maxId,item) => {
     return Math.max(maxId,item.id) + 1
   }, 0);
-  const newIngr = ingrState.concat({
+  const newIngr = state.concat({
     id: newID,
     serv: 0,
     food: action.food,
@@ -17,22 +17,22 @@ function addIngr(ingrState, action) {
   return newIngr
 }
 
-function removeIngr(ingrState, action) {
+function removeIngr(state, action) {
   console.log('Removing Ingredient');
-  return ingrState.filter((item, index) => item.id !== action.id)
+  return state.filter((item, index) => item.id !== action.id)
 }
 
-function removeIngrByFood(ingrState, action) {
+function removeIngrByFood(state, action) {
   console.log('Removing Ingredient');
   if(action.food) {
-    return ingrState.filter((item, index) => item.food._id !== action.food._id)
+    return state.filter((item, index) => item.food._id !== action.food._id)
   }
-  return ingrState
+  return state
 }
 
-function editIngr(ingrState, action) {
+function editIngr(state, action) {
   console.log('Editing Ingredient');
-  const newIngredients = updateItemInArray(ingrState, action.id, ingr => {
+  const newIngredients = updateItemInArray(state, action.id, ingr => {
     return updateObject(ingr, { text: action.text })
   })
   return newIngredients
