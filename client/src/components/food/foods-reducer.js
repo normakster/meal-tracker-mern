@@ -1,6 +1,5 @@
-import api from '../api'
+import api from '../../api'
 
-// export function foodsReducer(state,action) {
 export const foodsReducer = (state,action) => {
   switch (action.type) {
     case 'ADD_FOOD':

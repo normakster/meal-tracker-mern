@@ -1,8 +1,8 @@
 import { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
-import { Rows, Editable, ReadOnly } from '../components/form-row.component'
+import { Rows, Editable, ReadOnly } from '../form-row.component'
 import { foodReducer, initialState } from './food-reducer'
-import api from '../api'
+import api from '../../api'
 
 // Business Logic
 

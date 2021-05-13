@@ -1,4 +1,4 @@
-import { updateObject }  from './utilities'
+import { updateObject }  from '../../services/utilities'
 
 export const initialState = {
   food: {

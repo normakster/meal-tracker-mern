@@ -1,9 +1,9 @@
 import { useState, useEffect, useReducer } from 'react';
-import { updateObject, updateItemInArray }  from './utilities'
-import FoodList from './food-list';
+import { updateObject, updateItemInArray }  from '../../services/utilities'
+import FoodList from '../food/food-list';
 import IngredientsList from './ingredient-list';
-import TestingBox from '../components/testingBox.component';
-import { Tbl } from '../components/table.component'
+import TestingBox from '../testingBox.component';
+import { Tbl } from '../table.component'
 
 // Initial State
 
@@ -102,7 +102,6 @@ const Meal = ({ ...props }) => {
           <InputText label='Date' name='date' value={meal.date} callback={(e) => dispatch({type:'DATE',payload:e.target.value})} addGroup='col' />
           <InputText label='Time' name='time' value={meal.time} callback={(e) => dispatch({type:'TIME',payload:e.target.value})} addGroup='col' />
           <InputText label='Location' name='location' value={meal.location} callback={(e) => dispatch({type:'LOCATION',payload:e.target.value})} addGroup='col' />
-        {/**/}
         </div>
         <br />
         <div className='container border border-dark'>
@@ -133,7 +132,6 @@ const Meal = ({ ...props }) => {
 
 const StatsBox = ({cache, ...props }) => {
   const [stats,statsDispatch] = useReducer(statReducer,initialState.stats);
-  // const [stats,setStats] = useState(initialState.stats);
   const layout = {...(initialState.statBoxLayot)};
   const statNames = ['kCal','fat','protien','carb'];
 

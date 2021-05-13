@@ -1,7 +1,4 @@
-import { updateObject, updateItemInArray, createReducer }  from './utilities'
-
-// Actions and assemble Reducer
-// *acceptable immutable functions: concat, slice, map, filter
+import { updateObject, updateItemInArray, createReducer }  from '../../services/utilities'
 
 function addIngr(state, action) {
   const newID = state.reduce((maxId,item) => {

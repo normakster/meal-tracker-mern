@@ -1,6 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { foodReducer, initialState } from '../../meal/food-reducer'
+import { foodReducer, initialState } from './food-reducer'
 import api from '../../api'
 
 const Food = ({ foodItem }) => {

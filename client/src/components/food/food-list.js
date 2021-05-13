@@ -1,8 +1,8 @@
 import { useState, useEffect, useReducer } from 'react';
-import api from '../api'
+import api from '../../api'
 import { foodsReducer } from './foods-reducer'
 import { FoodItem, NewFood } from './food-item';
-import SearchInput from '../components/search-component'
+import SearchInput from '../search-component'
 
 // Business Logic
 

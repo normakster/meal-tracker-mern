@@ -2,12 +2,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Navbar from './main/navbar.component'
-import Home from './main/home.component'
-import Meal from './meal/meal'
+import Navbar from './components/navbar.component'
+import Home from './components/home.component'
+import Meal from './components/meal/meal'
 import Food from './components/food/food'
 
-import { quickies, meals } from './dumby/data'
+import { quickies, meals } from './data/dummy'
 
 function App() {
   return (
