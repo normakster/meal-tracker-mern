@@ -10,7 +10,7 @@ const postFood = async ( food ) => {
         }
         return res.data;
       })
-    return result.data
+    return result
   } catch (e) {
     console.error(e);
     return null
@@ -19,7 +19,14 @@ const postFood = async ( food ) => {
 
 const getFood = async ( id ) => {
   try {
-    http.get(`/foods/${id}`)
+    let result = http.get(`/foods/${id}`)
+      .then(res => {
+        if (res.status >= 400 && res.status < 600) {
+          throw new Error("Bad response");
+        }
+        return res.data;
+      })
+    return result
   } catch (e) {
     console.error(e);
     return null
@@ -35,7 +42,7 @@ const putFood = async ( food ) => {
         }
         return res.data;
       })
-    return result.data
+    return result
   } catch (e) {
     console.error(e);
     return null

@@ -1,23 +1,16 @@
 import { useState, useEffect, useReducer } from 'react';
+import { Link } from 'react-router-dom';
 import { Rows, Editable, ReadOnly } from '../components/form-row.component'
-import { foodReducer } from './food-reducer'
+import { foodReducer, initialState } from './food-reducer'
 import api from '../api'
 
 // Business Logic
 
-const initialState = {
-  food: {
-    _id: '',
-    name: '',
-    desc: '',
-    kCal: '',
-  },
-  keys: [
-    { key: 'name', placeholder: 'Name', dispatch: 'NAME', type: 'text', },
-    { key: 'desc', placeholder: 'Desc', dispatch: 'DESC', type: 'text', },
-    { key: 'kCal', placeholder: 'kCal', dispatch: 'KCAL', type: 'text', },
-  ]
-}
+const definitions = [
+  { key: 'name', placeholder: 'Name', dispatch: 'NAME', type: 'text', },
+  { key: 'desc', placeholder: 'Desc', dispatch: 'DESC', type: 'text', },
+  { key: 'kCal', placeholder: 'kCal', dispatch: 'KCAL', type: 'text', },
+]
 
 // Components
 
@@ -66,7 +59,10 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
   function roBtns() {
     return (
       <div className='row'>
-        <div className='btn btn-danger' onClick={() => setIsEditable(true)} >Edit</div>
+        <Link to={{
+          pathname: "/Food/"+food._id,
+        }}
+        className='btn btn-danger'> Edit</Link>
         &nbsp; or &nbsp;
         <div className='btn btn-warning' onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</div>
       </div>
@@ -77,7 +73,7 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
     <Rows
     item={food}
     dispatch={foodDispatch}
-    keys={initialState.keys}
+    keys={definitions}
     isEditable={isEditable}
     editBtns={editBtns}
     roBtns={roBtns}
@@ -118,7 +114,7 @@ const NewFood = ({ callback }) => {
     <Rows
     item={food}
     dispatch={foodDispatch}
-    keys={initialState.keys}
+    keys={definitions}
     isEditable={isEditable}
     editBtns={editBtns}
     roBtns={roBtns}

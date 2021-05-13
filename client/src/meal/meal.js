@@ -108,17 +108,26 @@ const StatsBox = ({cache, ...props }) => {
     statsDispatch({type:'reset'})
     cache.map(c => {
       console.log(c.food);
-      const kCal = c.food.kCal * c.serv
-      statsDispatch({type:'kCal',payload:kCal})
+      statsDispatch({type:'KCAL',payload:(c.food.kCal * c.serv)})
+      statsDispatch({type:'FAT',payload:(c.food.fat * c.serv)})
+      statsDispatch({type:'PROTIEN',payload:(c.food.protien * c.serv)})
+      statsDispatch({type:'CARB',payload:(c.food.carb * c.serv)})
     })
   }
 
   function statReducer(state = initialState.stats, action) {
     switch (action.type) {
-      case 'kCal':
-        // console.log(state.kCal);
-        // console.log(action.payload);
+      case 'KCAL':
         return {...state, kCal: (state.kCal + action.payload)}
+        break;
+      case 'FAT':
+        return {...state, fat: (state.fat + action.payload)}
+        break;
+      case 'PROTIEN':
+        return {...state, protien: (state.protien + action.payload)}
+        break;
+      case 'CARB':
+        return {...state, carb: (state.carb + action.payload)}
         break;
       case 'reset':
         return {...state, ...(initialState.stats)}

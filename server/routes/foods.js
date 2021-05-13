@@ -14,11 +14,17 @@ router.route('/').post((req, res) => {
   const name = req.body.name;
   const desc = req.body.desc;
   const kCal = Number(req.body.kCal);
+  const fat = Number(req.body.fat);
+  const protien = Number(req.body.protien);
+  const carb = Number(req.body.carb);
 
   const newFood = new Food({
     name,
     desc,
     kCal,
+    fat,
+    protien,
+    carb
   });
 
   logger.debug("Trying to add: \n" + newFood);
@@ -43,6 +49,9 @@ router.route('/:id').put((req, res) => {
       food.name = req.body.name;
       food.desc = req.body.desc;
       food.kCal = Number(req.body.kCal);
+      food.fat = Number(req.body.fat);
+      food.protien = Number(req.body.protien);
+      food.carb = Number(req.body.carb);
 
       food.save()
         .then(() => res.json(food))

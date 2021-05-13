@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './main/navbar.component'
 import Home from './main/home.component'
 import Meal from './meal/meal'
+import Food from './components/food/food'
 
 import { quickies, meals } from './dumby/data'
 
@@ -14,14 +15,21 @@ function App() {
       <div className="container">
       <Navbar />
       <br/>
-      <Route path="/" exact >
-        <Home quickies={quickies}/>
-      </Route>
-      <Route path="/Meal" exact >
-        <Meal
-          meals={meals}
-        />
-      </Route>
+      <Switch>
+        <Route exact path="/" >
+          <Home quickies={quickies}/>
+        </Route>
+        <Route exact path="/Meal" >
+          <Meal
+            meals={meals}
+          />
+        </Route>
+        <Route path="/Food/:id" >
+          <Food
+            foodItem={{_id:0}}
+          />
+        </Route>
+      </Switch>
       </div>
     </Router>
   );
