@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from 'react';
 import { updateObject, updateItemInArray }  from './utilities'
 import FoodList from './food-list';
 import IngredientsList from './ingredient-list';
-import Modal from '../components/modal.component';
+import TestingBox from '../components/testingBox.component';
 import { Tbl } from '../components/table.component'
 
 // Initial State
@@ -126,7 +126,7 @@ const Meal = ({ ...props }) => {
       </div>
       <br /><br />
       <button onClick={(e) => {saveMeal()}} >Save</button>
-      <TestingBox save={save} modal={modal} setModal={setModal} ingredients={ingredients} />
+      <TestingBox save={save} modal={modal} setModal={setModal} data={meal} />
     </div>
   )
 }
@@ -192,22 +192,6 @@ const StatsBox = ({cache, ...props }) => {
         headerFormat={headerFormat}
         rowFormat={rowFormat}
       />
-    </div>
-  )
-}
-
-const TestingBox = ({ save, modal, ingredients, setModal }) => {
-  return (
-    <div>
-      <br />
-      <br />
-      <div className={save ? "d-block" : "d-none"}>
-        <button onClick={() => setModal(true)} >Alert()</button>
-        <Modal show={modal} handleClose={() => setModal(false)} >
-          <div>{JSON.stringify(ingredients)}</div>
-        </Modal>
-        // {JSON.stringify(ingredients, undefined, 2)}
-      </div>
     </div>
   )
 }
