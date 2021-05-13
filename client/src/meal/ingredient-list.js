@@ -1,7 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import {InputText} from './meal';
 
-function IngredientsList({ ingredients, ingrDispatch }) {
+function IngredientsList({ meal, dispatch }) {
   return (
     <div className='container border border-dark'>
       <h5>Ingredient List</h5>
@@ -16,10 +16,10 @@ function IngredientsList({ ingredients, ingrDispatch }) {
       </div>
       <div className=''>
         {
-          ingredients.map((ingr,i) => {
+          meal.ingredients.map((ingr,i) => {
             return (
               <div key={i}>
-                <Ingredient ingredient={ingr} ingrDispatch={ingrDispatch} key={ingr.id} />
+                <Ingredient ingredient={ingr} dispatch={dispatch} key={ingr.id} />
               </div>
             )
           })
@@ -29,7 +29,7 @@ function IngredientsList({ ingredients, ingrDispatch }) {
   )
 }
 
-const Ingredient = ({ ingredient, ingrDispatch }) => {
+const Ingredient = ({ ingredient, dispatch }) => {
 
   return (
     <div className='row'>
@@ -40,14 +40,14 @@ const Ingredient = ({ ingredient, ingrDispatch }) => {
             className='form-control '
             name='servings'
             value={ingredient.serv}
-            onChange={(e) => ingrDispatch({type:'EDIT_INGR_SERV',id:ingredient.id,serv:e.target.value})}
+            onChange={(e) => dispatch({type:'EDIT_INGR_SERV',id:ingredient.id,serv:e.target.value})}
           />
         </div>
       </div>
       <div className='col'>{ingredient.food.name}</div>
       <div className='col'>{ingredient.food.kCal}</div>
       <div className='col'>
-        <div className='btn btn-warning' onClick={() => ingrDispatch({type:'REMOVE_INGR', id: ingredient.id})}>X</div>
+        <div className='btn btn-warning' onClick={() => dispatch({type:'REMOVE_INGR', id: ingredient.id})}>X</div>
       </div>
     </div>
   )

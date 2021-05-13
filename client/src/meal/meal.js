@@ -1,14 +1,19 @@
 import { useState, useEffect, useReducer } from 'react';
+import { updateObject, updateItemInArray }  from './utilities'
 import FoodList from './food-list';
 import IngredientsList from './ingredient-list';
 import Modal from '../components/modal.component';
-import { ingredientsReducer } from './ingredient-reducer'
 import { Tbl } from '../components/table.component'
 
 // Initial State
 
 const initialState = {
-  ingredients: [],
+  meal: {
+    date: '',
+    time: '',
+    location: '',
+    ingredients: [],
+  },
   stats: {
     kCal: 0,
     fat: 0,
@@ -23,60 +28,100 @@ const initialState = {
 
 // Business Logic
 
+function mealReducer(state = initialState.meal, action) {
+  switch (action.type) {
+    case 'DATE':
+      return {...state, date:action.payload}
+      break;
+    case 'TIME':
+      return {...state, time:action.payload}
+      break;
+    case 'LOCATION':
+      return {...state, location:action.payload}
+      break;
+    case 'ADD_INGR':
+      return {
+        ...state,
+        ingredients: state.ingredients.concat({
+          id: state.ingredients.reduce((maxId,item) => {
+            return Math.max(maxId,item.id) + 1
+          }, 0),
+          serv: '',
+          food: action.food,
+        })
+      }
+      break;
+    case 'REMOVE_INGR':
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((item, index) =>
+          item.id !== action.id
+        )
+      }
+      break;
+    case 'REMOVE_INGR_BYFOOD':
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((item, index) =>
+          item.food._id !== action.food._id
+        )
+      }
+      break;
+    case 'EDIT_INGR_SERV':
+      const newIngredients = updateItemInArray(state.ingredients, action.id, ingr => {
+        return updateObject(ingr, { serv: action.serv })
+      })
+      return {...state, ingredients:newIngredients}
+      break;
+    default:
+      return state
+  }
+}
 
 // Components
 
 const Meal = ({ ...props }) => {
-  const [ingredients, ingrDispatch] = useReducer(ingredientsReducer,initialState.ingredients)
-
+  const [meal, dispatch] = useReducer(mealReducer,initialState.meal)
   const [modal, setModal] = useState(false);
 
   const [save, setSave] = useState(false);
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [location, setLocation] = useState('');
 
   function saveMeal() {
     setModal(!modal);
     setSave(!save);
-    return {
-      date: date,
-      time: time,
-      location: location,
-      ingredients: ingredients
-    }
   }
 
   return (
     <div>
       <div className='container border border-dark'>
         <div className='form-row'>
-          <h5>Meal Data:</h5>
+          <h5>Meal:</h5>
         </div>
         <div className='form-row'>
           <br />
-          <InputText label='Date' name='date' value={date} callback={(e) => {setDate(e.target.value)}} addGroup='col' />
-          <InputText label='Time' name='time' value={time} callback={(e) => {setTime(e.target.value)}} addGroup='col' />
-          <InputText label='Location' name='location' value={location} callback={(e) => {setLocation(e.target.value)}} addGroup='col' />
+          <InputText label='Date' name='date' value={meal.date} callback={(e) => dispatch({type:'DATE',payload:e.target.value})} addGroup='col' />
+          <InputText label='Time' name='time' value={meal.time} callback={(e) => dispatch({type:'TIME',payload:e.target.value})} addGroup='col' />
+          <InputText label='Location' name='location' value={meal.location} callback={(e) => dispatch({type:'LOCATION',payload:e.target.value})} addGroup='col' />
         {/**/}
+        </div>
+        <br />
+        <div className='container border border-dark'>
+          <StatsBox cache={meal}/>
         </div>
         <br /><br />
         <div className='form-row'>
           <IngredientsList
-            ingredients={ingredients}
-            ingrDispatch={ingrDispatch}
+            meal={meal}
+            dispatch={dispatch}
             />
-          </div>
-      </div>
-      <br /><br />
-      <div className='container border border-dark'>
-        <StatsBox cache={ingredients}/>
+        </div>
+        <br />
       </div>
       <br /><br />
       <div className='container border border-dark'>
         <FoodList
-          ingredients={ingredients}
-          ingrDispatch={ingrDispatch}
+          meal={meal}
+          dispatch={dispatch}
           />
       </div>
       <br /><br />
@@ -94,7 +139,7 @@ const StatsBox = ({cache, ...props }) => {
 
   useEffect(() => {
     calcStats();
-  },[cache])
+  },[cache.ingredients])
 
   function headerFormat(value) {
     return <span>{value}s:</span>
@@ -106,7 +151,7 @@ const StatsBox = ({cache, ...props }) => {
 
   function calcStats() {
     statsDispatch({type:'reset'})
-    cache.map(c => {
+    cache.ingredients.map(c => {
       console.log(c.food);
       statsDispatch({type:'KCAL',payload:(c.food.kCal * c.serv)})
       statsDispatch({type:'FAT',payload:(c.food.fat * c.serv)})

@@ -10,7 +10,7 @@ import SearchInput from '../components/search-component'
 
 // Components
 
-const FoodList = ({ ingredients, ingrDispatch }) => {
+const FoodList = ({ meal, dispatch }) => {
   const [foods,foodsDispatch] = useReducer(foodsReducer,[]);
   let [newFoodItem, setNewFoodItem] = useState(null);
   const [filterValue, setFilterValue] = useState('');
@@ -41,7 +41,7 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
         {
           filteredFoods.map((food,i) => {
             let inCache = false;
-            ingredients.forEach((c) => {
+            meal.ingredients.forEach((c) => {
               if(food._id === c.food._id) {
                 inCache = true;
               }
@@ -51,7 +51,7 @@ const FoodList = ({ ingredients, ingrDispatch }) => {
               <FoodItem
                 foodItem={food}
                 foodsDispatch={foodsDispatch}
-                ingrDispatch={ingrDispatch}
+                ingrDispatch={dispatch}
                 inCache={inCache}
                 key={food._id}
                 />
