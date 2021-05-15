@@ -1,6 +1,6 @@
 const router = require('express').Router();
-let Food = require('../models/food.model');
-var logger = require('log4js').getLogger();
+const { Food } = require('../models/food.model');
+const logger = require('log4js').getLogger();
 
 const Foods = []
 
@@ -11,20 +11,14 @@ const Foods = []
 router.route('/').post((req, res) => {
   logger.debug(req.body);
 
-  const name = req.body.name;
-  const desc = req.body.desc;
-  const kCal = Number(req.body.kCal);
-  const fat = Number(req.body.fat);
-  const protien = Number(req.body.protien);
-  const carb = Number(req.body.carb);
 
   const newFood = new Food({
-    name,
-    desc,
-    kCal,
-    fat,
-    protien,
-    carb
+    name: req.body.name,
+    desc: req.body.desc,
+    kCal:Number(req.body.kCal),
+    fat: Number(req.body.fat),
+    protien: Number(req.body.protien),
+    carb: Number(req.body.carb)
   });
 
   logger.debug("Trying to add: \n" + newFood);
