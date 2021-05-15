@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import {InputText} from './meal';
+import {InputText} from './create-meal';
 
 function IngredientsList({ meal, dispatch }) {
   return (

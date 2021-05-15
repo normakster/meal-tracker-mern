@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/navbar.component'
 import Home from './components/home.component'
-import Meal from './components/meal/meal'
+import Meal from './components/meal/create-meal'
 import Food from './components/food/food'
 
 import { quickies, meals } from './data/dummy'

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import MealHistory from './meal/meal-history'
 
 // Initial State
 
@@ -10,8 +11,11 @@ const Home = ({ quickies }) => {
 
   return (
     <div>
-      <Dashboard />
-      <QuickBites quickies={quickies} />
+      <Dashboard className='border rounded' />
+      <br />
+      <QuickBites className='border rounded' quickies={quickies} />
+      <br />
+      <MealHistory className='border rounded' />
       <br />
     </div>
   )

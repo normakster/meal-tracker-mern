@@ -28,7 +28,7 @@ const FoodList = ({ meal, dispatch }) => {
 
 
   return (
-    <div>
+    <div className='container border border-dark'>
       <h5>Food List:</h5>
       <SearchInput filterValue={filterValue} setFilterValue={setFilterValue} />
       <div className='container border border-info'>
