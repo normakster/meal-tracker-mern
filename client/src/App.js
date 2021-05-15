@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/navbar.component'
 import Home from './components/home.component'
+import About from './components/about'
 import Meal from './components/meal/create-meal'
 import Food from './components/food/food'
 
@@ -28,6 +29,9 @@ function App() {
           <Food
             foodItem={{_id:0}}
           />
+        </Route>
+        <Route path="/About">
+          <About />
         </Route>
       </Switch>
       </div>
