@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Navbar from './components/navbar.component'
-import Home from './components/home.component'
+import Navbar from './components/navbar'
+import Home from './components/home'
 import About from './components/about'
 import Meal from './components/meal/create-meal'
 import Food from './components/food/food'
