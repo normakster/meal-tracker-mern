@@ -1,7 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { mealReducer } from './meal-reducer'
-import StatsBox from './statBox'
+import StatsBox from './meal-statBox'
 import FoodList from '../food/food-list';
 import IngredientsList from './ingredient-list';
 import TestingBox from '../testingBox.component';
