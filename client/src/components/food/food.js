@@ -48,6 +48,7 @@ const Food = ({ foodItem }) => {
     inputText: 'form-control mb-2',
   }
 
+// TODO: Use HOC to set layout of inputs and (maybe) make an InputText component.
   return (
     <div className='container'>
       <form onSubmit={(e) => {e.preventDefault()}}>
@@ -109,11 +110,12 @@ const Food = ({ foodItem }) => {
               </div>
           </div>
         </div>
-        <div className='border border-info'></div>
-        <input type='submit' value='Save' onClick={() => handleSave(food)}
-        className='btn btn-primary col' />
-        <div className='btn btn-warning col' onClick={(e) => handleCancel(e)}>Cancel</div>
-        <div className='btn btn-danger col' onClick={(e) => handleRemove(e)}>Remove</div>
+        <div className='row justify-content-center'>
+          <input type='submit' value='Save' onClick={() => handleSave(food)}
+          className='btn btn-primary col-auto' />
+          <div className='btn btn-warning col-auto' onClick={(e) => handleCancel(e)}>Cancel</div>
+          <div className='btn btn-danger col-auto' onClick={(e) => handleRemove(e)}>Remove</div>
+        </div>
       </form>
     </div>
   )

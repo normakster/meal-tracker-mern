@@ -26,9 +26,9 @@ const MealHistory = () => {
     fetchAll(dispatch)
   },[])
 
-  function mealItem(meal) {
+  function mealItem(meal,i) {
     return (
-      <div className='row border rounded'>
+      <div className='row border rounded' key={i}>
         <div className='col'>
         {meal.time}
         </div>
@@ -48,7 +48,7 @@ const MealHistory = () => {
   return (
     <div className='container border rounded'>
       <h5>Meal List:</h5>
-      {meals.map((meal,i) => mealItem(meal))}
+      {meals.map((meal,i) => mealItem(meal,i))}
       <br />
       <div className='row btn btn-secondary'  onClick={(e) => {fetchAll()}} >Fetch</div>
     </div>

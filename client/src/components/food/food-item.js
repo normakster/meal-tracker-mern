@@ -62,7 +62,7 @@ const FoodItem = ({ foodItem, foodsDispatch, ingrDispatch, inCache }) => {
         <Link to={{
           pathname: "/Food/"+food._id,
         }}
-        className='btn btn-danger'> Edit</Link>
+        className='btn btn-info'> Edit</Link>
         &nbsp; or &nbsp;
         <div className='btn btn-warning' onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</div>
       </div>

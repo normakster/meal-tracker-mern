@@ -6,7 +6,11 @@ import SearchInput from '../search-component'
 
 // Business Logic
 
-
+function fetchAll(dispatch) {
+  api.getAllFoods().then(data => {
+    dispatch({type:'FETCH_ALL',foods:data});
+  })
+}
 
 // Components
 
@@ -17,9 +21,7 @@ const FoodList = ({ meal, dispatch }) => {
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
 
   useEffect(() => {
-    api.getAllFoods().then(data => {
-      foodsDispatch({type:'FETCH_ALL',foods:data});
-    })
+    fetchAll(foodsDispatch)
   },[newFoodItem])
 
   function resetNewFood() {
