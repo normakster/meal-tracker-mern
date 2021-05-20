@@ -1,11 +1,17 @@
-FROM node:alpine
+# Build
+FROM node:alpine as build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --silent
+# Have a .dockerignore file ignoring node_modules and build
+COPY . ./
+RUN npm run build
 
-RUN mkdir -p /opt/app
-WORKDIR /opt/app
+# Production
+FROM nginx:alpine
 
-COPY package.json ./
-RUN npm install
-
-#COPY . ./
-
-ENTRYPOINT [ "npm", "start" ]
+COPY --from=build /app/build /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
