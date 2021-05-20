@@ -11,7 +11,8 @@ log4js.configure(traceLogConfig);
 var logger = log4js.getLogger("app");
 
 // Setting up database
-mongoose.connect(process.env.MONGODB_URI, {
+const { mongo } = settings;
+mongoose.connect(mongo.mongoURL + '/' + mongo.mongoDBName, {
   useNewUrlParser: true,
   useCreateIndex: true,
 });
@@ -23,8 +24,8 @@ connection.once('open', () => {
 });
 
 // Create Express application
+const { port, host } = settings.server;
 const app = express();
-var port = process.env.PORT || '5000';
 
 // View engine
 
@@ -32,9 +33,9 @@ var port = process.env.PORT || '5000';
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 const corsOptions = {
   origin: [
-    `https://${process.env.HOST}`,
-    `http://${process.env.HOST}`,
-    `${process.env.HOST}`
+    `https://${host}`,
+    `http://${host}`,
+    `${host}`
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true // enable set cookie
