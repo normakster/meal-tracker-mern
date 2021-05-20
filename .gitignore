@@ -2,6 +2,7 @@
 
 # project specific
 *.env
+*build
 *node_modules
 /backend/log/*
 *package-lock.json

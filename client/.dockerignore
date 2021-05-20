@@ -1,0 +1,10 @@
+build
+*node_modules
+.dockerignore
+*Dockerfile*
+*dockerfile*
+npm-debug.log
+.git
+.hg
+.svn
+*.env
