@@ -4,7 +4,25 @@ networks:
   proxy-net:
     name: web
 
+volumes:
+  dbdata:
+
 services:
+
+  mongo:
+    container_name: mongo
+    build:
+        context: ../database/db
+        dockerfile: Dockerfile
+    image: normak458/meal-tracker_mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - proxy-net
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /data/db
 
   client:
     container_name: client
@@ -24,6 +42,8 @@ services:
       context: ../mern/server
       dockerfile: Dockerfile
     image: normak458/meal-tracker_api
+    depends_on:
+      - mongo
     ports:
       - "8081:8081"
     networks:
