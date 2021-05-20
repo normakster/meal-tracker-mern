@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kameron.service: dbdata
+  name: dbdata
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meal-tracker-mongo
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  ports:
+  - name: http
+    port: 27017
+  selector:
+    app: meal-tracker
+    task: mongo
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    app: meal-tracker
+    task: mongo
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meal-tracker
+      task: mongo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        app: meal-tracker
+        task: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: normak458/meal-tracker_mongo:v0.0.1
+        imagePullPolicy: IfNotPresent #Always #IfNotPresent
+        ports:
+        - containerPort: 27017
+        resources: {}
+        volumeMounts:
+        - mountPath: /data/db
+          name: dbdata
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: dbdata
+        persistentVolumeClaim:
+          claimName: dbdata
+status: {}

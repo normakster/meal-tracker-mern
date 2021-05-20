@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  CHOKIDAR_USEPOLLING: "true"
+  NODE_ENV: development
+  REACT_APP_API_URL: "10.128.33.10:8081"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    app: meal-tracker
+  name: client--env

@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: meal-tracker-client
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: clientingressroute
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+  - match: Host(`nutri.kameron.io`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: client
+      port: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+spec:
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: meal-tracker
+    task: client
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    app: meal-tracker
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meal-tracker
+      task: client
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        app: meal-tracker
+        task: client
+    spec:
+      containers:
+      - name: client
+        image: normak458/meal-tracker_client:v0.0.2
+        imagePullPolicy: IfNotPresent #Always #IfNotPresent
+        ports:
+        - containerPort: 80
+        resources: {}
+        stdin: true
+        env:
+          - name: CHOKIDAR_USEPOLLING
+            valueFrom:
+              configMapKeyRef:
+                key: CHOKIDAR_USEPOLLING
+                name: client--env
+          - name: NODE_ENV
+            valueFrom:
+              configMapKeyRef:
+                key: NODE_ENV
+                name: client--env
+          - name: REACT_APP_API_URL
+            valueFrom:
+              configMapKeyRef:
+                key: REACT_APP_API_URL
+                name: client--env
+      restartPolicy: Always
+      volumes: null
+status: {}
