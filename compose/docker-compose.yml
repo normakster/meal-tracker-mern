@@ -1,0 +1,32 @@
+version: "3.8"
+
+networks:
+  proxy-net:
+    name: web
+
+services:
+
+  client:
+    container_name: client
+    build:
+      context: ../mern/client
+      dockerfile: Dockerfile
+    image: normak458/meal-tracker_client
+    ports:
+      - "80:80"
+    networks:
+      - proxy-net
+    volumes:
+      - ../mern/client:/opt/app
+
+  api:
+    build:
+      context: ../mern/server
+      dockerfile: Dockerfile
+    image: normak458/meal-tracker_api
+    ports:
+      - "8081:8081"
+    networks:
+      - proxy-net
+    volumes:
+      - ../mern/server:/opt/app
