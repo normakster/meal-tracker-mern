@@ -3,22 +3,25 @@
   - Per [meal, day, week]
     - Total kCal, remaining, macro %
   - Net kCal vs diet daily-target for 7 day trailing
+  - Displays Line Graphs, Pie Charts
+  - Suggests meals from history to "patch" nutrient needs.
 - Maintains
   - User profile
   - History of meals
-  - Repository of Ingredients (Ing)
+  - Repository of Ingredients
+  - List of typical "Quick Bites"
 - Technical requirements
   - Cloud based
-  - MERN (MongoDb, E., Reactjs, Nodejs)
-  - Possible Stack: Graphql, Apollo, Kubernetes, Docker, Helm, Jenkins/Travis, [Testing], Koltin app
+  - MERN (MongoDb, Express, Reactjs, Nodejs)
+  - Possible Stack: Graphql, Apollo, Kubernetes, Docker, Helm, Jenkins/Travis, Nginx, [Testing], Koltin app
 - Possible "Tie-Ins"
-  - Weight Tracking
-  - Exercise Tracking
-  - Shopping List and Budgets
-    - Home Finance
-      - Accounting
-      - Investing
-  - Pantry Tracking
+  1. Weight Tracking
+  1. Exercise Tracking
+  1. Shopping List and Budgets
+  1. Pantry Tracking
+  1. Home Finance
+    - Accounting
+    - Investing
     - Assets
     - Disaster Preparation
 - Other thoughts
@@ -29,6 +32,7 @@
     - Who is currently there?
     - What is their "Chasms"?
 
+<!--
 ## Components
   1. AllFoodTable
     1. SearchFoods
@@ -108,3 +112,4 @@ Macros
 
 
 ## API
+--!>

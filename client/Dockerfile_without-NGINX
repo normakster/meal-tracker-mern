@@ -1,0 +1,9 @@
+FROM node:alpine
+WORKDIR /opt/app
+COPY package*.json ./
+RUN npm ci --silent
+COPY . ./
+#ENV NODE_ENV development
+#ENV CHOKIDAR_USEPOLLING true
+#EXPOSE 3000
+ENTRYPOINT [ "npm", "start" ]

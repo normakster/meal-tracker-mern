@@ -8,7 +8,8 @@ RUN npm install --production
 
 COPY . /opt/app
 
-ENV PORT 8081
+#ENV NODE_ENV production
+#ENV PORT 8081
 
-EXPOSE 8081
+#EXPOSE 8081
 ENTRYPOINT [ "npm", "start" ]

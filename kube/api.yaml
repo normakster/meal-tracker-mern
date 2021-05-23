@@ -69,23 +69,23 @@ spec:
           - name: HOST
             valueFrom:
               configMapKeyRef:
-                key: HOST
-                name: api--env
+                key: FRONTEND_HOST
+                name: cloud--env
           - name: MONGODB_URI
             valueFrom:
               configMapKeyRef:
                 key: MONGODB_URI
-                name: api--env
+                name: cloud--env
           - name: NODE_ENV
             valueFrom:
               configMapKeyRef:
                 key: NODE_ENV
-                name: api--env
+                name: cloud--env
           - name: PORT
             valueFrom:
               configMapKeyRef:
-                key: PORT
-                name: api--env
+                key: BACKEND_PORT
+                name: cloud--env
       restartPolicy: Always
       volumes: null
 status: {}
