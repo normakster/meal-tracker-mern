@@ -21,6 +21,8 @@ export default {
 
   // Meal Routes
   postMeal: meal.post,
+  getMeal: meal.get,
+  putMeal: meal.put,
   getAllMeals: meal.getAll,
 
   // Food Routes

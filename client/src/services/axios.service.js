@@ -1,3 +1,4 @@
+import { apiURL } from '../config/settings'
 import axios from 'axios';
 
 axios.defaults.baseURL = '/api';

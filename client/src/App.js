@@ -3,36 +3,25 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/navbar'
-import Home from './components/home'
+import { Home, Dashboard } from './components/home'
 import About from './components/about'
 import Meal from './components/meal/create-meal'
 import Food from './components/food/food'
 
-import { quickies, meals } from './data/dummy'
 
 function App() {
   return (
     <Router>
-      <div className="container">
+      <div className='container'>
       <Navbar />
       <br/>
       <Switch>
-        <Route exact path="/" >
-          <Home quickies={quickies}/>
-        </Route>
-        <Route exact path="/Meal" >
-          <Meal
-            meals={meals}
-          />
-        </Route>
-        <Route path="/Food/:id" >
-          <Food
-            foodItem={{_id:0}}
-          />
-        </Route>
-        <Route path="/About">
-          <About />
-        </Route>
+        <Route exact path='/Meal' component={Meal} />
+        <Route path='/Food/:id' component={Food} />
+        <Route path='/Food/' component={Food} />
+        <Route path='/About' component={About} />
+        <Route exact path='/Home' component={Home} />
+        <Route exact path='/' component={Home} />
       </Switch>
       </div>
     </Router>

@@ -10,7 +10,7 @@ const post = async ( food ) => {
     console.error(e);
     return null
   }
-};
+}
 
 const get = async ( id ) => {
   try {
@@ -21,7 +21,7 @@ const get = async ( id ) => {
     console.error(e);
     return null
   }
-};
+}
 
 const put = async ( food ) => {
   try {
@@ -33,6 +33,7 @@ const put = async ( food ) => {
     return null
   }
 }
+
 const remove = async ( id ) => {
   try {
     let result = await http.delete(`/foods/${id}`)
@@ -42,7 +43,7 @@ const remove = async ( id ) => {
     console.error(e);
     return null
   }
-};
+}
 
 const getAll = async () => {
   try {

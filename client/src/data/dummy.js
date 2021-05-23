@@ -39,8 +39,8 @@ export const foodSchema = [
   { title: 'kCal', value: 'kCal' },
 ]
 export const quickies = [
-  { name: 'burger' },
-  { name: 'create new', action:'/create' },
+  { name: 'burger', _id: '60a9520a5832690024b31fa0' },
+  { name: 'create new', _id: '' },
 ]
 export const mealSchema = [
   { title: 'Date', value: 'date' },

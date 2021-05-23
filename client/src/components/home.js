@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MealHistory from './meal/meal-history'
+import { quickies } from '../data/dummy'
 
 // Initial State
 
@@ -7,56 +10,48 @@ import MealHistory from './meal/meal-history'
 
 // Components
 
-const Home = ({ quickies }) => {
+const Home = ({ }) => {
 
   return (
     <div>
-      <Dashboard className='border rounded' />
+      <Dashboard />
       <br />
-      <QuickBites className='border rounded' quickies={quickies} />
+      <QuickBites />
       <br />
-      <MealHistory className='border rounded' />
+      <MealHistory />
       <br />
     </div>
   )
 }
 
-const Dashboard = (props) => {
+const Dashboard = ({  }) => {
   return (
-    <div>
-      <div>Dashboard </div>
+    <div className='border rounded d-none' >
+      <h5>Dashboard </h5>
     </div>
   )
 }
 
-const QuickBites = ({ quickies }) => {
+const QuickBites = ({  }) => {
 
   return (
     <div>
-      <div>Quick Bites: </div>
+      <h5>Quick Bites: </h5>
       <div>
         {quickies.map((bite,i) => {
-          return <QBButton bite={bite} key={i} />
+          return (
+            <Link to={{ pathname: "/Meal/", state: {id:bite._id}}}
+              className='btn btn-info' key={i} >
+              {bite.name}
+            </Link>
+          )
         })}
       </div>
     </div>
   )
 }
 
-const QBButton = ({ bite }) => {
-
-  function handleClick(name) {
-    alert('add: ' + name);
-  }
-
-  return(
-    <button onClick={() => handleClick(bite.action)} >{bite.name}</button>
-  )
-}
-
 export {
   Dashboard,
-  QuickBites
+  Home
 }
-
-export default Home;

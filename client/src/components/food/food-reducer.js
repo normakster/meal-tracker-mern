@@ -14,6 +14,9 @@ export const initialState = {
 
 export const foodReducer = (state,action) => {
   switch (action.type) {
+    case 'food/update':
+      return {...state, [(action.payload.key)]:action.payload.value}
+      break;
     case 'NAME':
       return {...state, name:action.payload}
       break;

@@ -25,6 +25,31 @@ router.route('/').post((req,res) => {
     })
 })
 
+router.route('/:id').get((req, res) => {
+  Meal.findById(req.params.id)
+    .then(meal => res.json(meal))
+    .catch(err => res.status(400).json('Error: ' + err));
+})
+
+router.route('/:id').put((req, res) => {
+  Meal.findById(req.params.id)
+    .then(meal => {
+      meal.date = req.body.date,
+      meal.time = req.body.time,
+      meal.location = req.body.location,
+      meal.ingredients = req.body.ingredients.map((item) => {
+        return {
+          serv: item.serv,
+          food: { ...item.food }
+        }
+      })
+      meal.save()
+        .then(() => res.json(meal))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+})
+
 router.route('/').get((req, res) => {
   Meal.find()
     .then(meals => res.json(meals))

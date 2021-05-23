@@ -13,12 +13,6 @@ import { Link } from 'react-router-dom';
         <li className="navbar-item">
           <Link to="/About" className="nav-link">About</Link>
         </li>
-        <li className="navbar-item">
-        <Link to="/Meal" className="nav-link">Meal</Link>
-        </li>
-        <li className="navbar-item">
-        <Link to="/Food" className="nav-link">Food</Link>
-        </li>
       </ul>
       </div>
     </nav>

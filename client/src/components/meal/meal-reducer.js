@@ -2,14 +2,20 @@ import { updateObject, updateItemInArray }  from '../../services/utilities'
 
 export function mealReducer(state, action) {
   switch (action.type) {
-    case 'DATE':
-      return {...state, date:action.payload}
+    case 'meal_date/update':
+      return {...state, date: action.payload}
       break;
-    case 'TIME':
-      return {...state, time:action.payload}
+    case 'meal_time/update':
+      return {...state, time: action.payload}
       break;
-    case 'LOCATION':
-      return {...state, location:action.payload}
+    case 'meal_location/update':
+      return {...state, location: action.payload}
+      break;
+    case 'meal_ingr/update':
+      const newIngredients = updateItemInArray(state.ingredients, action.payload.id, ingr => {
+        return updateObject(ingr, { serv: action.payload.serv })
+      })
+      return {...state, ingredients:newIngredients}
       break;
     case 'ADD_INGR':
       return {
@@ -39,11 +45,9 @@ export function mealReducer(state, action) {
         )
       }
       break;
-    case 'EDIT_INGR_SERV':
-      const newIngredients = updateItemInArray(state.ingredients, action.id, ingr => {
-        return updateObject(ingr, { serv: action.serv })
-      })
-      return {...state, ingredients:newIngredients}
+    case 'INIT':
+      console.log('Reset Meal');
+      return updateObject(state,action.payload)
       break;
     default:
       return state

@@ -1,6 +1,28 @@
 import { useEffect, useReducer } from 'react';
-import { Tbl } from '../table.component'
+import Table from 'react-bootstrap/Table'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
+// TODO: move to seperate file, add init/reset, update type to domain/event format, add one bulk setter.
+function statReducer(state, action) {
+  switch (action.type) {
+    case 'statBox/update':
+      let food = action.payload.food;
+      let serv = action.payload.serv;
+      return {...state,
+        kCal: (state.kCal + (food.kCal * serv)),
+        fat: (state.fat + (food.fat * serv)),
+        protien: (state.protien + (food.protien * serv)),
+        carb: (state.carb +(food.carb * serv))
+      }
+      break;
+    case 'reset':
+      return {...state, ...initialStats}
+      break;
+    default:
+      return state
+  }
+}
 
 const initialStats = {
   kCal: 0,
@@ -9,68 +31,34 @@ const initialStats = {
   carb: 0,
 }
 
-const StatsBox = ({cache, statBoxLayot, ...props }) => {
-  const [stats,statsDispatch] = useReducer(statReducer,initialStats);
+const StatsBox = ({cache, ...props }) => {
+  const [stats,dispatch] = useReducer(statReducer,initialStats);
   const statNames = ['kCal','fat','protien','carb'];
 
   useEffect(() => {
     calcStats();
   },[cache.ingredients])
 
-  function headerFormat(value) {
-    return <span>{value}s:</span>
-  }
-
-  function rowFormat(value) {
-    return <span>{value}</span>
-  }
-
 // TODO: Set one dispatch to handle update.
   function calcStats() {
-    statsDispatch({type:'reset'})
+    dispatch({type:'reset'})
     cache.ingredients.map(c => {
-      console.log(c.food);
-      statsDispatch({type:'KCAL',payload:(c.food.kCal * c.serv)})
-      statsDispatch({type:'FAT',payload:(c.food.fat * c.serv)})
-      statsDispatch({type:'PROTIEN',payload:(c.food.protien * c.serv)})
-      statsDispatch({type:'CARB',payload:(c.food.carb * c.serv)})
+      dispatch({type:'statBox/update',payload:{food:c.food,serv:c.serv}})
     })
   }
 
-// TODO: move to seperate file, add init/reset, update type to domain/event format, add one bulk setter.
-  function statReducer(state, action) {
-    switch (action.type) {
-      case 'KCAL':
-        return {...state, kCal: (state.kCal + action.payload)}
-        break;
-      case 'FAT':
-        return {...state, fat: (state.fat + action.payload)}
-        break;
-      case 'PROTIEN':
-        return {...state, protien: (state.protien + action.payload)}
-        break;
-      case 'CARB':
-        return {...state, carb: (state.carb + action.payload)}
-        break;
-      case 'reset':
-        return {...state, ...initialStats}
-        break;
-      default:
-        return state
-    }
-  }
-
   return (
-    <div className=''>
+    <Row>
       <h5>Stats:</h5>
-      <Tbl
-        layout={statBoxLayot}
-        keys={statNames}
-        data={[stats]}
-        headerFormat={headerFormat}
-        rowFormat={rowFormat}
-      />
-    </div>
+      <Table>
+        <thead>
+          <tr>{statNames.map((name) => <td key={'stat-head-'+name}>{name}</td>)}</tr>
+        </thead>
+        <tbody>
+          <tr>{statNames.map((name) => <td key={'stat-'+name}>{stats[name]}</td>)}</tr>
+        </tbody>
+      </Table>
+    </Row>
   )
 }
 
