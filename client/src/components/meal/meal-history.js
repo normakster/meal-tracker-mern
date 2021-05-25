@@ -59,10 +59,12 @@ const MealHistory = () => {
         </tbody>
       </Table>
       <br />
+      {/*
       <div className='row btn btn-secondary d-none'
         onClick={async (e) => dispatch({type:'meal/fetchAll',payload:(await api.getAllMeals())})} >
         Fetch
       </div>
+      */}
     </Container>
   )
 }

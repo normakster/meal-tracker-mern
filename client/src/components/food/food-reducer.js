@@ -17,26 +17,11 @@ export const foodReducer = (state,action) => {
     case 'food/update':
       return {...state, [(action.payload.key)]:action.payload.value}
       break;
-    case 'NAME':
-      return {...state, name:action.payload}
-      break;
-    case 'DESC':
-      return {...state, desc:action.payload}
-      break;
-    case 'KCAL':
+    case 'food_kcal/update':
       let kcal = (9*state.fat) + (4*state.protien) + (4*state.carb);
       return {...state, kCal:kcal}
       break;
-    case 'FAT':
-      return {...state, fat:action.payload}
-      break;
-    case 'PROTIEN':
-      return {...state, protien:action.payload}
-      break;
-    case 'CARB':
-      return {...state, carb:action.payload}
-      break;
-    case 'INIT':
+    case 'food/init':
       return updateObject(state,action.payload)
       break;
     default:

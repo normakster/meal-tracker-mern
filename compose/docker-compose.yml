@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 networks:
   proxy-net:
@@ -41,7 +41,7 @@ services:
     container_name: mongo
     build:
         context: ../db
-        dockerfile: Dockerfile
+        dockerfile: dockerfile
     image: normak458/meal-tracker_mongo
     networks:
       - proxy-net
@@ -55,7 +55,7 @@ services:
     build:
       context: ../client
       dockerfile: Dockerfile_without-NGINX
-    image: normak458/meal-tracker_client
+    image: normak458/meal-tracker_client_local
     # env_file:
     #  - ../client/.env
     environment:

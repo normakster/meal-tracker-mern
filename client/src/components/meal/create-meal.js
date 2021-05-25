@@ -10,8 +10,10 @@ import Row from 'react-bootstrap/Row'
 
 import StatsBox from './meal-statBox'
 import FoodList from '../food/food-list';
+import Popup from '../modal.component'
 import { mealReducer } from './meal-reducer'
 import api from '../../api'
+
 
 // Initial State
 
@@ -36,9 +38,15 @@ const Meal = ({ ...props }) => {
 
   useEffect(async () => {
     if(id) {
-      dispatch({type:'INIT',payload:(await api.getMeal(id))})
+      dispatch({type:'meal/init',payload:(await api.getMeal(id))})
     }
-  },[id])
+  },[])
+
+  useEffect(() => {
+    if(history.location.state.hasOwnProperty('meal')) {
+      dispatch({type:'meal/init',payload:history.location.state.meal})
+    }
+  },[])
 
   async function handleSave(updatedMeal) {
     if(id) {
@@ -55,7 +63,7 @@ const Meal = ({ ...props }) => {
   return (
     <Container fluid>
       <MealEditable meal={meal} dispatch={dispatch} />
-      <FoodList meal={meal} mealDispatch={dispatch} />
+      <hr />
       <Button variant='secondary'  onClick={(e) => {handleSave(meal)}} >Save</Button>
     </Container>
   )
@@ -63,6 +71,15 @@ const Meal = ({ ...props }) => {
 
 
 const MealEditable = ({ meal, dispatch }) => {
+  const [showModal, setShowModal] = useState(false);
+
+    function handleShowModal() {
+      setShowModal(true);
+    }
+
+    function handleCloseModal() {
+      setShowModal(false);
+    }
 
   function inputItem(title,key) {
     return (
@@ -70,10 +87,14 @@ const MealEditable = ({ meal, dispatch }) => {
         <Form.Group>
           <Form.Label srOnly>{title}</Form.Label>
           <Form.Control type='text' placeholder={title} name={key} value={meal[key]}
-            onChange={(e) => dispatch({type:'meal_'+key+'/update',payload:e.target.value})} />
+            onChange={(e) => dispatch({type:'meal/update',payload:{key:key,value:e.target.value}})} />
         </Form.Group>
       </Col>
     )
+  }
+
+  function removeItem(food) {
+    dispatch({type: 'meal_food/remove', payload:{food: food}});
   }
 
   return (
@@ -86,8 +107,11 @@ const MealEditable = ({ meal, dispatch }) => {
           {inputItem('Location','location')}
         </Row>
       </Form>
+      <hr />
       <StatsBox cache={meal} />
+      <hr />
       <Row>
+        <h5>Ingredients:</h5>
         <Table striped bordered>
           <thead>
             <tr>
@@ -95,6 +119,7 @@ const MealEditable = ({ meal, dispatch }) => {
               <td>Servings</td>
               <td>Ingredient</td>
               <td>kCal</td>
+              <td></td>
             </tr>
           </thead>
           <tbody>
@@ -109,10 +134,21 @@ const MealEditable = ({ meal, dispatch }) => {
                   </td>
                   <td>{item.food.name}</td>
                   <td>{item.food.kCal}</td>
+                  <td>
+                    <Button variant='warning' onClick={() => removeItem(item.food)} >X</Button>
+                  </td>
                 </tr>
             )})}
           </tbody>
         </Table>
+        <Button variant='outline-primary' onClick={handleShowModal} >Show Food List</Button>
+        <Popup
+          show={showModal}
+          handleClose={handleCloseModal}
+          title='Food List'
+          body={<FoodList meal={meal} mealDispatch={dispatch} />}
+          footer={<div></div>}
+          />
       </Row>
     </Container>
   )

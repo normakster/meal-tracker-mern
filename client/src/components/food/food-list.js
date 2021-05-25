@@ -1,4 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container'
@@ -7,58 +8,64 @@ import Button from 'react-bootstrap/Button'
 
 import api from '../../api'
 import { foodsReducer } from './foods-reducer'
-import { NewFood } from './food-item';
 import SearchInput from '../search-component'
 
 // Business Logic
 
-async function fetchAll(dispatch) {
-  api.getAllFoods().then(data => {
-    dispatch({type:'FETCH_ALL',foods:data});
-  })
-}
-
 // Components
 
-const FoodRow = ({ food, inCache, mealDispatch }) => {
+const FoodRow = ({ food, replaceHistory, inCache, mealDispatch }) => {
+  let history = useHistory();
 
   function handleAddRemove() {
     if(!inCache) {
-      mealDispatch({type: 'ADD_INGR', food: food});
+      mealDispatch({type: 'meal_food/add', payload:{food: food}});
     } else {
-      mealDispatch({type: 'REMOVE_INGR_BYFOOD', food: food});
+      mealDispatch({type: 'meal_food/remove', payload:{food: food}});
     }
   }
 
+  function handleEdit() {
+    replaceHistory();
+    history.push({pathname: "/Food/",state:{id:food._id}});
+  }
+
   return (
-    <tr onClick={handleAddRemove} >
+    <tr>
       <td>{food.name}</td>
       <td>{food.desc}</td>
       <td>{food.kCal}</td>
       <td>
+      {/*
         <Link to={{pathname: "/Food/",state:{id:food._id}}}
         className='btn btn-info'>Edit</Link>
+      */}
+        <Button variant='info' onClick={handleEdit} >Edit</Button>
       </td>
       <td>
-        <Button className='warning' onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</Button>
+        <Button variant={inCache?'warning':'success'} onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</Button>
       </td>
     </tr>
   )
 }
 
-const FoodList = ({ meal, mealDispatch }) => {
+const FoodList = ({ meal, mealDispatch, ...props }) => {
+  let history = useHistory();
   const [foods,foodsDispatch] = useReducer(foodsReducer,[]);
-  let [newFoodItem, setNewFoodItem] = useState(null);
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
-
 
   useEffect(async () => {
     foodsDispatch({type:'foods/fetchAll',payload:(await api.getAllFoods())})
   },[])
 
-  function resetNewFood() {
-    setNewFoodItem(null);
+  function addNew() {
+    replaceHistory();
+    history.push('/Food');
+  }
+
+  function replaceHistory() {
+    history.replace({...history.location, state: {...history.location.state, meal:meal}});
   }
 
   return (
@@ -83,53 +90,13 @@ const FoodList = ({ meal, mealDispatch }) => {
                   inCache = true;
                 }
             });
-            return <FoodRow food={food} inCache={inCache} mealDispatch={mealDispatch} key={'foodRow-'+i}/>
+            return <FoodRow food={food} replaceHistory={replaceHistory} inCache={inCache} mealDispatch={mealDispatch} key={'foodRow-'+i}/>
           })}
+          <tr><td colSpan='5'>
+            <Button variant='info' onClick={addNew} >Create</Button>
+          </td></tr>
         </tbody>
       </Table>
-      {/*
-      <div className='container border border-info'>
-        <div className='row'>
-          <div className='col'>Name</div>
-          <div className='col'>Desc.</div>
-          <div className='col'>kCal</div>
-          <div className='col'></div>
-        </div>
-        {
-          filteredFoods.map((food,i) => {
-            let inCache = false;
-            meal.ingredients.forEach((c) => {
-              if(food._id === c.food._id) {
-                inCache = true;
-              }
-            });
-
-            return (
-              <FoodItem
-                foodItem={food}
-                foodsDispatch={foodsDispatch}
-                ingrDispatch={dispatch}
-                inCache={inCache}
-                key={food._id}
-                />
-            )
-          })
-        }
-        {newFoodItem}
-      </div>
-      */}
-      <br />
-      <br />
-      <div
-        onClick={() => setNewFoodItem(<NewFood callback={resetNewFood}/>)}
-        className='btn btn-info'
-      >Add New</div>
-      <br />
-      <br />
-      <div
-        onClick={() => console.log(foods)}
-        className='btn btn-light'
-      >CHECK_STATE</div>
     </Container>
   )
 }

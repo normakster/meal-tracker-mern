@@ -2,14 +2,8 @@ import { updateObject, updateItemInArray }  from '../../services/utilities'
 
 export function mealReducer(state, action) {
   switch (action.type) {
-    case 'meal_date/update':
-      return {...state, date: action.payload}
-      break;
-    case 'meal_time/update':
-      return {...state, time: action.payload}
-      break;
-    case 'meal_location/update':
-      return {...state, location: action.payload}
+    case 'meal/update':
+      return {...state, [(action.payload.key)]:action.payload.value}
       break;
     case 'meal_ingr/update':
       const newIngredients = updateItemInArray(state.ingredients, action.payload.id, ingr => {
@@ -17,16 +11,18 @@ export function mealReducer(state, action) {
       })
       return {...state, ingredients:newIngredients}
       break;
-    case 'ADD_INGR':
-      return {
-        ...state,
-        ingredients: state.ingredients.concat({
-          id: state.ingredients.reduce((maxId,item) => {
-            return Math.max(maxId,item.id) + 1
-          }, 0),
-          serv: '',
-          food: action.food,
-        })
+    case 'meal_food/add':
+      return { ...state, ingredients: state.ingredients.concat({
+        id: state.ingredients.reduce((maxId,item) => {
+          return Math.max(maxId,item.id) + 1
+        }, 0),
+        serv: '',
+        food: {...action.payload.food},
+      })}
+      break;
+    case 'meal_food/remove':
+      return { ...state,
+        ingredients: state.ingredients.filter((item, index) => item.food._id !== action.payload.food._id),
       }
       break;
     case 'REMOVE_INGR':
@@ -45,7 +41,7 @@ export function mealReducer(state, action) {
         )
       }
       break;
-    case 'INIT':
+    case 'meal/init':
       console.log('Reset Meal');
       return updateObject(state,action.payload)
       break;

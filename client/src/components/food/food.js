@@ -3,6 +3,7 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { foodReducer, initialState } from './food-reducer'
 
 import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 
@@ -15,11 +16,13 @@ const Food = ({ foodItem }) => {
   const [food,dispatch] = useReducer(foodReducer,initialState.food)
 
   useEffect(async () => {
-    dispatch({type:'INIT',payload:(await api.getFood(id))})
+    if(id) {
+      dispatch({type:'food/init',payload:(await api.getFood(id))})
+    }
   },[id])
 
   useEffect(() => {
-    dispatch({type:'KCAL'})
+    dispatch({type:'food_kcal/update'})
   },[food.fat,food.protien,food.carb])
 
   async function handleSave(updatedFood) {
@@ -35,6 +38,7 @@ const Food = ({ foodItem }) => {
   }
 
   function handleCancel(e) {
+    console.log(history.location.state);
     history.goBack();
   }
 
@@ -43,26 +47,19 @@ const Food = ({ foodItem }) => {
   }
 
   function apiSuccess(type,data) {
-    // console.log(type + '!');
     console.log(type + ': ' + JSON.stringify(data._id));
     history.goBack();
   }
 
-
-  const layout = {
-    formGroup: 'form-group form-row',
-    label: 'col-sm-1 col-form-label',
-    inputDiv: 'col-sm-10',
-    inputText: 'form-control mb-2',
-  }
-
-
-  function inputItem(title,key) {
+  function inputItem(title,key,disabled=false) {
     return (
-      <Form.Group>
-        <Form.Label>{title}</Form.Label>
-        <Form.Control type='text' placeholder={title} name={key} value={food[key]}
-          onChange={(e) => dispatch({type:'food/update',payload:{key:key,value:e.target.value}})} />
+      <Form.Group as={Row}>
+        <Form.Label column sm='2'>{title}</Form.Label>
+        <Col sm='5'>
+          <Form.Control  type='text' placeholder={title} name={key} value={food[key]}
+            onChange={(e) => dispatch({type:'food/update',payload:{key:key,value:e.target.value}})}
+            disabled={disabled} />
+        </Col>
       </Form.Group>
     )
   }
@@ -74,64 +71,24 @@ const Food = ({ foodItem }) => {
       <Form onSubmit={(e) => {e.preventDefault()}}>
         <div className='border border-info'>
           Details:
-          {inputItem('Name:','name')}
-          {inputItem('Desc:','desc')}
-          {/*
-            <Form.Row>
-            <label className={layout.label} >Name:</label>
-            <div className={layout.inputDiv}>
-              <input required name='name' type='text' className={layout.inputText}
-                  value={food.name} placeholder='Name'
-                  onChange={(e)=>dispatch({type:'NAME',payload:e.target.value})} />
-              </div>
-          </Form.Row>
-          <Form.Row>
-            <label className={layout.label} >Desc:</label>
-            <div className={layout.inputDiv}>
-              <input required name='desc' type='text' className={layout.inputText}
-                  value={food.desc} placeholder='Description'
-                  onChange={(e)=>dispatch({type:'DESC',payload:e.target.value})} />
-              </div>
-          </Form.Row>
-          */}
+          <Container>
+            {inputItem('Name:','name')}
+            {inputItem('Desc:','desc')}
+          </Container>
         </div>
         <div className='border border-info'>
           Stats:
-          <Form.Row className={layout.formGroup} >
-            <label className={layout.label} >kCals:</label>
-            <div className={layout.inputDiv}>
-              <input required disabled name='kCal' type='text' className={layout.inputText}
-                  value={food.kCal} placeholder='Calories'
-                  onChange={(e)=>dispatch({type:'KCAL',payload:e.target.value})} />
-              </div>
-          </Form.Row>
+          <Container>
+            {inputItem('Calories:','kCal',true)}
+          </Container>
         </div>
         <div className='border border-info'>
-          Macros:
-          <Form.Row className={layout.formGroup} >
-            <label className={layout.label} >Fat (g):</label>
-            <div className={layout.inputDiv} >
-              <input required name='fat' type='text' className={layout.inputText}
-                  value={food.fat} placeholder='Fat in Grams'
-                  onChange={(e)=>dispatch({type:'FAT',payload:e.target.value})} />
-              </div>
-          </Form.Row>
-          <Form.Row className={layout.formGroup} >
-            <label className={layout.label} >Protien (g):</label>
-            <div className={layout.inputDiv} >
-              <input required name='protien' type='text' className={layout.inputText}
-                  value={food.protien} placeholder='Protien in Grams'
-                  onChange={(e)=>dispatch({type:'PROTIEN',payload:e.target.value})} />
-              </div>
-          </Form.Row>
-          <Form.Row className={layout.formGroup} >
-            <label className={layout.label} >Carb (g):</label>
-            <div className={layout.inputDiv} >
-              <input required name='carb' type='text' className={layout.inputText}
-                  value={food.carb} placeholder='Carbs in Grams'
-                  onChange={(e)=>dispatch({type:'CARB',payload:e.target.value})} />
-              </div>
-          </Form.Row>
+          Macros / Servings:
+          <Container>
+            {inputItem('Fat (g):','fat',false)}
+            {inputItem('Protien (g):','protien',false)}
+            {inputItem('Carb (g):','carb',false)}
+          </Container>
         </div>
         <div className='row justify-content-center'>
           <input type='submit' value='Save' onClick={() => handleSave(food)}

@@ -12,3 +12,4 @@
 - Sever Render
 - SEO
 - Logo
+- BarCode Scanner that references FDA/USAD api
