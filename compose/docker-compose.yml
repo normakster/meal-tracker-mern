@@ -32,9 +32,6 @@ services:
       - proxy-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./deploy/traefik/logs/:/logs/
-      - ./deploy/traefik/acme/:/acme/
-      - ./deploy/traefik/rules.yml:/config/rules.yml
     restart: always
 
   mongo:

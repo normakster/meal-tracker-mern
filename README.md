@@ -100,12 +100,18 @@ Please reach out and contribute if you find this project interesting.
 
 #### Local
 ```
-docker-compose up
+cd meal-tracker-mern
+cd ./server
+npm ci --silent
+cd ../client
+npm ci --silent
+cd ../compose
+docker-compose up --build
 ```
 
 #### Cluster
 ```
-kubectl config use-context <config>
+kubectl config use-context <context-to-YOUR-cluster>
 helm install traefik traefik/traefik
 kubectl apply -f ./kube/
 ```
