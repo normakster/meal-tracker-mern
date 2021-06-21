@@ -17,12 +17,13 @@ export {
   handleResponse,
 }
 
-export default {
+const api = {
 
   // Meal Routes
   postMeal: meal.post,
   getMeal: meal.get,
   putMeal: meal.put,
+  deleteMeal: meal.remove,
   getAllMeals: meal.getAll,
 
   // Food Routes
@@ -31,4 +32,6 @@ export default {
   putFood: food.put,
   deleteFood: food.remove,
   getAllFoods: food.getAll,
-}
+};
+
+export default api

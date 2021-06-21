@@ -34,6 +34,17 @@ const put = async ( meal ) => {
   }
 }
 
+const remove = async ( id ) => {
+  try {
+    let result = await http.delete(`/meals/${id}`)
+      .then(res => handleResponse(res))
+    return result
+  } catch (e) {
+    console.error(e);
+    return null
+  }
+}
+
 const getAll = async () => {
   try {
     let result = await http.get(`/meals/`)
@@ -46,8 +57,9 @@ const getAll = async () => {
 }
 
 export {
-  put,
-  get,
   post,
+  get,
+  put,
+  remove,
   getAll,
 }
