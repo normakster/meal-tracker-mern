@@ -7,6 +7,7 @@ router.route('/').post((req,res) => {
   const meal = new Meal({
     date: req.body.date,
     time: req.body.time,
+    datetime: req.body.datetime,
     location: req.body.location,
     // ingredients: sentIngredients
     ingredients: req.body.ingredients.map((item) => {
@@ -36,6 +37,7 @@ router.route('/:id').put((req, res) => {
     .then(meal => {
       meal.date = req.body.date,
       meal.time = req.body.time,
+      meal.datetime = req.body.datetime,
       meal.location = req.body.location,
       meal.ingredients = req.body.ingredients.map((item) => {
         return {
@@ -54,6 +56,12 @@ router.route('/').get((req, res) => {
   Meal.find()
     .then(meals => res.json(meals))
     .catch(err => res.status(400).json('Error: ' + err))
+})
+
+router.route('/:id').delete((req, res) => {
+  Meal.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Meal deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));
 })
 
 module.exports = router;

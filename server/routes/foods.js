@@ -17,7 +17,7 @@ router.route('/').post((req, res) => {
     desc: req.body.desc,
     kCal:Number(req.body.kCal),
     fat: Number(req.body.fat),
-    protien: Number(req.body.protien),
+    protein: Number(req.body.protein),
     carb: Number(req.body.carb)
   });
 
@@ -44,7 +44,7 @@ router.route('/:id').put((req, res) => {
       food.desc = req.body.desc;
       food.kCal = Number(req.body.kCal);
       food.fat = Number(req.body.fat);
-      food.protien = Number(req.body.protien);
+      food.protein = Number(req.body.protein);
       food.carb = Number(req.body.carb);
 
       food.save()

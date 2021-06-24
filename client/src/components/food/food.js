@@ -1,5 +1,5 @@
-import { useState, useEffect, useReducer } from 'react';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useEffect, useReducer } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { foodReducer, initialState } from './food-reducer'
 
 import Container from 'react-bootstrap/Container'
@@ -15,15 +15,18 @@ const Food = ({ foodItem }) => {
   let id = location.state ? location.state.id : undefined;
   const [food,dispatch] = useReducer(foodReducer,initialState.food)
 
-  useEffect(async () => {
-    if(id) {
-      dispatch({type:'food/init',payload:(await api.getFood(id))})
+  useEffect(() => {
+    async function fetch() {
+      if(id) {
+        dispatch({type:'food/init',payload:(await api.getFood(id))})
+      }
     }
+    fetch()
   },[id])
 
   useEffect(() => {
     dispatch({type:'food_kcal/update'})
-  },[food.fat,food.protien,food.carb])
+  },[food.fat,food.protein,food.carb])
 
   async function handleSave(updatedFood) {
     if(id) {
@@ -86,7 +89,7 @@ const Food = ({ foodItem }) => {
           Macros / Servings:
           <Container>
             {inputItem('Fat (g):','fat',false)}
-            {inputItem('Protien (g):','protien',false)}
+            {inputItem('Protein (g):','protein',false)}
             {inputItem('Carb (g):','carb',false)}
           </Container>
         </div>

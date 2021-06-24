@@ -2,8 +2,9 @@ import { useState, useEffect, useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
+import { QuickBites } from '../home'
+import { MealsChart } from '../charts'
 import api from '../../api'
 
 const mealHistoryReducer = (state,action) => {
@@ -13,45 +14,85 @@ const mealHistoryReducer = (state,action) => {
         return [...(action.payload)]
       }
       return state
-      break;
     default:
       return state
   }
 }
 
-const MealHistory = () => {
-  const history = useHistory()
-  const [meals,dispatch] = useReducer(mealHistoryReducer,[])
+function formatDate(datetime) {
+  const options = {
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    hour12: false
+  }
+  return new Intl.DateTimeFormat('en-US',options).format(new Date(datetime))
+}
 
-  useEffect(async () => {
-    dispatch({type:'meal/fetchAll',payload:(await api.getAllMeals())})
+const MealHistory = () => {
+  const history = useHistory();
+  const [meals,dispatch] = useReducer(mealHistoryReducer,[]);
+  const [isLoading,setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let didCancel = false;
+    async function fetchData() {
+      !didCancel && setIsLoading(true);
+      try {
+        const data = await api.getAllMeals();
+        !didCancel && dispatch({type:'meal/fetchAll',payload:(data)})
+      } catch (e) {
+        console.log(e);
+      } finally {
+        !didCancel && setIsLoading(false);
+      }
+    }
+    fetchData()
+    return () => {didCancel = true}
   },[])
+
+  async function handleRemove(id) {
+    try {
+      await api.deleteMeal(id);
+      const data = await api.getAllMeals();
+      dispatch({type:'meal/fetchAll',payload:(data)})
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function handleClick(id) {
+    history.push({
+      pathname: '/Meal/',
+      state: { id: id }
+    })
+  }
 
   function mealItem(meal,i) {
     return (
-      <tr className='border rounded' key={i}
-        onClick={() => history.push({
-          pathname: '/Meal/',
-          state: { id: meal._id }
-        })}>
-        <td>{meal.time}</td>
-        <td>{meal.date}</td>
-        <td>{meal.location}</td>
-        <td>{meal.ingredients.length}</td>
+      <tr className='border rounded' key={i}>
+        <td onClick={() => handleClick(meal._id)}>{formatDate(meal.datetime)}</td>
+        <td onClick={() => handleClick(meal._id)}>{meal.location}</td>
+        <td onClick={() => handleClick(meal._id)}>{meal.ingredients.length}</td>
+        <td>
+          <Button variant='warning' onClick={() => handleRemove(meal._id)} >remove</Button>
+        </td>
       </tr>
     )
   }
 
   return (
     <Container className=''>
+      <hr />
+      <QuickBites />
+      <hr />
       <h5>Meal List:</h5>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <td>Time</td>
-            <td>Date</td>
+            <td>Date / Time</td>
             <td>Location</td>
             <td>Ingr. Qt.</td>
+            <td></td>
           </tr>
         </thead>
         <tbody>
@@ -60,8 +101,8 @@ const MealHistory = () => {
       </Table>
       <br />
       {/*
-      <div className='row btn btn-secondary d-none'
-        onClick={async (e) => dispatch({type:'meal/fetchAll',payload:(await api.getAllMeals())})} >
+      <div className='btn btn-secondary d-block'
+        onClick={() => update()} >
         Fetch
       </div>
       */}

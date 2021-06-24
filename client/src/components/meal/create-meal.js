@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -7,6 +7,8 @@ import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
 import StatsBox from './meal-statBox'
 import FoodList from '../food/food-list';
@@ -19,10 +21,16 @@ import api from '../../api'
 
 const initialState = {
   meal: {
-    date: '',
-    time: '',
-    location: '',
+    date: Date.now(),
+    time: Date.now(),
+    datetime: new Date(),
+    location: 'Location',
     ingredients: [],
+    nutri: {
+      protein: 0,
+      carb: 0,
+      fat: 0,
+    }
   },
 }
 
@@ -34,19 +42,25 @@ const Meal = ({ ...props }) => {
   let history = useHistory();
   let location = useLocation();
   let id = location.state ? location.state.id : undefined;
-  const [meal, dispatch] = useReducer(mealReducer,initialState.meal)
-
-  useEffect(async () => {
-    if(id) {
-      dispatch({type:'meal/init',payload:(await api.getMeal(id))})
-    }
-  },[])
+  const [meal, dispatch] = useReducer(mealReducer,initialState.meal);
+  const [isLoading,setIsLoading] = useState(true);
 
   useEffect(() => {
-    if(history.location.state.hasOwnProperty('meal')) {
-      dispatch({type:'meal/init',payload:history.location.state.meal})
+    async function fetch() {
+      if(id) {
+        dispatch({type:'meal/init',payload:(await api.getMeal(id))})
+      }
     }
-  },[])
+    fetch()
+  },[id])
+
+  useEffect(() => {
+    if(history.location.state) {
+      if(history.location.state.hasOwnProperty('meal')) {
+        dispatch({type:'meal/init',payload:history.location.state.meal})
+      }
+    }
+  },[history.location.state])
 
   async function handleSave(updatedMeal) {
     if(id) {
@@ -56,6 +70,7 @@ const Meal = ({ ...props }) => {
     } else {
       let data = await api.postMeal(updatedMeal);
       console.log('Created: ' + JSON.stringify(data._id));
+      console.log(updatedMeal);
       history.push('/');
     }
   }
@@ -102,8 +117,15 @@ const MealEditable = ({ meal, dispatch }) => {
       <Row><h5>Meal:</h5></Row>
       <Form>
         <Row>
-          {inputItem('Date','date')}
-          {inputItem('Time','time')}
+          <DatePicker
+            selected={meal.datetime ? new Date(meal.datetime) : null}
+            onChange={(date) => dispatch({type:'meal/update',payload:{key:'datetime',value:date}})}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="MM-dd-yyyy HH:mm"
+          />
           {inputItem('Location','location')}
         </Row>
       </Form>

@@ -1,6 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container'
 import Table from 'react-bootstrap/Table'
@@ -55,8 +54,11 @@ const FoodList = ({ meal, mealDispatch, ...props }) => {
   const [filterValue, setFilterValue] = useState('');
   let filteredFoods = foods.filter(({ name }) => name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
 
-  useEffect(async () => {
-    foodsDispatch({type:'foods/fetchAll',payload:(await api.getAllFoods())})
+  useEffect(() => {
+    async function fetch() {
+      foodsDispatch({type:'foods/fetchAll',payload:(await api.getAllFoods())})
+    }
+    fetch()
   },[])
 
   function addNew() {
