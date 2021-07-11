@@ -20,6 +20,9 @@ import { Link } from 'react-router-dom';
           <Link to="/Scanner" className="nav-link">Scanner</Link>
         </li>
         <li className="navbar-item">
+          <Link to="/Pantry" className="nav-link">Pantry</Link>
+        </li>
+        <li className="navbar-item">
           <Link to="/Cook" className="nav-link">Cook</Link>
         </li>
         <li className="navbar-item">
