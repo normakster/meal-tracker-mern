@@ -88,9 +88,9 @@ const Food = ({ foodItem }) => {
         <div className='border border-info'>
           Macros / Servings:
           <Container>
-            {inputItem('Fat (g):','fat',false)}
             {inputItem('Protein (g):','protein',false)}
             {inputItem('Carb (g):','carb',false)}
+            {inputItem('Fat (g):','fat',false)}
           </Container>
         </div>
         <div className='row justify-content-center'>

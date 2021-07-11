@@ -24,12 +24,14 @@ This project is currently incomplete and for demonstration purposes only.
 - Maintains
   - User profile
   - History of meals
-  - Repository of Ingredients
+  - Inventory of food on hand
+  - Repository of past ingredients
   - List of typical "Quick Bites"
 - Technical requirements
-  - Cloud based
-  - MERN (MongoDb, Express, Reactjs, Nodejs)
-  - Possible Stack: Graphql, Apollo, Kubernetes, Docker, Helm, Jenkins/Travis, Nginx, [Testing], Koltin app
+  - Cloud based [Kubernetes, Docker, Helm, Jenkins]
+  - Infrastructure [Traefik, Nginx, AWS]
+  - MERN [MongoDb, Express, Reactjs, Nodejs]
+  - Possible Stack: Graphql, Apollo, TravisCI, Jest, Cypress, Koltin app [Scanner]
 - Possible "Tie-Ins"
   1. Weight Tracking
   1. Exercise Tracking
@@ -107,6 +109,7 @@ cd ../client
 npm ci --silent
 cd ../compose
 docker-compose up --build
+http://nutri.localhost
 ```
 
 #### Cluster

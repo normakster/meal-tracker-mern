@@ -15,7 +15,7 @@ function statReducer(state, action) {
         carb: (state.carb +(food.carb * serv))
       }
     case 'reset':
-      return {...state, ...initialStats}
+      return {...state, ...(action.payload)}
     default:
       return state
   }
@@ -28,16 +28,16 @@ const initialStats = {
   carb: 0,
 }
 
-const StatsBox = ({cache, ...props }) => {
-  const [stats,dispatch] = useReducer(statReducer,initialStats);
+const StatsBox = ({cache, nutrients, ...props }) => {
+  const [stats,dispatch] = useReducer(statReducer, nutrients? nutrients: initialStats);
   const statNames = ['kCal','fat','protein','carb'];
 
   useEffect(() => {
-    dispatch({type:'reset'})
+    dispatch({type:'reset',payload:{...initialStats}})
     cache.ingredients.forEach(c => {
       dispatch({type:'statBox/update',payload:{food:c.food,serv:c.serv}})
     })
-  },[cache.ingredients])
+  },[cache])
 
 
   return (

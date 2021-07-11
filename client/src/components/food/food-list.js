@@ -87,11 +87,13 @@ const FoodList = ({ meal, mealDispatch, ...props }) => {
         <tbody>
           {filteredFoods.map((food,i) => {
             let inCache = false;
-            meal.ingredients.forEach((c) => {
-                if(food._id === c.food._id) {
-                  inCache = true;
-                }
-            });
+            if(meal) {
+              meal.ingredients.forEach((c) => {
+                  if(food._id === c.food._id) {
+                    inCache = true;
+                  }
+              });
+            }
             return <FoodRow food={food} replaceHistory={replaceHistory} inCache={inCache} mealDispatch={mealDispatch} key={'foodRow-'+i}/>
           })}
           <tr><td colSpan='5'>

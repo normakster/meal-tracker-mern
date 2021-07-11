@@ -130,7 +130,7 @@ const MealEditable = ({ meal, dispatch }) => {
         </Row>
       </Form>
       <hr />
-      <StatsBox cache={meal} />
+      <StatsBox cache={meal} nutrients={undefined} />
       <hr />
       <Row>
         <h5>Ingredients:</h5>
