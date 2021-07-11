@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 
 import api from '../../api'
 import { foodsReducer } from './foods-reducer'
-import SearchInput from '../search-component'
+import SearchInput from './search-component'
 
 // Business Logic
 
