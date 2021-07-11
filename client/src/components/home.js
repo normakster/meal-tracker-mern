@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+// import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
+// import Chart from 'chart.js/auto';
+
 import MealHistory from './meal/meal-history'
 import { quickies } from '../data/dummy'
 
@@ -10,14 +13,10 @@ import { quickies } from '../data/dummy'
 
 // Components
 
-const Home = ({ }) => {
+const Home = () => {
 
   return (
     <div>
-      <Dashboard />
-      <br />
-      <QuickBites />
-      <br />
       <MealHistory />
       <br />
     </div>
@@ -32,7 +31,7 @@ const Dashboard = ({  }) => {
   )
 }
 
-const QuickBites = ({  }) => {
+const QuickBites = () => {
 
   return (
     <div>
@@ -53,5 +52,6 @@ const QuickBites = ({  }) => {
 
 export {
   Dashboard,
+  QuickBites,
   Home
 }
