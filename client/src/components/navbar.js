@@ -14,6 +14,12 @@ import { Link } from 'react-router-dom';
           <Link to="/About" className="nav-link">About</Link>
         </li>
         <li className="navbar-item">
+          <Link to="/Profile" className="nav-link">Profile</Link>
+        </li>
+        <li className="navbar-item">
+          <Link to="/Scanner" className="nav-link">Scanner</Link>
+        </li>
+        <li className="navbar-item">
           <Link to="/Cook" className="nav-link">Cook</Link>
         </li>
         <li className="navbar-item">
