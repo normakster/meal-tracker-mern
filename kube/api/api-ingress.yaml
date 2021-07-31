@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: apiingressroute
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`kameron.io`) && PathPrefix(`/api`)
+    kind: Rule
+    services:
+    - name: api
+      port: 8081
+
+---
