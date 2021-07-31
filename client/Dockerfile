@@ -10,7 +10,8 @@ RUN npm run build
 # Production
 FROM nginx:alpine
 
-COPY --from=build /app/build /usr/share/nginx/html
+ARG SITE
+COPY --from=build /app/build /usr/share/nginx/html${SITE}
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d/
 EXPOSE 80

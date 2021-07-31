@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = '/api';
 // axios.defaults.baseURL = 'http://localhost:5000' + '/api';
-axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://kameron.io' + '/api';
 
 axios.interceptors.response.use(null, error => {
   return Promise.reject(error);
