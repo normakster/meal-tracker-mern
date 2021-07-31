@@ -1,4 +1,11 @@
 # Pipeline
+Concept: Leap Frog with blue/green && latest/edge && prod/dev
+
+Branch | Role | Stability
+--- | --- | ---
+Main | Latest | Stable
+Dev | Edge | QA
+[Pull Req] | QA | Not
 
 1. Git -> Docker
 1. Docker -> new version
@@ -10,19 +17,24 @@
     - docker build -f ./client/Dockerfile_without-NGINX -t normak458/meal-tracker_client_local ./client
   - Tag - docker tag [source:tag] [target:tag]
   - Push - docker push [image:tag]
-1. Kube -> Blue version
+1. Kube -> Versions [Blue|Green|Public]
   - Provision Infrastructure
     - Hardware (Instances)
     - Cluster
   - Deploy
-    - Reverse Proxy
-    - Routers
+    - Routers (IngressRoute)
     - Services
     - Deployment
   - Check
     - Health Checks
     - Log Files
 1. Kube -> Switch Router from Green to Blue
+  - Migrations
+    - DB data
+    - Env variables
+  - Scale Up [target]
+  - Switch public service
+  - Scale Down [origin]
 
 ## Continuous Integration / Deployment / Delivery
 
