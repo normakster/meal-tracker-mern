@@ -10,3 +10,4 @@ data:
   CHOKIDAR_USEPOLLING: "true"
   NODE_ENV: development
   REACT_APP_API_URL: "10.128.33.10:8081" # Backend Host
+  API_URL: "kameron.io" # Backend Host

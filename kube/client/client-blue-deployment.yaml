@@ -1,70 +1,27 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: meal-tracker-client
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: clientingressroute
-  namespace: default
-
-spec:
-  entryPoints:
-    - web
-
-  routes:
-  - match: Host(`nutri.kameron.io`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: client
-      port: 80
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: client
-spec:
-  ports:
-  - name: http
-    port: 80
-  selector:
-    app: meal-tracker
-    task: client
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  annotations:
-  creationTimestamp: null
-  labels:
-    app: meal-tracker
-  name: client
+  name: client-blue
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: meal-tracker
       task: client
-  strategy: {}
+      role: blue
   template:
     metadata:
-      annotations:
-      creationTimestamp: null
       labels:
         app: meal-tracker
         task: client
+        role: blue
     spec:
       containers:
       - name: client
         image: normak458/meal-tracker_client:v0.0.2
-        imagePullPolicy: IfNotPresent #Always #IfNotPresent
+        imagePullPolicy: Always #Always #IfNotPresent
         ports:
         - containerPort: 80
-        resources: {}
         stdin: true
         env:
           - name: CHOKIDAR_USEPOLLING
@@ -84,4 +41,3 @@ spec:
                 name: cloud--env
       restartPolicy: Always
       volumes: null
-status: {}
