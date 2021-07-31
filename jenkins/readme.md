@@ -6,8 +6,8 @@
   - Build [DB, API, Client, Client-Local]
     - docker build -f ./db/dockerfile -t normak458/meal-tracker_mongo ./db
     - docker build -f ./server/Dockerfile -t normak458/meal-tracker_api ./server
-    - docker build -f ./client/Dockerfile -t normak458/normak458/meal-tracker_client ./client
-    - docker build -f ./client/Dockerfile_without-NGINX -t normak458/normak458/meal-tracker_client_local ./client
+    - docker build -f ./client/Dockerfile -t normak458/meal-tracker_client ./client
+    - docker build -f ./client/Dockerfile_without-NGINX -t normak458/meal-tracker_client_local ./client
   - Tag - docker tag [source:tag] [target:tag]
   - Push - docker push [image:tag]
 1. Kube -> Blue version
