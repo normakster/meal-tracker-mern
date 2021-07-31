@@ -63,7 +63,7 @@ services:
       # - HOST=localhost
     labels:
      - "traefik.enable=true"
-     - "traefik.http.routers.client.rule=Host(`nutri.localhost`)&&PathPrefix(`/`)"
+     - "traefik.http.routers.client.rule=Host(`localhost`)&&PathPrefix(`/apps`)"
      - "traefik.http.routers.client.entrypoints=web"
     ports:
      - "3000:3000"
@@ -72,6 +72,30 @@ services:
     # stdin_open: true
     volumes:
       - ../client:/opt/app
+
+  client-nginx:
+    container_name: client_nginx
+    build:
+      context: ../client
+      args:
+        SITE: $SITE
+      dockerfile: Dockerfile
+    image: normak458/meal-tracker_client
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      # - URI=/apps/nutri
+    # env_file:
+    #   - ../client/.env
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.client.rule=Host(`localhost`)&&PathPrefix(`${SITE}`)"
+     - "traefik.http.routers.client.entrypoints=web"
+    ports:
+     - "3000:3000"
+    networks:
+      - proxy-net
 
   api:
     build:
@@ -85,7 +109,7 @@ services:
       # - HOST=localhost:3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`nutri.localhost`)&&PathPrefix(`/api`)"
+      - "traefik.http.routers.api.rule=Host(`localhost`)&&PathPrefix(`/api`)"
       - "traefik.http.routers.api.entrypoints=web"
     ports:
       - "8081:8081"
