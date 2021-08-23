@@ -39,6 +39,7 @@ const corsOptions = {
     `http://nutri.localhost`
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
+  // credentials: true // enable set cookie
 }
 app.options('*', cors(corsOptions));
 app.use(cors());

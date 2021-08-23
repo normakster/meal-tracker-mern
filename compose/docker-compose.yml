@@ -85,12 +85,6 @@ services:
     image: normak458/meal-tracker_client_local
     # env_file:
     #  - ../client/.env
-    environment:
-      - NODE_ENV=development
-      # - REACT_APP_API_URL=http://localhost:8081
-      - CHOKIDAR_USEPOLLING=true
-      - DANGEROUSLY_DISABLE_HOST_CHECK=true
-      # - HOST=localhost
     labels:
      - "traefik.enable=true"
      - "traefik.http.routers.client.rule=Host(`nutri.localhost`)&&PathPrefix(`/`)"
@@ -111,13 +105,6 @@ services:
         SITE: ${SITE}
       dockerfile: Dockerfile
     image: normak458/meal-tracker_client
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - DANGEROUSLY_DISABLE_HOST_CHECK=true
-      # - URI=/apps/nutri
-    # env_file:
-    #   - ../client/.env
     labels:
      - "traefik.enable=true"
      - "traefik.http.routers.client_nginx.rule=Host(`nutri.localhost`)&&PathPrefix(`/${SITE}`)"
