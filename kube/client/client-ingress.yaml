@@ -12,5 +12,10 @@ spec:
     services:
     - name: client
       port: 80
+  - match: Host(`nutri.kameron.io`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: client
+      port: 80
 
 ---

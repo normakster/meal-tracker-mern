@@ -15,7 +15,7 @@ import Profile from './components/profile/profile'
 
 function App() {
   return (
-    <Router basename="/apps/nutri">
+    <Router basename="/">
       <div className='container'>
       <Navbar />
       <br/>

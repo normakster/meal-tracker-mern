@@ -35,15 +35,13 @@ const corsOptions = {
   origin: [
     `https://${host}`,
     `http://${host}`,
-    `${host}`
+    `${host}`,
+    `http://nutri.localhost`
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true // enable set cookie
 }
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  next();
-});
+app.options('*', cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Path routing

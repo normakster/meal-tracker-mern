@@ -1,7 +1,7 @@
 import axios from 'axios';
+import settings from '../config/settings';
 
-// axios.defaults.baseURL = 'http://localhost:5000' + '/api';
-axios.defaults.baseURL = 'http://kameron.io' + '/api';
+axios.defaults.baseURL = settings.apiURL + '/api';
 
 axios.interceptors.response.use(null, error => {
   return Promise.reject(error);
