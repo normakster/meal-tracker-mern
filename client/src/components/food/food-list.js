@@ -42,7 +42,7 @@ const FoodRow = ({ food, replaceHistory, inCache, mealDispatch }) => {
         <Button variant='info' onClick={handleEdit} >Edit</Button>
       </td>
       <td>
-        <Button variant={inCache?'warning':'success'} onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</Button>
+        <Button disabled={mealDispatch?false:true} variant={inCache?'warning':'success'} onClick={handleAddRemove} >{inCache ? 'X' : 'Add'}</Button>
       </td>
     </tr>
   )

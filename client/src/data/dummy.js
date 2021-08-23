@@ -39,7 +39,7 @@ export const foodSchema = [
   { title: 'kCal', value: 'kCal' },
 ]
 export const quickies = [
-  { name: 'burger', _id: '60a9520a5832690024b31fa0' },
+  // { name: 'burger', _id: '60a9520a5832690024b31fa0' },
   { name: 'create new', _id: '' },
 ]
 export const mealSchema = [
