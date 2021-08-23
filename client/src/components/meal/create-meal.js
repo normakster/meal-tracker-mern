@@ -48,7 +48,7 @@ const Meal = ({ ...props }) => {
   useEffect(() => {
     async function fetch() {
       if(id) {
-        dispatch({type:'meal/init',payload:(await api.getMeal(id))})
+        dispatch({type:'meal/init',payload:(await api.meals.get(id))})
       }
     }
     fetch()
@@ -64,11 +64,11 @@ const Meal = ({ ...props }) => {
 
   async function handleSave(updatedMeal) {
     if(id) {
-      let data = await api.putMeal(updatedMeal);
+      let data = await api.meals.put(updatedMeal);
       console.log('Updated: ' + JSON.stringify(data._id));
       history.push('/');
     } else {
-      let data = await api.postMeal(updatedMeal);
+      let data = await api.meals.post(updatedMeal);
       console.log('Created: ' + JSON.stringify(data._id));
       console.log(updatedMeal);
       history.push('/');
