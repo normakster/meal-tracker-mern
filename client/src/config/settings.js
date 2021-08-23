@@ -1,3 +1,4 @@
 module.exports = {
-  apiURL: process.env.REACT_APP_API_URL || 'localhost:8081',
+  apiURL: process.env.REACT_APP_API_URL || 'http://localhost',
+  version: process.env.REACT_APP_VERSION,
 }

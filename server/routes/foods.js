@@ -8,7 +8,7 @@ const Foods = []
 
 // })
 
-router.route('/').post((req, res) => {
+router.route('/').post((req, res, next) => {
   logger.debug(req.body);
 
 
@@ -31,13 +31,13 @@ router.route('/').post((req, res) => {
   });
 });
 
-router.route('/:id').get((req, res) => {
+router.route('/:id').get((req, res, next) => {
   Food.findById(req.params.id)
     .then(food => res.json(food))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').put((req, res) => {
+router.route('/:id').put((req, res, next) => {
   Food.findById(req.params.id)
     .then(food => {
       food.name = req.body.name;
@@ -54,13 +54,13 @@ router.route('/:id').put((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/:id').delete((req, res, next) => {
   Food.findByIdAndDelete(req.params.id)
     .then(() => res.json('Food deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/').get((req, res) => {
+router.route('/').get((req, res, next) => {
   Food.find()
     .then(foods => res.json(foods))
     .catch(err => res.status(400).json('Error: ' + err));

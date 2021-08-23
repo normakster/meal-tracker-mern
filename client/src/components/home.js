@@ -35,7 +35,7 @@ const QuickBites = () => {
 
   return (
     <div>
-      <h5>Quick Bites: </h5>
+      <h5>Favories: </h5>
       <div>
         {quickies.map((bite,i) => {
           return (

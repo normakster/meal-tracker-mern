@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import settings from '../config/settings';
+
  const Navbar = (props) => {
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-      <Link to="/" className="navbar-brand">Meal-Tracker</Link>
+      <Link to="/" className="navbar-brand">Meal-Tracker {settings.version}</Link>
       <div className="collpase navbar-collapse">
       <ul className="navbar-nav mr-auto">
         <li className="navbar-item">

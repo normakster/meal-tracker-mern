@@ -43,7 +43,6 @@ const Profile = () => {
             onChange={(e) => dispatch({type:'profile_targets/updated',payload:{...profile.targets, daily_cal:e.target.value}})} />
         </Form.Group>
       </Col>
-      <div>{profile.targets.daily_cal}</div>
     </Container>
   )
 }

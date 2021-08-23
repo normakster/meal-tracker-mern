@@ -1,62 +1,20 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: meal-tracker-api
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: apiingressroute
-  namespace: default
-
-spec:
-  entryPoints:
-    - web
-
-  routes:
-  - match: Host(`nutri.kameron.io`) && PathPrefix(`/api`)
-    kind: Rule
-    services:
-    - name: api
-      port: 8081
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: api
-spec:
-  ports:
-  - name: http
-    port: 8081
-  selector:
-    app: meal-tracker
-    task: api
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  annotations:
-  creationTimestamp: null
-  labels:
-    app: meal-tracker
-  name: api
+  name: api-blue
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: meal-tracker
       task: api
-  strategy: {}
+      role: blue
   template:
     metadata:
-      annotations:
-      creationTimestamp: null
       labels:
         app: meal-tracker
         task: api
+        role: blue
     spec:
       containers:
       - name: api
@@ -64,7 +22,6 @@ spec:
         imagePullPolicy: IfNotPresent #Always #IfNotPresent
         ports:
         - containerPort: 8081
-        resources: {}
         env:
           - name: HOST
             valueFrom:
@@ -88,4 +45,3 @@ spec:
                 name: cloud--env
       restartPolicy: Always
       volumes: null
-status: {}

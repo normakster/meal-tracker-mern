@@ -1,0 +1,21 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: clientingressroute
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`kameron.io`) && PathPrefix(`/apps/nutri`)
+    kind: Rule
+    services:
+    - name: client
+      port: 80
+  - match: Host(`nutri.kameron.io`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: client
+      port: 80
+
+---

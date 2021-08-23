@@ -3,7 +3,7 @@ const { Meal } = require('../models/meal.model');
 const { Food } = require('../models/food.model');
 const logger = require('log4js').getLogger();
 
-router.route('/').post((req,res) => {
+router.route('/').post((req,res,next) => {
   const meal = new Meal({
     date: req.body.date,
     time: req.body.time,
@@ -26,13 +26,13 @@ router.route('/').post((req,res) => {
     })
 })
 
-router.route('/:id').get((req, res) => {
+router.route('/:id').get((req, res, next) => {
   Meal.findById(req.params.id)
     .then(meal => res.json(meal))
     .catch(err => res.status(400).json('Error: ' + err));
 })
 
-router.route('/:id').put((req, res) => {
+router.route('/:id').put((req, res, next) => {
   Meal.findById(req.params.id)
     .then(meal => {
       meal.date = req.body.date,
@@ -52,13 +52,13 @@ router.route('/:id').put((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 })
 
-router.route('/').get((req, res) => {
+router.route('/').get((req, res, next) => {
   Meal.find()
     .then(meals => res.json(meals))
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/:id').delete((req, res) => {
+router.route('/:id').delete((req, res, next) => {
   Meal.findByIdAndDelete(req.params.id)
     .then(() => res.json('Meal deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));

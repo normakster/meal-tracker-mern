@@ -9,4 +9,5 @@ data:
   BACKEND_PORT: "8081" # Backend Port
   CHOKIDAR_USEPOLLING: "true"
   NODE_ENV: development
-  REACT_APP_API_URL: "10.128.33.10:8081" # Backend Host
+  REACT_APP_API_URL: nutri.kameron.io
+  REACT_APP_VERSION: v0.0.2
