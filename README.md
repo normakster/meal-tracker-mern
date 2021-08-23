@@ -6,27 +6,27 @@ DEMO: http://nutri.kameron.io
 
 See [Specs document](https://github.com/normakster/meal-tracker-mern/blob/main/docs/Spec.md)
 
+See [Backlog](https://github.com/normakster/meal-tracker-mern/blob/client-v0.0.2/docs/Product%20Backlog.md)
+
 ### *Scope and status*
-- A Nutritional OKR system (objective and key result) for users and their advisers.
+- Tracks food items from Grocery through Pantry to Consumption as Nutrients.
+
+- Compares historic data to goals and/or guidelines to influence behavior.
 
 - To facilitate nutritional awareness and answer the question "What should I eat right now".
 
-- Tracks from Grocery through Pantry to Consumption and Nutrients.
-
-- Compares historic data to goals and/or guidelines to influence behavior.
+- A Nutritional OKR system (objective and key result) for users and their advisers.
 
 ### *Warnings*
 This project is currently incomplete
 and for portfolio demonstration
 purposes only.
 
-[//]: # (
 ### *Environmental variables*
 
 ```
 N/A atm.
 ```
-)
 
 ### *Deployment*
 
@@ -53,4 +53,4 @@ http://nutri.[your_domain]
 ### *Call to action*
 Please reach out and contribute if you find this project interesting.  
 
-Socials: -  Discord
+[//]: # (Socials: -  Discord)
