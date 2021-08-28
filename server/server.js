@@ -50,10 +50,12 @@ const usersRouter = require('./routes/users');
 const foodsRouter = require('./routes/foods');
 const mealsRouter = require('./routes/meals');
 const pantryRouter = require('./routes/pantry');
+const fdaFoodsRouter = require('./routes/fdaFoods');
 app.use('/api/users', usersRouter);
 app.use('/api/foods', foodsRouter);
 app.use('/api/meals', mealsRouter);
 app.use('/api/pantry', pantryRouter);
+app.use('/api/fda', fdaFoodsRouter);
 
 // -----------------------------------------------------
 

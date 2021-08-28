@@ -1,4 +1,11 @@
-import http from '../services/axios.service';
+import http from 'axios';
+import settings from '../config/settings';
+
+http.defaults.baseURL = settings.apiURL + '/api';
+
+http.interceptors.response.use(null, error => {
+  return Promise.reject(error);
+});
 
 function handleResponse(res) {
   if (res.status >= 400 && res.status < 600) {
