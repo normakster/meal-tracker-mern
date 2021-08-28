@@ -12,23 +12,25 @@ import settings from '../config/settings';
         <li className="navbar-item">
           <Link to="/" className="nav-link">Home</Link>
         </li>
+        {/*
         <li className="navbar-item">
           <Link to="/About" className="nav-link">About</Link>
         </li>
         <li className="navbar-item">
-          <Link to="/Profile" className="nav-link">Profile</Link>
+          <Link to="/Foods" className="nav-link">List</Link>
+        </li>
+        */}
+        <li className="navbar-item">
+          <Link to="/Pantry" className="nav-link">Pantry</Link>
         </li>
         <li className="navbar-item">
           <Link to="/Scanner" className="nav-link">Scanner</Link>
         </li>
         <li className="navbar-item">
-          <Link to="/Pantry" className="nav-link">Pantry</Link>
-        </li>
-        <li className="navbar-item">
           <Link to="/Cook" className="nav-link">Cook</Link>
         </li>
         <li className="navbar-item">
-          <Link to="/Foods" className="nav-link">List</Link>
+          <Link to="/Profile" className="nav-link">Profile</Link>
         </li>
       </ul>
       </div>

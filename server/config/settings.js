@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = {
+  api: {
+    fda_key: process.env.FDA_KEY || 'DEMO_KEY',
+  },
   server: {
     port: process.env.PORT || '5000',
     host: process.env.HOST || 'localhost'
