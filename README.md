@@ -6,7 +6,7 @@ DEMO: http://nutri.kameron.io
 
 See [Specs document](https://github.com/normakster/meal-tracker-mern/blob/main/docs/Spec.md)
 
-See [Backlog](https://github.com/normakster/meal-tracker-mern/blob/client-v0.0.2/docs/Product%20Backlog.md)
+See [Backlog](https://github.com/normakster/meal-tracker-mern/blob/main/docs/Product%20Backlog.md)
 
 ### *Scope and status*
 - Tracks food items from Grocery through Pantry to Consumption as Nutrients.

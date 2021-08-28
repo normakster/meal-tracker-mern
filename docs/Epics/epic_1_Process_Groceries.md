@@ -5,18 +5,14 @@ As a User, I want add my groceries to my panty.
 
 ## User Stories
 As a User, I want:
-1. To enter new Non-UPC items into inventory manually via a form.
-1. To search past known items and 1-click add.
-1. Manually enter a UPC.
-1. Scan a UPC.
-1. Search UPC API and USDA for nutrient info.
-1. Add to inventory.
-
-
-1. To see a table of my current inventory with a quantity greater than zero.
-1. To modify inventory items.
-  - Edit quantity by direct, +/-, additive.
-  - Trash items.
+1. To Scan a UPC with a phone camera.
+1. To manually enter a UPC || search term.
+1. To choose from a list of past/known items and 1-click add.
+1. To choose from a list, if none were found or chosen, from a search of UPC / USDA/FDA API and 1-click add.
+1. To accept into inventory with a quantity.
+1. To enter new Non-UPC based items into inventory manually via a form.
+1. To see a table of current inventory with a quantities greater than zero.
+1. To manage the inventory (pantry).
 
 ## Wireframe / Elements
 1. UPC Search Choice Section

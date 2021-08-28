@@ -22,7 +22,7 @@
 - Generate Shopping lists
 - Accept limited input from Advisors.
   - Targets, rates, nutrients requirements.
-- Food Journaling subjectives.
+- Food Journaling exports for portability.
 - Allergy preferences and consumption history.
 - Public Recipe repository.
 - Public UPC repository.
