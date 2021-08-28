@@ -9,30 +9,48 @@ router.route('/').get((req, res, next) => {
 });
 
 router.route('/').post((req,res,next) => {
-  const newItem = new Item({
-    //
+  Inventory.findOne().byFdcID(req.body.food.fdcId).exec(function (err, existing) {
+    if(existing) {
+      existing.quantity += Number(req.body.quantity);
+      existing.save()
+        .then((item) => res.json(item))
+        .catch((err) => {
+          logger.debug(err);
+          res.status(400).json('Error: ' + err);
+        });
+    }
+    else {
+      const newItem = new Inventory({
+        quantity: Number(req.body.quantity) || 0,
+        food: req.body.food
+      });
+      logger.debug('Trying to add Item: \n' + JSON.stringify(''));
+      newItem.save()
+        .then((item) => res.json(item))
+        .catch((err) => {
+          logger.debug(err);
+          res.status(400).json('Error: ' + err);
+        });
+    }
   });
-  logger.debug('Trying to add Item: \n' + JSON.stringify(''));
-  newItem.save()
-    .then((item) => res.json(item))
-    .catch((err) => {
-      logger.debug(err);
-      res.status(400).json('Error: ' + err);
-    });
 });
 
 router.route('/:id').put((req, res, next) => {
-  const { id } =req.params;
-  Inventory.findById(id)
-    .then(item => {
-      for(const key of Object.keys(item)) {
-        item[key] = (req.body)[key];
-      }
-      item.save()
-        .then(() => res.json(item))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
+  if(Number(req.body.quantity) === 0) {
+    Inventory.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Deleted'))
     .catch(err => res.status(400).json('Error: ' + err));
+  } else {
+    Inventory.findById(req.params.id)
+      .then(item => {
+        item.quantity = Number(req.body.quantity);
+        item.food = req.body.food;
+        item.save()
+          .then(() => res.json(item))
+          .catch(err => res.status(400).json('Error: ' + err));
+      })
+      .catch(err => res.status(400).json('Error: ' + err));
+  }
 });
 
 router.route('/:id').delete((req, res, next) => {

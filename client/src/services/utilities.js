@@ -13,14 +13,12 @@ export function updateObject(oldObj,newValues) {
 }
 
 export function updateItemInArray(arr, itemId, callback) {
-  const updatedItems = arr.map(item => {
+  return arr.map(item => {
     if(item.id !== itemId) {
       return item
     }
-    const updatedItem = callback(item)
-    return updatedItem
+    return callback(item)
   })
-  return updatedItems
 }
 
 export function createReducer(initialState, handlers) {

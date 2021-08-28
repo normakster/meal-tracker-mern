@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/navbar'
 import { Home, Dashboard } from './components/home'
 import About from './components/about'
-import Pantry from './components/pantry/pantry'
 import Scanner from './components/scanner'
+import PantryPage from './components/pantry'
 import Cook from './components/cook/cook'
 import Meal from './components/meal/create-meal'
 import FoodList from './components/food/food-list';
@@ -17,7 +17,6 @@ function App() {
   return (
     <Router basename="/">
       <div className='container'>
-        <Route path='/Pantry' component={Pantry} />
         <Route path='/Cook' component={Cook} />
         <Navbar />
         <br/>
@@ -29,6 +28,7 @@ function App() {
           <Route path='/Food/' component={Food} />
           <Route path='/About' component={About} />
           <Route path='/Scanner' component={Scanner} />
+          <Route path='/Pantry' component={PantryPage} />
           <Route exact path='/Home' component={Home} />
           <Route exact path='/' component={Home} />
         </Switch>
