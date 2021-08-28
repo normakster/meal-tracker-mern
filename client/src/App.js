@@ -7,7 +7,7 @@ import { Home, Dashboard } from './components/home'
 import About from './components/about'
 import Scanner from './components/scanner'
 import PantryPage from './components/pantry'
-import Cook from './components/cook/cook'
+import CookPage from './components/cook'
 import Meal from './components/meal/create-meal'
 import FoodList from './components/food/food-list';
 import Food from './components/food/food'
@@ -17,7 +17,6 @@ function App() {
   return (
     <Router basename="/">
       <div className='container'>
-        <Route path='/Cook' component={Cook} />
         <Navbar />
         <br/>
         <Switch>
@@ -29,6 +28,7 @@ function App() {
           <Route path='/About' component={About} />
           <Route path='/Scanner' component={Scanner} />
           <Route path='/Pantry' component={PantryPage} />
+          <Route path='/Cook' component={CookPage} />
           <Route exact path='/Home' component={Home} />
           <Route exact path='/' component={Home} />
         </Switch>
