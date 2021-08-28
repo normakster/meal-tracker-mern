@@ -1,7 +1,6 @@
 const About = () => {
   return (
     <div>
-      <h3>About</h3>
       <hr />
       <h5>Summary & Status</h5>
       <br />

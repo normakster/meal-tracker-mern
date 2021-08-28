@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
+import React, { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 
 // import Chart from 'chart.js/auto';
 
-import MealHistory from './meal/meal-history'
-import { quickies } from '../data/dummy'
+import MealHistory from './meal/meal-history';
+import About from './about';
 
 // Initial State
+import { quickies } from '../data/dummy';
 
 // Business Logic
 
@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div>
-      <MealHistory />
+      <About />
       <br />
     </div>
   )
