@@ -9,7 +9,7 @@ http.interceptors.response.use(null, error => {
 
 function handleResponse(res) {
   if (res.status >= 400 && res.status < 600) {
-    throw new Error("Bad response");
+    return res.data;
   }
   // if (!res.headers.get("content-type").includes("application/json")) {
   //   throw new TypeError("Response not JSON");
