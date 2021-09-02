@@ -33,16 +33,15 @@ const app = express();
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 const corsOptions = {
   origin: [
-    `https://${host}`,
-    `http://${host}`,
-    `${host}`,
-    `http://nutri.localhost`
+    `https://nutri.${host}`,
+    `http://nutri.${host}`,
+    `http://nutri.localhost`,
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  // credentials: true // enable set cookie
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }
-app.options('*', cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Path routing
@@ -56,6 +55,10 @@ app.use('/api/foods', foodsRouter);
 app.use('/api/meals', mealsRouter);
 app.use('/api/pantry', pantryRouter);
 app.use('/api/fda', fdaFoodsRouter);
+app.use('/api/upc', upcFoodsRouter);
+
+const healthRouter = require('./routes/health');
+app.use('/api/health', healthRouter);
 
 // -----------------------------------------------------
 

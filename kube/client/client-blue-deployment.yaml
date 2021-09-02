@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: normak458/meal-tracker_client:v0.0.2
+        image: normak458/meal-tracker_client:latest
         imagePullPolicy: Always #Always #IfNotPresent
         ports:
         - containerPort: 80
@@ -38,6 +38,11 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: REACT_APP_API_URL
+                name: cloud--env
+          - name: REACT_APP_VERSION
+            valueFrom:
+              configMapKeyRef:
+                key: REACT_APP_VERSION
                 name: cloud--env
       restartPolicy: Always
       volumes: null

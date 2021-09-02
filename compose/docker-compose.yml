@@ -70,6 +70,8 @@ services:
         context: ../db
         dockerfile: dockerfile
     image: normak458/meal-tracker_mongo
+    ports:
+      - '27017:27017'
     networks:
       - proxy-net
     volumes:
@@ -77,7 +79,7 @@ services:
         source: dbdata
         target: /data/db
 
-  client:
+  client-local:
     container_name: client
     build:
       context: ../client
@@ -97,14 +99,19 @@ services:
     volumes:
       - ../client:/opt/app
 
-  client-nginx:
-    container_name: client_nginx
+  client:
+    container_name: client
     build:
       context: ../client
       args:
         SITE: ${SITE}
+        REACT_APP_API_URL: http://${API_URL:-localhost}
+        REACT_APP_VERSION: ${APP_VERSION}
       dockerfile: Dockerfile
     image: normak458/meal-tracker_client
+    environment:
+      - REACT_APP_API_URL=http://${API_URL:-localhost}
+      - REACT_APP_VERSION=${APP_VERSION}
     labels:
      - "traefik.enable=true"
      - "traefik.http.routers.client_nginx.rule=Host(`nutri.localhost`)&&PathPrefix(`/${SITE}`)"
@@ -121,7 +128,9 @@ services:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongo:27017
       - PORT=8081
-      # - HOST=localhost:3000
+      - FDA_KEY=${FDA_KEY}
+      - HOST=${API_URL}
+      # - PORT=${API_PORT}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`localhost`)&&PathPrefix(`/api`)"
