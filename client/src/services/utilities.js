@@ -1,4 +1,96 @@
 // Utility Functions
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Table from 'react-bootstrap/Table'
+
+
+
+export function FormItem({obj,onChange,action,title,className,field,name}) {
+  return (
+    <Col key={field}>
+      <Form.Group>
+        <Form.Label >{title}</Form.Label>
+        <Form.Control type='text' className={className} placeholder={field} name={name} value={obj[field]} onChange={onChange} />
+      </Form.Group>
+    </Col>
+  )
+}
+
+export function InputItem({obj,onChange,title,className,field}) {
+  return (
+    <div key={field}>
+        {title && <label>{title}</label>}
+        <input type='text' className={className} placeholder={field} name={field} value={obj[field]}
+          onChange={onChange} />
+    </div>
+  )
+}
+
+export function Assembled({ Head, Body, override, items }) {
+  function callback(Body) {
+    return items.map((item,index) => <tr key={index} >
+      <Body item={item} index={index} />
+    </tr>)
+  }
+  return (
+    <Table bordered hover>
+      <thead><tr><Head /></tr></thead>
+      <tbody>
+        {items && (override || callback(Body))}
+      </tbody>
+    </Table>
+  )
+}
+
+
+function merge1(target,source) {
+  Object.keys(source).forEach(key => {
+    if (source[key] && typeof source[key] === 'object') {
+      merge((target[key] = target[key] || source[key]),source[key])
+    }
+    target[key] = source[key];
+  });
+  return target;
+}
+
+export function nest(field,value) {
+  const keys = field.split('.');
+  for(var acc={},parent=acc,i=0,j=keys.length;i<j;i++) {
+    if(i!==j-1) {
+      parent = ( parent[keys[i]]={} )
+    } else {
+      parent = ( parent[keys[i]]=value )
+    }
+  }
+  return acc
+}
+
+export function nestMerge(arr,value) {
+  for(var obj={},acc1=obj,i=0,j=arr.length;i<j;i++) {
+    [nest(arr[i],value)].reduce(merge,obj);
+  }
+  return obj
+}
+
+export function str2obj(acc,path,value) {
+  let keys = path.split('.'), key;
+  const last = keys.pop();
+  while(key=keys.shift()) {
+    if( typeof acc[key] !== 'object' ) acc[key]={};
+    acc = acc[key];
+  }
+  acc[last]=value;
+}
+
+export function merge(source,target) {
+  Object.keys(source).forEach(key => {
+    if (source[key] && typeof source[key] === 'object') {
+      merge(source[key],(source[key] = target[key] || source[key]))
+    }
+    target[key] = source[key];
+  });
+  return target;
+}
 
 export function copyDeep(oldObj) {
   return JSON.parse(JSON.stringify(oldObj))
@@ -13,12 +105,16 @@ export function updateObject(oldObj,newValues) {
 }
 
 export function updateItemInArray(arr, itemId, callback) {
+  // const updatedItems = arr.map(item => {
   return arr.map(item => {
     if(item.id !== itemId) {
       return item
     }
+    // const updatedItem = callback(item)
+    // return updatedItem
     return callback(item)
   })
+  // return updatedItems
 }
 
 export function createReducer(initialState, handlers) {
