@@ -5,6 +5,7 @@ const api = {
   pantry: new Api('pantry'),
   fdaFood: new Api('fda/foods'),
   fdaFoodSearch: new Api('fda/foods/search'),
+  upcFoods: new Api('upc'),
 };
 
 export default api

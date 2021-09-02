@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
 
-import { PantryTable } from './pantry'
+import { Assembled } from '../services/utilities'
 import api from './../api'
 import { XsetItem } from './scanner'
 
@@ -13,7 +14,6 @@ const FdaItems = {
         <td key={1}>Brand Name</td>,
       ]
     },
-
     Body: function ({ item }) {
       function handleAccept() {
         alert('Accepting...');
@@ -23,9 +23,7 @@ const FdaItems = {
         <td key={1}>{item.brandName}</td>,
       ]
     },
-
-    Table: ({ items }) => <PantryTable Head={FdaItems.Basic.Head} Body={FdaItems.Basic.Body} items={items} /> ,
-
+    Table: ({ items }) => <Assembled Head={FdaItems.Basic.Head} Body={FdaItems.Basic.Body} items={items} /> ,
     Buttons: {}
   },
 
@@ -39,7 +37,6 @@ const FdaItems = {
         <td key={4}>Reject?</td>,
       ]
     },
-
     Body: function ({ item }) {
       // const quantity = useContext(Xquantity);
       // const setQuantity = useContext(XsetQuantity);
@@ -79,9 +76,7 @@ const FdaItems = {
         </td>,
       ]
     },
-
-    Table: ({ items }) => <PantryTable Head={FdaItems.Selected.Head} Body={FdaItems.Selected.Body} items={items} /> ,
-
+    Table: ({ items }) => <Assembled Head={FdaItems.Selected.Head} Body={FdaItems.Selected.Body} items={items} /> ,
     Buttons: {
       Accept:  (callback) => <Button variant={'success'} onClick={callback} >Save</Button>,
       Reject:  (callback) => <Button variant={'danger'} onClick={callback} >X</Button>
@@ -112,7 +107,7 @@ const FdaItems = {
         <td key={4}>{FdaItems.SearchResults.Buttons.Accept(handleAccept)}</td>,
       ]
     },
-    Table: ({ items }) => <PantryTable Head={FdaItems.SearchResults.Head} Body={FdaItems.SearchResults.Body} items={items} /> ,
+    Table: ({ items }) => <Assembled Head={FdaItems.SearchResults.Head} Body={FdaItems.SearchResults.Body} items={items} /> ,
     Buttons: {
       Accept:  (callback) => <Button variant={'success'} onClick={callback} >X</Button>
     },
