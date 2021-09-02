@@ -19,8 +19,10 @@ const Scanner = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [item, setItem] = useState(null);
   const [cache, setCache] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   async function search(term,brand) {
+    setSearchResults(await api.fdaFoodSearch.post({query: term, requireAllWords:false}));
   }
 
   return (
@@ -34,10 +36,10 @@ const Scanner = () => {
           </Row>
           <Row>
             <Button variant='primary' onClick={() => search(searchTerm)}>Search</Button>
-            <Button disabled variant='info' onClick={null}>Scan</Button>
+            <Button disabled variant='secondary' onClick={null}><strike>Scan</strike></Button>
           </Row>
           <hr />
-            <Details items={searchResult.foods} />
+            <Details items={searchResults.foods} searchResults={searchResults} />
         </div>}
       </Container>
     </XsetItem.Provider>
@@ -52,13 +54,15 @@ function SelectedItem({ item, cache, setCache }) {
   )
 }
 
-function Details({ items }) {
+function Details({ items, searchResults }) {
   return (
     <Row>
-      <pre>{searchResult && JSON.stringify(searchResult.totalHits, null, 1)}</pre>
       <FdaItems.SearchResults.Table items={items} />
+      {/*
+      <pre>{searchResults && JSON.stringify(searchResults, null, 1)}</pre>
       <pre>{(items)? JSON.stringify(items[0].fdcId, null, 1) : ''}</pre>
       <FdaItems.Basic.Table items={items} />
+      */}
     </Row>
   )
 }

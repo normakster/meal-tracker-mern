@@ -21,6 +21,7 @@ import settings from '../config/settings';
         </li>
         */}
         <li className="navbar-item">
+          <Link to="/NewFood" className="nav-link">NewFood</Link>
         </li>
         <li className="navbar-item">
           <Link to="/Scanner" className="nav-link">Scanner</Link>

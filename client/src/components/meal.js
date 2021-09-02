@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from 'react';
+import React, { Fragment, useReducer, useEffect, useContext } from 'react';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
 import { XmealDispatch } from './cook'
-import { updateObject, updateItemInArray }  from './../services/utilities'
+import { Assembled, updateObject, updateItemInArray }  from './../services/utilities'
 
 // Initial State
 import { ingredients } from '../data/dummy';
@@ -59,7 +59,6 @@ const Meal = {
     },
     Body: function ({ item }) {
       const dispatch = useContext(XmealDispatch);
-
       return [
         <td key={0}>
           <input type='text' name='servings' className=''
@@ -75,21 +74,7 @@ const Meal = {
       ]
     },
     Buttons: {},
-    Table: function ({ Head, Body, override, items }) {
-      function callback(Body) {
-        return items.map((item,index) => <tr key={index} >{
-          Body({ item, index })
-        }</tr>)
-      }
-      return (
-        <Table bordered hover>
-          <thead><tr><Head /></tr></thead>
-          <tbody>
-            {override || callback(Body)}
-          </tbody>
-        </Table>
-      )
-    },
+    Table: ({ items }) => <Assembled Head={Meal.Items.Head} Body={Meal.Items.Body} items={items} />,
   },
   Reducer: function mealReducer(state, action) {
     switch (action.type) {
@@ -119,7 +104,6 @@ const Meal = {
         return state
     }
   },
-
 }
 
 const Formatter = {
