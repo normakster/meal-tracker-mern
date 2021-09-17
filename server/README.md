@@ -1,19 +1,25 @@
-## Enviornmental Variables (.env)
+### Enviornmental Variables (.env)
 
-~~MONGODB_URI=~~
+```
+NODE_ENV=
+API_VERSION=
+API_URL=
+API_PORT=
+MONGODB_URI=
+FDA_KEY=
+```
 
-~~REACT_APP_API_URL=~~
-
-## API Mapping
+### API Mapping
 
 URI | Action | Request | Response
 --- | --- | --- | ---
-/api/ | n/a | - | n/a |
+/api/ | n/a | - | n/a
+---
+/api/health | GET | - | JSON
+---
 /api/meals/ | GET | - | [meals]
 /api/meals/ | POST | {meal} | {meal}
-
-URI | Action | Request | Response
---- | --- | --- | ---
+---
 /api/foods/ | GET | - | [foods]
 /api/foods/ | POST | {food} | {foods}
 /api/foods/:id | GET | - | {foods}

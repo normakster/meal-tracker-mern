@@ -1,11 +1,27 @@
 {
-  "name": "backend",
-  "version": "0.0.2",
+  "name": "meal-tracker_api",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
+  "config": {
+    "serviceName": "api",
+    "imageName": "meal-tracker_api",
+    "imageRepo": "normak458/meal-tracker_api",
+    "envFile": "../compose/.env",
+    "compseFile": "../compose/docker-compose.yml"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "docker:cmd:compose": "cross-conf-env dotenv -e npm_package_config_envFile -- docker-compose -f npm_package_config_compseFile",
+    "docker:cmd:build": "npm run docker:cmd:compose -- build",
+    "docker:build": "cross-conf-env npm run docker:cmd:build -- npm_package_config_serviceName",
+    "docker:tag": "cross-conf-env docker tag npm_package_config_imageRepo:latest npm_package_config_imageRepo:npm_package_version",
+    "docker:run": "cross-conf-env npm run docker:cmd:compose -- up -d npm_package_config_serviceName",
+    "docker:run:attatched": "cross-conf-env npm run docker:cmd:compose -- up npm_package_config_serviceName",
+    "docker:publish": "cross-conf-env docker push npm_package_config_imageRepo:npm_package_version",
+    "docker:publish:latest": "cross-conf-env docker push npm_package_config_imageRepo:latest",
+    "docker:clean": "cross-conf-env docker rm -f npm_package_config_imageName"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +34,9 @@
     "log4js": "^6.3.0",
     "mongoose": "^5.13.8",
     "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "cross-conf-env": "^1.2.1"
   }
 }

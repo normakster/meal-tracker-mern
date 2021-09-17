@@ -1,0 +1,40 @@
+{
+  "name": "meal-tracker-mern",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "cross-conf-env": "^1.2.1",
+    "npm-run-all": "^4.0.2"
+  },
+  "config": {
+    "envFile": "./compose/.env",
+    "compseFile": "./compose/docker-compose.yml",
+    "site": "http://nutri.localhost"
+  },
+  "scripts": {
+    "//postinstall": "run-p install:api install:web",
+    "install:api": "cd server && npm install",
+    "install:client": "cd client && npm install",
+
+    "build": "run-p build:infra build:api build:web",
+    "build:thin": "run-p build:api build:web:local",
+    "build:infra": "run-p build:proxy build:db build:api build:web",
+    "build:proxy": "npm run docker:cmd:build -- reverse-proxy",
+    "build:db": "npm run docker:cmd:build -- mongo",
+    "build:api": "npm run docker:build --prefix server",
+    "build:web": "npm run docker:build --prefix client",
+    "build:web:local": "npm run docker:build:local --prefix client",
+
+    "start": "run-p start:proxy start:db start:api start:web",
+    "start:proxy": "npm run docker:cmd:compose -- up -d -- reverse-proxy",
+    "start:db": "npm run docker:cmd:compose -- up -d -- mongo",
+    "start:api": "npm run docker:run --prefix server",
+    "start:web": "npm run docker:run:local --prefix client",
+
+    "start:thin": "run-p start:api start:web",
+    "open:win": "echo Trying to launch on Windows && echo Waiting for webpack/babel to render... && timeout 15 && start %npm_package_config_site%",
+    "open:mac": "echo Trying to launch on MacOS && echo Waiting for webpack/babel to render... && sleep 15 && URL=$npm_package_config_site && open $URL",
+
+    "docker:cmd:compose": "cross-conf-env dotenv -e npm_package_config_envFile -- docker-compose -f npm_package_config_compseFile",
+    "docker:cmd:build": "npm run docker:cmd:compose -- build"
+  }
+}

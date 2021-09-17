@@ -49,10 +49,6 @@ services:
       # - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
 
-      - "--log.filePath=/logs/a.log"
-      - "--log.level=ERROR"
-      - "--providers.file.directory=/config"
-      - "--providers.file.watch=true"
     ports:
       - '80:80'
       # - '443:443'
@@ -62,7 +58,6 @@ services:
       - jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: always
 
   mongo:
     container_name: mongo
@@ -80,11 +75,16 @@ services:
         target: /data/db
 
   client-local:
-    container_name: client
+    container_name: client-local
     build:
       context: ../client
       dockerfile: Dockerfile_without-NGINX
     image: normak458/meal-tracker_client_local
+    environment:
+      - REACT_APP_API_URL=http://${API_URL:-localhost}
+      - REACT_APP_VERSION=${APP_VERSION}
+      - NODE_ENV=${NODE_ENV}
+      - CHOKIDAR_USEPOLLING=true
     # env_file:
     #  - ../client/.env
     labels:
@@ -125,12 +125,12 @@ services:
       dockerfile: Dockerfile
     image: normak458/meal-tracker_api
     environment:
-      - NODE_ENV=development
-      - MONGODB_URI=mongodb://mongo:27017
-      - PORT=8081
-      - FDA_KEY=${FDA_KEY}
+      - NODE_ENV=${NODE_ENV}
+      - API_VERSION=${API_VERSION}
       - HOST=${API_URL}
-      # - PORT=${API_PORT}
+      - PORT=${API_PORT}
+      - MONGODB_URI=${MONGODB_URI}
+      - FDA_KEY=${FDA_KEY}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`localhost`)&&PathPrefix(`/api`)"

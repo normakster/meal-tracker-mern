@@ -2,6 +2,7 @@
 
 module.exports = {
   api: {
+    api_version: process.env.API_VERSION || 'ERROR',
     FDA_KEY: process.env.FDA_KEY || 'DEMO_KEY',
   },
   server: {
