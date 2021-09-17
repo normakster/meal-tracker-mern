@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button'
 
 import { PantryTable } from './pantry'
 import FdaItems from './FdaItems'
+import FoodItems from './foodItems';
 import api from './../api'
 import { fdaFood, inventory } from '../data/dummy';
 import { searchResult } from '../data/searchResults';
@@ -22,7 +23,9 @@ const Scanner = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   async function search(term,brand) {
-    setSearchResults(await api.fdaFoodSearch.post({query: term, requireAllWords:false}));
+    let res = await api.upcSearch.post({query: term, requireAllWords:false});
+    console.log(res.foods);
+    setSearchResults(res);
   }
 
   return (
@@ -49,7 +52,7 @@ const Scanner = () => {
 function SelectedItem({ item, cache, setCache }) {
   return (
     <Row>
-      <FdaItems.Selected.Table items={[item]} />,
+      <FoodItems.Selected.Table items={[item]} />,
     </Row>
   )
 }
@@ -57,7 +60,7 @@ function SelectedItem({ item, cache, setCache }) {
 function Details({ items, searchResults }) {
   return (
     <Row>
-      <FdaItems.SearchResults.Table items={items} />
+      <FoodItems.SearchResults.Table items={items} />
       {/*
       <pre>{searchResults && JSON.stringify(searchResults, null, 1)}</pre>
       <pre>{(items)? JSON.stringify(items[0].fdcId, null, 1) : ''}</pre>

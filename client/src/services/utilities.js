@@ -5,14 +5,12 @@ import Table from 'react-bootstrap/Table'
 
 
 
-export function FormItem({obj,onChange,action,title,className,field,name}) {
+export function FormItem({obj,onChange,title,className,field,name}) {
   return (
-    <Col key={field}>
-      <Form.Group>
+      <Form.Group key={field}>
         <Form.Label >{title}</Form.Label>
         <Form.Control type='text' className={className} placeholder={field} name={name} value={obj[field]} onChange={onChange} />
       </Form.Group>
-    </Col>
   )
 }
 
@@ -43,7 +41,7 @@ export function Assembled({ Head, Body, override, items }) {
 }
 
 
-function merge1(target,source) {
+export function merge(target,source) {
   Object.keys(source).forEach(key => {
     if (source[key] && typeof source[key] === 'object') {
       merge((target[key] = target[key] || source[key]),source[key])
@@ -66,8 +64,8 @@ export function nest(field,value) {
 }
 
 export function nestMerge(arr,value) {
-  for(var obj={},acc1=obj,i=0,j=arr.length;i<j;i++) {
-    [nest(arr[i],value)].reduce(merge,obj);
+  for(var obj={},acc=obj,i=0,j=arr.length;i<j;i++) {
+    [nest(arr[i],value)].reduce(merge,acc);
   }
   return obj
 }
@@ -80,16 +78,6 @@ export function str2obj(acc,path,value) {
     acc = acc[key];
   }
   acc[last]=value;
-}
-
-export function merge(source,target) {
-  Object.keys(source).forEach(key => {
-    if (source[key] && typeof source[key] === 'object') {
-      merge(source[key],(source[key] = target[key] || source[key]))
-    }
-    target[key] = source[key];
-  });
-  return target;
 }
 
 export function copyDeep(oldObj) {

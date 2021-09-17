@@ -16,7 +16,9 @@ const Pantry = {
     Body: function ({ item }) {
       return [
         <td key={0} >{item.description}</td>,
-        <td key={1} >{item.labelNutrients.calories.value}</td>
+        <td key={1} >{
+          item.labelNutrients.calories
+        }</td>
       ]
     },
     Table: function ({ items }) {

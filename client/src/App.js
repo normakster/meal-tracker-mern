@@ -9,6 +9,7 @@ import Scanner from './components/scanner'
 import PantryPage from './components/pantry'
 import CookPage from './components/cook'
 import Meal from './components/meal/create-meal'
+import FoodPage from './components/food';
 import FoodList from './components/food/food-list';
 import Food from './components/food/food'
 import Profile from './components/profile/profile'
@@ -22,6 +23,7 @@ function App() {
         <Switch>
           <Route exact path='/Meal' component={Meal} />
           <Route exact path='/Profile' component={Profile} />
+          <Route path='/NewFood/' component={FoodPage} />
           <Route path='/Foods/' component={FoodList} />
           <Route path='/Food/:id' component={Food} />
           <Route path='/Food/' component={Food} />
