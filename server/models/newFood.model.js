@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { str2obj, merge } = require('../services/utilities');
+const { str2obj, merge, update } = require('../services/utilities');
 
 const data = {
   fields: [
@@ -27,6 +27,33 @@ const data = {
     'labelNutrients.calories',
     'dataType',
   ],
+  testObj: {
+    upc: "1234",
+    description: "Test Item",
+    brandOwner: "Testing",
+    dataSource: "TD",
+    brandedFoodCategory: "Tested",
+    ingredients: "Nuts",
+    servingSize: "1",
+    servingSizeUnit: "10",
+    labelNutrients: {
+      fat: "1",
+      saturatedFat: "1",
+      transFat: "1",
+      cholesterol: "1",
+      sodium: "1",
+      carbohydrates: "1",
+      fiber: "1",
+      sugars: "1",
+      protein: "1",
+      calcium: "1",
+      iron: "1",
+      potassium: "1",
+      addedSugar: "1",
+      calories: "1",
+    },
+    dataType: "",
+  },
   schema: new mongoose.Schema(
     {
       upc: { type: String, required: false },
@@ -57,11 +84,10 @@ const data = {
     }
   ),
   empty: () => (data.fields).reduce((acc,key)=>{
-
     str2obj(acc,key,'');
     return acc;
   },{}),
-  new: (newData) => (newData) => merge(newData,data.empty()),
+  make: (newData) => update(newData,data.empty()),
   update: (newData,exitings) => merge(newData,exitings),
 }
 

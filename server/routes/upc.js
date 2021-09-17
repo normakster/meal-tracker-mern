@@ -3,8 +3,27 @@ const foodData = require('../models/newFood.model');
 const logger = require('log4js').getLogger();
 const Food = foodData.Food;
 
+router.route('/search').post((req, res, next) => {
+  let searchOptions = {
+    query: req.body.query || '',
+  }
+  Food.findOne().byQuery(searchOptions.query)
+  .then( async (food) => {
+    if(food) {
+      logger.debug('Found ' + food.description + ' from the DB for fcdId: ' + food._id );
+      res.status(200).json({totalHits:1,foods:[food]});
+    } else {
+      res.status(204).json({foods: Food.empty()});
+    }
+  })
+  .catch(err => {
+    logger.debug('Error: '  + err);
+    res.status(400).json([])
+  });
+})
+
 router.route('/').post((req, res, next) => {
-  const newFood = new Food(foodData(req.body));
+  const newFood = new Food(foodData.make(req.body));
   newFood.save()
   .then((found) => res.status(200).json(
     {

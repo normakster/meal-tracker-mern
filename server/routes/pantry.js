@@ -9,7 +9,7 @@ router.route('/').get((req, res, next) => {
 });
 
 router.route('/').post((req,res,next) => {
-  Inventory.findOne().byFdcID(req.body.food.fdcId).exec(function (err, existing) {
+  Inventory.findOne().byFoodID(req.body.food._id).exec(function (err, existing) {
     if(existing) {
       existing.quantity += Number(req.body.quantity);
       existing.save()

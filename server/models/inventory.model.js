@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const { fdaFoodSchema } = require('./fdaFood.model')
+const foodData = require('./newFood.model');
 
 const inventorySchema = new mongoose.Schema(
   {
     quantity: { type: Number, required: true },
-    food: { type: fdaFoodSchema, required: true },
+    food: { type: foodData.schema, required: false },
   }, {
     timestamps: true,
   }
@@ -12,6 +12,10 @@ const inventorySchema = new mongoose.Schema(
 
 inventorySchema.query.byFdcID = function(fcdId) {
   return this.where({ 'food.fdcId': fcdId })
+}
+
+inventorySchema.query.byFoodID = function(foodId) {
+  return this.where({ 'food._id': foodId })
 }
 
 module.exports = {
