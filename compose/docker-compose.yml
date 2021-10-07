@@ -11,7 +11,6 @@ volumes:
   jenkins-docker-certs:
 
 services:
-
   jenkins:
     container_name: jenkins-blueocean
     build:
@@ -37,7 +36,6 @@ services:
     networks:
       - jenkins
       - proxy-net
-
   reverse-proxy:
     image: traefik:v2.4
     command:
@@ -58,7 +56,6 @@ services:
       - jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
   mongo:
     container_name: mongo
     build:
@@ -73,7 +70,6 @@ services:
       - type: volume
         source: dbdata
         target: /data/db
-
   client-local:
     container_name: client-local
     build:
@@ -98,7 +94,6 @@ services:
     # stdin_open: true
     volumes:
       - ../client:/opt/app
-
   client:
     container_name: client
     build:
@@ -118,12 +113,12 @@ services:
      - "traefik.http.routers.client_nginx.entrypoints=web"
     networks:
       - proxy-net
-
   api:
     build:
       context: ../server
       dockerfile: Dockerfile
     image: normak458/meal-tracker_api
+    entrypoint: [ "npm", "run", "start:dev" ]
     environment:
       - NODE_ENV=${NODE_ENV}
       - API_VERSION=${API_VERSION}

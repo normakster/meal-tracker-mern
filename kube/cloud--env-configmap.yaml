@@ -6,11 +6,12 @@ data:
   # Frontend
   CHOKIDAR_USEPOLLING: "true"
   NODE_ENV: development
-  REACT_APP_API_URL: kameron.io
-  REACT_APP_VERSION: v0.0.2
+  REACT_APP_API_URL: http://kameron.io
+  REACT_APP_VERSION: v0.0.3
 
   # Backend
-  API_URL: kameron.io
   NODE_ENV: development
-  MONGODB_URI: mongodb://10.128.19.57:27017
+  API_VERSION: v0.0.3
+  API_URL: kameron.io
   BACKEND_PORT: "8081" # Backend Port
+  MONGODB_URI: mongodb://10.128.19.57:27017
