@@ -18,7 +18,7 @@ const Food = ({ foodItem }) => {
   useEffect(() => {
     async function fetch() {
       if(id) {
-        dispatch({type:'food/init',payload:(await api.foods.get(id))})
+        dispatch({type:'food/init',payload:(await api.foods_old.get(id))})
       }
     }
     fetch()
@@ -30,11 +30,11 @@ const Food = ({ foodItem }) => {
 
   async function handleSave(updatedFood) {
     if(id) {
-      let data = await api.foods.put(updatedFood);
+      let data = await api.foods_old.put(updatedFood);
       console.log('Updated: ' + JSON.stringify(data._id));
       history.goBack();
     } else {
-      let data = await api.foods.post(updatedFood);
+      let data = await api.foods_old.post(updatedFood);
       console.log('Created: ' + JSON.stringify(data._id));
       history.goBack();
     }
@@ -46,7 +46,7 @@ const Food = ({ foodItem }) => {
   }
 
   function handleRemove(e) {
-    api.foods.delete(food._id).then((data) => {apiSuccess('Deleted',data)})
+    api.foods_old.delete(food._id).then((data) => {apiSuccess('Deleted',data)})
   }
 
   function apiSuccess(type,data) {

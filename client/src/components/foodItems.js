@@ -1,10 +1,47 @@
-import { useReducer, useState, useContext } from 'react';
+import { useReducer, useEffect, useState, useContext } from 'react';
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import api from './../api'
 import { Assembled, InputItem, FormItem } from '../services/utilities'
-import { nestMerge, nest, str2obj, merge, update, updateObject } from '../services/utilities'
+import { nestMerge, nest, str2obj, merge, update, updateObject, copyDeep } from '../services/utilities'
 import { XsetItem } from './scanner'
+
+
+const FormShort = ({ title, item, dispatch, index }) => {
+}
+
+export const Meta = (props) => {
+  const { dispatch, ...rest } = props;
+  const keys = ['upc','description','servingSize'];
+  const handleChange = e => dispatch({type:'food/update',payload:{key:e.target.name,value:e.target.value}});
+  return <FoodForm keys={keys} handleChange={handleChange} {...rest} />
+}
+
+export const Nutrient = (props) => {
+  const { dispatch, ...rest } = props;
+  const keys = ['fat','carbohydrates','protein','calories'];
+  const handleChange = e => dispatch({type:'food_nutri/update',payload:{key:e.target.name,value:e.target.value}});
+  return <FoodForm keys={keys} handleChange={handleChange} {...rest} />
+}
+
+const FoodForm = (props) => {
+  const { item, keys, handleChange } = props;
+  return (
+    <Col>
+      {keys.map((key,i) => {
+        return <div key={i}>
+          <input type='text'
+            className={''}
+            placeholder={key}
+            name={key}
+            value={item[key]}
+            onChange={handleChange}
+          />
+        </div>
+      })}
+    </Col>
+  )
+}
 
 
 const FoodItems = {
@@ -108,10 +145,9 @@ const FoodItems = {
       case 'food/update':
         return {...state, [(action.payload.key)]:action.payload.value}
       case 'food_nutri/update':
-        const nutrients = merge(state.labelNutrients,{[(action.payload.key)]:action.payload.value});
-        return {...state, ['labelNutrients']:nutrients}
+        return {...state, ['labelNutrients']:Object.assign({}, state['labelNutrients'], {[(action.payload.key)]:action.payload.value})}
       case 'food/init':
-        return updateObject(state,action.payload)
+        return copyDeep(action.payload)
       default:
         return state
     }
@@ -137,46 +173,48 @@ const FoodItems = {
     }
   },
   Form: {
-    Meta: ({item,dispatch,index}) => {
-      let displayArray = [];
-      function onChange(e) {
-        dispatch({type:'food/update',payload:{index,key:e.target.name,value:e.target.value}})
-      }
-      Object.keys(item).forEach(key => {
-        if ( typeof item[key] !== 'object' ) {
-          displayArray.push(
-            FormItem({obj:item,onChange,title:key,className:'',field:key,name:key})
-          )
+    Long: {
+      Meta: ({item,dispatch,index}) => {
+        let displayArray = [];
+        function onChange(e) {
+          dispatch({type:'food/update',payload:{index,key:e.target.name,value:e.target.value}})
         }
-      })
-      return (
-        <Col>
-          <h5>Meta:</h5>
-          {(displayArray.length >= 1)? displayArray : 'Empty'}
-        </Col>
-      )
-    },
-    Nutrients: ({item,dispatch}) => {
-      function onChange(e) {
-        dispatch({type:'food_nutri/update',payload:{key:e.target.name,value:e.target.value}})
-      }
-      let displayArray = [];
-      const nutri = item.labelNutrients;
-      if(nutri) {
-        Object.keys(nutri).forEach(key => {
-          if ( typeof nutri[key] !== 'object' ) {
+        Object.keys(item).forEach(key => {
+          if ( typeof item[key] !== 'object' ) {
             displayArray.push(
               FormItem({obj:item,onChange,title:key,className:'',field:key,name:key})
             )
           }
         })
-      }
-      return (
-        <Col>
-          <h5>Nutri:</h5>
-          {(displayArray.length >= 1)? displayArray : 'Empty'}
-        </Col>
-      )
+        return (
+          <Col>
+            <h5>Meta:</h5>
+            {(displayArray.length >= 1)? displayArray : 'Empty'}
+          </Col>
+        )
+      },
+      Nutrients: ({item,dispatch}) => {
+        function onChange(e) {
+          dispatch({type:'food_nutri/update',payload:{key:e.target.name,value:e.target.value}})
+        }
+        let displayArray = [];
+        const nutri = item.labelNutrients;
+        if(nutri) {
+          Object.keys(nutri).forEach(key => {
+            if ( typeof nutri[key] !== 'object' ) {
+              displayArray.push(
+                FormItem({obj:item,onChange,title:key,className:'',field:key,name:key})
+              )
+            }
+          })
+        }
+        return (
+          <Col>
+            <h5>Nutri:</h5>
+            {(displayArray.length >= 1)? displayArray : 'Empty'}
+          </Col>
+        )
+      },
     },
   },
   empty: () => {

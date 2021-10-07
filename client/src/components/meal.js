@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -23,7 +24,7 @@ export const initialMeal = {
     fat: 'bad',
     carb: 'bad',
   },
-  ingredients: ingredients,
+  ingredients: [],
   allergies: [],
 };
 
@@ -59,6 +60,9 @@ const Meal = {
     },
     Body: function ({ item }) {
       const dispatch = useContext(XmealDispatch);
+      function remove() {
+        dispatch({type: 'meal_food/remove', payload:{food: item.food}});
+      }
       return [
         <td key={0}>
           <input type='text' name='servings' className=''
@@ -69,11 +73,15 @@ const Meal = {
           />
         </td>,
         <td key={1}>{item.food.description}</td>,
-        <td key={2}>{item.food.labelNutrients.calories.value}</td>,
-        <td key={3}></td>,
+        <td key={2}>{item.food.labelNutrients.calories}</td>,
+        <td key={3}><Meal.Items.Buttons.Remove callback={remove} /></td>,
       ]
     },
-    Buttons: {},
+    Buttons: {
+      AddItem: ({callback,toggle}) => <Button variant={'info'} onClick={callback}>{toggle?'More Items':'Add Items'}</Button>,
+      Add: ({callback}) => <Button variant={'success'} onClick={callback} >Add</Button>,
+      Remove: ({callback}) => <Button variant={'warning'} onClick={callback} >X</Button>
+    },
     Table: ({ items }) => <Assembled Head={Meal.Items.Head} Body={Meal.Items.Body} items={items} />,
   },
   Reducer: function mealReducer(state, action) {

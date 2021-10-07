@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -41,7 +41,8 @@ const initialState = {
 const Meal = ({ ...props }) => {
   let history = useHistory();
   let location = useLocation();
-  let id = location.state ? location.state.id : undefined;
+  let { id } = useParams();
+  if(!id) id = (location.state) ? location.state.id : undefined;
   const [meal, dispatch] = useReducer(mealReducer,initialState.meal);
   const [isLoading,setIsLoading] = useState(true);
 

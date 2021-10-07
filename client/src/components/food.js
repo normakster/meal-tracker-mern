@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 
 import api from './../api'
-import FoodItems from './foodItems';
+import FoodItems, { Meta, Nutrient } from './foodItems';
 
 const FoodPage = () => {
   let history = useHistory();
@@ -58,10 +58,11 @@ const FoodPage = () => {
       </Row>
       {false && <h5>Food Page:</h5>}
       <Row>
-      <FoodItems.Form.Meta item={food} dispatch={dispatch} index={null} />
-      <FoodItems.Form.Nutrients item={food} dispatch={dispatch} index={null} />
+        <Meta item={food} dispatch={dispatch} />
+        <Nutrient item={food} dispatch={dispatch} />
       </Row>
-      {false && <pre>{(food)? JSON.stringify(food, null, 1) : ''}</pre>}
+      {true && <pre>{(false)? JSON.stringify(food, null, 1) : ''}</pre>}
+      {true && <pre>{JSON.stringify(food, null, 1)}</pre>}
     </div>
   )
 }

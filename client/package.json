@@ -20,8 +20,10 @@
     "web-vitals": "^1.1.1"
   },
   "devDependencies": {
+    "cross-conf-env": "^1.2.1",
     "dotenv": "^10.0.0",
-    "cross-conf-env": "^1.2.1"
+    "jest": "26.6.0",
+    "supertest": "^6.1.6"
   },
   "config": {
     "serviceName": "client",
@@ -34,11 +36,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:jest": "jest",
     "eject": "react-scripts eject",
-
     "docker:cmd:compose": "cross-conf-env dotenv -e npm_package_config_envFile -- docker-compose -f npm_package_config_compseFile",
     "docker:cmd:build": "npm run docker:cmd:compose -- build",
-
     "docker:build": "cross-conf-env npm run docker:cmd:build -- npm_package_config_serviceName",
     "docker:tag": "cross-conf-env docker tag npm_package_config_imageRepo:latest npm_package_config_imageRepo:npm_package_version",
     "docker:run": "cross-conf-env npm run docker:cmd:compose -- up -d npm_package_config_serviceName",
@@ -46,10 +47,19 @@
     "docker:publish": "cross-conf-env docker push npm_package_config_imageRepo:npm_package_version",
     "docker:publish:latest": "cross-conf-env docker push npm_package_config_imageRepo:latest",
     "docker:clean": "cross-conf-env docker rm -f npm_package_config_imageName",
-
     "docker:run:local": "cross-conf-env npm run docker:cmd:compose -- up -d npm_package_config_serviceName-local",
     "docker:build:local": "cross-conf-env npm run docker:cmd:build -- npm_package_config_serviceName-local",
     "docker:clean:local": "cross-conf-env docker rm -f npm_package_config_imageName_local"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/public/",
+      "/src/config/",
+      "/src/data/",
+      "/src/app.test.js"
+    ]
   },
   "eslintConfig": {
     "extends": [

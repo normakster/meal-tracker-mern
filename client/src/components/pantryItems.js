@@ -1,11 +1,14 @@
 import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
 
-import { PantryTable, PantryDispatch } from './pantry'
+import { PantryTable, PantryDispatch, pantryReducer } from './pantry'
+import { XmealDispatch } from './cook'
 import api from './../api'
 import { Assembled } from '../services/utilities'
 
 const Pantry = {
+  reducer: pantryReducer,
   Basic: {
     Head: function () {
       return [
@@ -30,7 +33,6 @@ const Pantry = {
       return <Assembled Head={Pantry.Basic.Head} override={callback(Pantry.Basic.Body)} items={items} />
     }
   },
-
   Standard: {
     Head: function () {
       return [
@@ -46,7 +48,6 @@ const Pantry = {
     },
     Table: ({ items }) => <Assembled Head={Pantry.Standard.Head} Body={Pantry.Standard.Body} items={items} />,
   },
-
   Editable: {
     Head: function () {
       return [
@@ -90,8 +91,68 @@ const Pantry = {
     },
     Table: ({ items }) => <Assembled Head={Pantry.Editable.Head} Body={Pantry.Editable.Body} items={items} />,
     Buttons: {
-      Edit: ({callback}) => <Button variant={'warning'} onClick={callback} >Edit</Button>,
+      Edit: ({callback}) => <Button variant={'info'} onClick={callback} >Edit</Button>,
       Update: ({callback}) => <Button variant={'success'} onClick={callback} >Update</Button>
+    }
+  },
+  Meal: {
+  },
+  List: {
+    Table: (props) => {
+      const { meal,items } = props;
+      return (
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <td key={0}>Quantity</td>
+              <Pantry.Basic.Head key={1} />
+              <td key={2}>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item,i) => {
+              let inCache = false;
+              if(meal) {
+                meal.ingredients.forEach((ingr, i) => {
+                  if(item.food._id === ingr.food._id) {
+                    inCache = true;
+                  }
+                });
+              }
+              return <Pantry.List.Row key={i} item={item} inCache={inCache} />
+            })}
+          </tbody>
+        </Table>
+      )
+    },
+    Row: (props) => {
+      const { item,inCache } = props;
+      const mealDispatch = useContext(XmealDispatch);
+      function handleAddRemove() {
+        if(!inCache) {
+          mealDispatch({type: 'meal_food/add', payload:{food: item.food}});
+        } else {
+          mealDispatch({type: 'meal_food/remove', payload:{food: item.food}});
+        }
+      }
+
+      return (
+        <tr>
+          <td key={0}>{item.quantity}</td>
+          <td key={1}>{item.food.description}</td>
+          <td key={2}>{item.food.labelNutrients.calories}</td>
+          <td key={3}>
+            {inCache
+              ? <Pantry.List.Buttons.Remove callback={handleAddRemove} />
+              : <Pantry.List.Buttons.Add callback={handleAddRemove} />
+            }
+          </td>
+        </tr>
+      )
+    },
+    Buttons: {
+      Add: ({callback}) => <Button variant={'success'} onClick={callback} >Add</Button>,
+      Remove: ({callback}) => <Button variant={'warning'} onClick={callback} >X</Button>
     }
   }
 };

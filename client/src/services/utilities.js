@@ -24,10 +24,11 @@ export function InputItem({obj,onChange,title,className,field}) {
   )
 }
 
-export function Assembled({ Head, Body, override, items }) {
+export function Assembled(props) {
+  const { Head, Body, override, items } = props;
   function callback(Body) {
     return items.map((item,index) => <tr key={index} >
-      <Body item={item} index={index} />
+      <Body item={item} index={index} {...props} />
     </tr>)
   }
   return (

@@ -9,6 +9,7 @@ import Scanner from './components/scanner'
 import PantryPage from './components/pantry'
 import CookPage from './components/cook'
 import Meal from './components/meal/create-meal'
+import MealHistory from './components/meal/meal-history'
 import FoodPage from './components/food';
 import FoodList from './components/food/food-list';
 import Food from './components/food/food'
@@ -21,7 +22,9 @@ function App() {
         <Navbar />
         <br/>
         <Switch>
+          <Route exact path='/Meal/:id' component={Meal} />
           <Route exact path='/Meal' component={Meal} />
+          <Route exact path='/MealHistory' component={MealHistory} />
           <Route exact path='/Profile' component={Profile} />
           <Route path='/NewFood/' component={FoodPage} />
           <Route path='/Foods/' component={FoodList} />

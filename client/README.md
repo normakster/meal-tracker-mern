@@ -1,4 +1,4 @@
-## Design
+## Design Thoughts
 
 ### Pages
 1. About
@@ -11,9 +11,10 @@
     1. Food (has UPC)
   1. Cook (made from Leftovers)
     1. Food List (known/seen foods)
+1. Meal (Eat or consume)
 1. Profile
 
-## ToDo
+## ToDo - Open Ended
 
 - Sever Render ? (image capture and search, data send via GraphQL)
 - BarCode Scanner that references FDA/USAD api

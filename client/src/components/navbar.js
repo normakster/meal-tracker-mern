@@ -12,14 +12,6 @@ import settings from '../config/settings';
         <li className="navbar-item">
           <Link to="/" className="nav-link">Home</Link>
         </li>
-        {/*
-        <li className="navbar-item">
-          <Link to="/About" className="nav-link">About</Link>
-        </li>
-        <li className="navbar-item">
-          <Link to="/Foods" className="nav-link">List</Link>
-        </li>
-        */}
         <li className="navbar-item">
           <Link to="/NewFood" className="nav-link">NewFood</Link>
         </li>
@@ -34,6 +26,18 @@ import settings from '../config/settings';
         </li>
         <li className="navbar-item">
           <Link to="/Profile" className="nav-link">Profile</Link>
+        </li>
+        <li className="navbar-item">
+          <Link to="/Food" className="nav-link">Food (old)</Link>
+        </li>
+        <li className="navbar-item">
+          <Link to="/Foods" className="nav-link">List</Link>
+        </li>
+        <li className="navbar-item">
+          <Link to="/Meal" className="nav-link">Meal (old)</Link>
+        </li>
+        <li className="navbar-item">
+          <Link to="/MealHistory" className="nav-link">MealHistory (old)</Link>
         </li>
       </ul>
       </div>

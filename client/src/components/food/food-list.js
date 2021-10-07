@@ -56,7 +56,7 @@ const FoodList = ({ meal, mealDispatch, ...props }) => {
 
   useEffect(() => {
     async function fetch() {
-      foodsDispatch({type:'foods/fetchAll',payload:(await api.foods.getAll())})
+      foodsDispatch({type:'foods/fetchAll',payload:(await api.foods_old.getAll())})
     }
     fetch()
   },[])
