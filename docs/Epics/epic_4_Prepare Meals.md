@@ -6,7 +6,7 @@ As a User, I want to represent a meal I had/will have.  I will consume a portion
 ## User Stories
 As a User, I want:
 1. To add/remove a pantry item.
-1. To change an included pantry item's quantity.
+1. To change an quantity used of included pantry item.
 1. To record a new pantry item (scanner process).
 1. To set/change the date/time/location.
 1. To see the meal's aggregate nutrients and ingredients.

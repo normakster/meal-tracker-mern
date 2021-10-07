@@ -1,7 +1,7 @@
 # Process Groceries
 
 ## Epic
-As a User, I want add my groceries to my panty.
+As a User, I want to add my groceries to my panty.
 
 ## User Stories
 As a User, I want:
