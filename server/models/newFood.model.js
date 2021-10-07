@@ -87,7 +87,7 @@ const data = {
     str2obj(acc,key,'');
     return acc;
   },{}),
-  make: (newData) => update(newData,data.empty()),
+  make: (newData) => update(data.empty(),newData),
   update: (newData,exitings) => merge(newData,exitings),
 }
 

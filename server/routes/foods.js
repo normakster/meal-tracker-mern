@@ -1,13 +1,19 @@
 const router = require('express').Router();
-const foodData = require('../models/food.model');
+const { Food } = require('../models/food.model');
 const logger = require('log4js').getLogger();
-const Food = foodData.Food;
 
 
 router.route('/').post((req, res, next) => {
   logger.debug(req.body);
-  const newFood = new Food(foodData(req.body));
 
+  const newFood = new Food({
+    name: req.body.name,
+    desc: req.body.desc,
+    kCal:Number(req.body.kCal),
+    fat: Number(req.body.fat),
+    protein: Number(req.body.protein),
+    carb: Number(req.body.carb)
+  });
 
   logger.debug("Trying to add: " + newFood);
 
@@ -28,7 +34,12 @@ router.route('/:id').get((req, res, next) => {
 router.route('/:id').put((req, res, next) => {
   Food.findById(req.params.id)
     .then(food => {
-      food = foodData.update(food,req.body);
+      food.name = req.body.name;
+      food.desc = req.body.desc;
+      food.kCal = Number(req.body.kCal);
+      food.fat = Number(req.body.fat);
+      food.protein = Number(req.body.protein);
+      food.carb = Number(req.body.carb);
 
       food.save()
         .then(() => res.json(food))

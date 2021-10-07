@@ -14,24 +14,24 @@ FDA_KEY=
 URI | Action | Request | Response
 --- | --- | --- | ---
 /api/ | n/a | - | n/a
----
+--- | --- | --- | ---
 /api/health | GET | - | JSON
----
+--- | --- | --- | ---
 /api/meals/ | GET | - | [meals]
 /api/meals/ | POST | {meal} | {meal}
----
+--- | --- | --- | ---
 /api/foods/ | GET | - | [foods]
 /api/foods/ | POST | {food} | {foods}
 /api/foods/:id | GET | - | {foods}
 /api/foods/:id | PUT | {food} | {foods}
 /api/foods/:id | DELETE | - | {foods}
----
+--- | --- | --- | ---
 /api/pantry/ | GET | - | [inventory]
 /api/pantry/ | POST | {inventory} | {inventory}
 /api/pantry/:id | GET | - | {inventory}
 /api/pantry/:id | PUT | {inventory} | {inventory}
 /api/pantry/:id | DELETE | - | {deleted: inventor._id}
----
+--- | --- | --- | ---
 /api/upc/ | GET | - | {msg,[inventory]}
 /api/upc/ | POST | {inventory} | {_id,msg,inventory}
 /api/upc/:id | GET | - | {_id,msg,inventory}

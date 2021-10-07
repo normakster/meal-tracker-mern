@@ -13,17 +13,18 @@ router.route('/search').post((req, res, next) => {
       logger.debug('Found ' + food.description + ' from the DB for fcdId: ' + food._id );
       res.status(200).json({totalHits:1,foods:[food]});
     } else {
-      res.status(204).json({foods: Food.empty()});
+      res.status(204).json({foods: foodData.empty()});
     }
   })
   .catch(err => {
     logger.debug('Error: '  + err);
-    res.status(400).json([])
+    res.status(400).json({foods:[]})
   });
 })
 
 router.route('/').post((req, res, next) => {
-  const newFood = new Food(foodData.make(req.body));
+  const validated = foodData.make(req.body);
+  const newFood = new Food(validated);
   newFood.save()
   .then((found) => res.status(200).json(
     {

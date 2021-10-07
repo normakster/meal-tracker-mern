@@ -19,6 +19,15 @@ module.exports = {
     });
     return target;
   },
+  update: function update(target,source) {
+    Object.keys(source).forEach(key => {
+      if (source[key] && typeof source[key] === 'object') {
+        update((target[key] = target[key] || source[key]),source[key])
+      }
+      target[key] = source[key];
+    });
+    return target;
+  },
   copyDeep: function copyDeep(source) {
     return JSON.parse(JSON.stringify(source))
   },
