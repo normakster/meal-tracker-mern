@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { FdaFood } = require('../models/fdaFood.model');
 const logger = require('log4js').getLogger();
 const fdaApi = require('../api/fda');
-const searchResults = require('./searchResults');
+const searchResults = {};
 
 
 router.route('/food/:id').get((req, res, next) => {

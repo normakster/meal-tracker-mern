@@ -35,7 +35,10 @@ const corsOptions = {
   origin: [
     `https://nutri.${host}`,
     `http://nutri.${host}`,
+    `https://nutri.localhost`,
     `http://nutri.localhost`,
+    `https://${host}`,
+    `http://${host}`,
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   preflightContinue: false,

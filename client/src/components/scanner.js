@@ -11,7 +11,7 @@ import FdaItems from './FdaItems'
 import FoodItems from './foodItems';
 import api from './../api'
 import { fdaFood, inventory } from '../data/dummy';
-import { searchResult } from '../data/searchResults';
+const searchResult = {};
 
 const XsetItem = React.createContext(null);
 

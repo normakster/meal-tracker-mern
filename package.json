@@ -17,7 +17,7 @@
 
     "build": "run-p build:infra build:api build:web",
     "build:thin": "run-p build:api build:web:local",
-    "build:infra": "run-p build:proxy build:db build:api build:web",
+    "build:infra": "run-p build:proxy build:db",
     "build:proxy": "npm run docker:cmd:build -- reverse-proxy",
     "build:db": "npm run docker:cmd:build -- mongo",
     "build:api": "npm run docker:build --prefix server",
