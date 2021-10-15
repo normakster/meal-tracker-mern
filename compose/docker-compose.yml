@@ -27,12 +27,15 @@ services:
      - "traefik.http.routers.jenkins.entrypoints=web"
     ports:
       - '8082:8080'
-      # - '50000:50000'
+      - '50000:50000'
     volumes:
       - type: volume
         source: jenkins-data
         target: /var/jenkins_home
-      - 'jenkins-docker-certs:/certs/client:ro'
+      - type: volume
+        source: jenkins-docker-certs
+        target: /certs/client
+        read_only: true
     networks:
       - jenkins
       - proxy-net

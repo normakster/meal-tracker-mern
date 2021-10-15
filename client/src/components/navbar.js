@@ -13,10 +13,10 @@ import settings from '../config/settings';
           <Link to="/" className="nav-link">Home</Link>
         </li>
         <li className="navbar-item">
-          <Link to="/NewFood" className="nav-link">NewFood</Link>
+          <Link to="/Scanner" className="nav-link">Scanner</Link>
         </li>
         <li className="navbar-item">
-          <Link to="/Scanner" className="nav-link">Scanner</Link>
+          <Link to="/NewFood" className="nav-link">NewFood</Link>
         </li>
         <li className="navbar-item">
           <Link to="/Pantry" className="nav-link">Pantry</Link>
