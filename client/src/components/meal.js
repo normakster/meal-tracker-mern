@@ -19,10 +19,10 @@ export const initialMeal = {
   servingSize: 1,
   units_total: 1,
   nutrients: {
-    kcal: 'bad',
+    calories: 'bad',
     protein: 'bad',
     fat: 'bad',
-    carb: 'bad',
+    carbohydrates: 'bad',
   },
   ingredients: [],
   allergies: [],
@@ -52,10 +52,11 @@ const Meal = {
   Items: {
     Head: function () {
       return [
-        <td key={0}>Servings</td>,
-        <td key={1}>Ingredient</td>,
-        <td key={2}>Calories</td>,
-        <td key={3}>Action</td>,
+        <td key={0}>Available</td>,
+        <td key={1}>Servings</td>,
+        <td key={2}>Ingredient</td>,
+        <td key={3}>Calories</td>,
+        <td key={4}>Action</td>,
       ]
     },
     Body: function ({ item }) {
@@ -64,7 +65,8 @@ const Meal = {
         dispatch({type: 'meal_food/remove', payload:{food: item.food}});
       }
       return [
-        <td key={0}>
+        <td key={0}>{item.quantity * item.food.servingSize}</td>,
+        <td key={1}>
           <input type='text' name='servings' className=''
             placeholder='Servings (required)'
             value={item.servings} onChange={(e) => {
@@ -72,9 +74,9 @@ const Meal = {
             }}
           />
         </td>,
-        <td key={1}>{item.food.description}</td>,
-        <td key={2}>{item.food.labelNutrients.calories}</td>,
-        <td key={3}><Meal.Items.Buttons.Remove callback={remove} /></td>,
+        <td key={2}>{item.food.description}</td>,
+        <td key={3}>{item.food.labelNutrients.calories}</td>,
+        <td key={4}><Meal.Items.Buttons.Remove callback={remove} /></td>,
       ]
     },
     Buttons: {
@@ -100,6 +102,8 @@ const Meal = {
           }, 0),
           servings: '',
           food: {...action.payload.food},
+          quantity: action.payload.quantity,
+          pantry_id: action.payload.id,
         })}
       case 'meal_food/remove':
         return { ...state,

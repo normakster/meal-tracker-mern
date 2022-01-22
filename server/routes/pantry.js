@@ -9,9 +9,10 @@ router.route('/').get((req, res, next) => {
 });
 
 router.route('/').post((req,res,next) => {
+
   Inventory.findOne().byFoodID(req.body.food._id).exec(function (err, existing) {
     if(existing) {
-      existing.quantity += Number(req.body.quantity);
+      existing.quantity = parseFloat(existing.quantity) + parseFloat(req.body.quantity);
       existing.save()
         .then((item) => res.json(item))
         .catch((err) => {
@@ -24,7 +25,7 @@ router.route('/').post((req,res,next) => {
         quantity: Number(req.body.quantity) || 0,
         food: req.body.food
       });
-      logger.debug('Trying to add Item: \n' + JSON.stringify(''));
+      logger.debug('Trying to add Item: \n' + JSON.stringify(newItem));
       newItem.save()
         .then((item) => res.json(item))
         .catch((err) => {
@@ -36,17 +37,19 @@ router.route('/').post((req,res,next) => {
 });
 
 router.route('/:id').put((req, res, next) => {
-  if(Number(req.body.quantity) === 0) {
+  if(Number(req.body.quantity) <= 0) {
     Inventory.findByIdAndDelete(req.params.id)
     .then(() => res.json('Deleted'))
     .catch(err => res.status(400).json('Error: ' + err));
   } else {
     Inventory.findById(req.params.id)
       .then(item => {
-        item.quantity = Number(req.body.quantity);
+        item.quantity = req.body.quantity;
         item.food = req.body.food;
         item.save()
-          .then(() => res.json(item))
+          .then(() => {
+            res.json(item);
+          })
           .catch(err => res.status(400).json('Error: ' + err));
       })
       .catch(err => res.status(400).json('Error: ' + err));

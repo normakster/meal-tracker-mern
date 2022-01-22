@@ -1,4 +1,9 @@
 import React, { Fragment, useState, useReducer, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
 
 import api from './../api'
 import { updateObject, updateItemInArray }  from './../services/utilities'
@@ -32,9 +37,14 @@ function pantryReducer(state, action) {
 const PantryDispatch = React.createContext(null);
 
 const PantryPage = () => {
+  let history = useHistory();
   const [items, dispatch] = useReducer(pantryReducer,[]);
   const [filterValue, setFilterValue] = useState('');
   let filtered = items.filter(({ food }) => food.description.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
+
+  const Buttons = {
+    Add: ({callback,disabled}) => <Col><Button variant={'success'} onClick={callback} disabled={disabled} >Add</Button></Col>,
+  }
 
   useEffect(() => {
     async function fetch() {
@@ -45,8 +55,16 @@ const PantryPage = () => {
 
   return (
     <PantryDispatch.Provider value={dispatch}>
+      <Row>
+        <Col>
       <SearchInput key={0} label='Search: ' search={filterValue} setSearch={setFilterValue} />
+        </Col>
+        <Buttons.Add callback={() => history.push('/Scanner')} />
+      </Row>
+      <br />
+      <Row>
       <Pantry.Editable.Table items={filtered} />
+      </Row>
     </PantryDispatch.Provider>
   )
 }

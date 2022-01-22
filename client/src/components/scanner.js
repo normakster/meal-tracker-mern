@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -17,6 +18,7 @@ const XsetItem = React.createContext(null);
 
 
 const Scanner = () => {
+  let history = useHistory();
   const [searchTerm, setSearchTerm] = useState('');
   const [item, setItem] = useState(null);
   const [cache, setCache] = useState([]);
@@ -28,6 +30,12 @@ const Scanner = () => {
     setSearchResults(res);
   }
 
+  const Buttons = {
+    Search: ({callback,disabled}) => <Col><Button variant={'primary'} onClick={callback} disabled={disabled} >Search</Button></Col>,
+    Scan: ({callback,disabled}) => <Col><Button variant={'secondary'} onClick={callback} disabled={disabled} ><strike>Scan</strike></Button></Col>,
+    Done: ({callback,disabled}) => <Col><Button variant={'success'} onClick={callback} disabled={disabled} >Done</Button></Col>,
+  }
+
   return (
     <XsetItem.Provider value={setItem} >
       <Container fluid>
@@ -35,11 +43,10 @@ const Scanner = () => {
         : <div>
           <hr />
           <Row>
-            <SearchInput value={searchTerm} setValue={setSearchTerm} />
-          </Row>
-          <Row>
-            <Button variant='primary' onClick={() => search(searchTerm)}>Search</Button>
-            <Button disabled variant='secondary' onClick={null}><strike>Scan</strike></Button>
+            <Col><SearchInput value={searchTerm} setValue={setSearchTerm} /></Col>
+            <Buttons.Search callback={() => search(searchTerm)} />
+            <Buttons.Scan callback={null} disabled />
+            <Buttons.Done callback={() => history.push('/Pantry')} />
           </Row>
           <hr />
             <Details items={searchResults.foods} searchResults={searchResults} />

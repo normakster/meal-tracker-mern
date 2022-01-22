@@ -39,7 +39,7 @@ router.route('/').post((req, res, next) => {
 });
 router.route('/:id').get((req, res, next) => {
   Food.findById(req.params.id)
-    .then(food => res.status(200).json(
+    .then(found => res.json(
       {
         _id:found._id,
         msg:'Found: '+found._id,
@@ -50,9 +50,9 @@ router.route('/:id').get((req, res, next) => {
 router.route('/:id').put((req, res, next) => {
   Food.findById(req.params.id)
     .then(found => {
-      found = foodData.update(found,req.body);
+      found = foodData.update(req.body,found);
       found.save()
-        .then(() => res.status(200).json(
+        .then(() => res.json(
           {
             _id:found._id,
             msg:'Updated: '+found._id,

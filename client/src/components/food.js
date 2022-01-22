@@ -1,5 +1,5 @@
-import { useEffect, useReducer } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useEffect, useReducer, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
@@ -10,20 +10,23 @@ import FoodItems, { Meta, Nutrient } from './foodItems';
 const FoodPage = () => {
   let history = useHistory();
   let location = useLocation();
-  let id = location.state ? location.state.id : undefined;
-  const [food,dispatch] = useReducer(FoodItems.itemReducer,{});
+  let { id } = useParams();
+  if(!id) id = location.state ? location.state.id : undefined;
+  const [food,dispatch] = useReducer(FoodItems.itemReducer,FoodItems.empty());
+  const [inspect,setInspect] = useState(false);
 
   const Buttons = {
     Save: ({callback,disabled}) => <Col><Button variant={'primary'} onClick={callback} disabled={disabled} >Save</Button></Col>,
     Cancel: ({callback,disabled}) => <Col><Button variant={'warning'} onClick={callback} disabled={disabled} >Cancel</Button></Col>,
     Remove: ({callback,disabled}) => <Col><Button variant={'danger'} onClick={callback} disabled={disabled} >Remove</Button></Col>,
+    Inspect: ({callback,disabled}) => <Col><Button variant={'info'} onClick={() => setInspect(!inspect)} disabled={disabled} >Inspect</Button></Col>, 
   }
 
-  function handleSave() {
+  async function handleSave() {
     if(id) {
-      api.upcFoods.post(food).then(data => apiSuccess('Updated',data.data))
+      let result = await api.upcFoods.put(food);
     } else {
-      api.upcFoods.post(food).then(data => apiSuccess('Created',data.data))
+      await api.upcFoods.post(food).then(data => apiSuccess('Created',data.data))
     }
   }
 
@@ -44,10 +47,12 @@ const FoodPage = () => {
 
   useEffect(() => {
     async function fetch() {
-      dispatch({type:'food/init',payload:(FoodItems.empty())})
+      if(id) {
+        dispatch({type:'food/init',payload:((await api.upcFoods.get(id)).data)})
+      }
     }
     fetch()
-  },[])
+  },[id])
 
   return (
     <div>
@@ -59,10 +64,13 @@ const FoodPage = () => {
       {false && <h5>Food Page:</h5>}
       <Row>
         <Meta item={food} dispatch={dispatch} />
-        <Nutrient item={food} dispatch={dispatch} />
+        <Nutrient item={food.labelNutrients} dispatch={dispatch} />
       </Row>
-      {true && <pre>{(false)? JSON.stringify(food, null, 1) : ''}</pre>}
-      {true && <pre>{JSON.stringify(food, null, 1)}</pre>}
+      <Row>
+        <Buttons.Inspect />
+      </Row>
+      {inspect && <div>id:<pre>{JSON.stringify(id, null, 1)}</pre></div>}
+      {inspect && <pre>{JSON.stringify(food, null, 1)}</pre>}
     </div>
   )
 }

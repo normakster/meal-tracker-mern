@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { foodReducer, initialState } from './food-reducer'
 
 import Container from 'react-bootstrap/Container'
@@ -12,7 +12,8 @@ import api from '../../api'
 const Food = ({ foodItem }) => {
   let history = useHistory();
   let location = useLocation();
-  let id = location.state ? location.state.id : undefined;
+  let { id } = useParams();
+  if(!id) id = location.state ? location.state.id : undefined;
   const [food,dispatch] = useReducer(foodReducer,initialState.food)
 
   useEffect(() => {

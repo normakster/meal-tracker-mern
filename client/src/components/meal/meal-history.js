@@ -82,6 +82,7 @@ const MealHistory = () => {
 
   return (
     <Container className=''>
+      <h5>Charts:</h5>
       <hr />
       <QuickBites />
       <hr />

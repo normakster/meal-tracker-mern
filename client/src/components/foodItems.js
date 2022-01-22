@@ -81,7 +81,10 @@ const FoodItems = {
       async function handleAccept() {
         const accepted = { quantity: quantity || 0, food: item };
         await api.pantry.post(accepted)
-        .then(() => alert('Accepting...' + JSON.stringify(accepted, null, 1)))
+        .then(() => {
+          // alert('Accepting...' + JSON.stringify(accepted, null, 1))
+          setItem(null);
+        })
         .catch((err) => {
           console.log(err);
           alert('NOT Accepted.');

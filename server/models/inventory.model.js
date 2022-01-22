@@ -3,7 +3,7 @@ const foodData = require('./newFood.model');
 
 const inventorySchema = new mongoose.Schema(
   {
-    quantity: { type: Number, required: true },
+    quantity: { type: String, required: true },
     food: { type: foodData.schema, required: false },
   }, {
     timestamps: true,

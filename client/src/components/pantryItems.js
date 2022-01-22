@@ -130,7 +130,7 @@ const Pantry = {
       const mealDispatch = useContext(XmealDispatch);
       function handleAddRemove() {
         if(!inCache) {
-          mealDispatch({type: 'meal_food/add', payload:{food: item.food}});
+          mealDispatch({type: 'meal_food/add', payload:{id: item._id, quantity: item.quantity, food: item.food}});
         } else {
           mealDispatch({type: 'meal_food/remove', payload:{food: item.food}});
         }

@@ -1,5 +1,5 @@
 # Build
-FROM node:alpine as build
+FROM node:16-alpine as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --silent

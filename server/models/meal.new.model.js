@@ -9,14 +9,14 @@ const data = {
       datetime: { type: String, required: false },
       location: { type: String, required: true },
       ingredients: [{
-        serv: { type: Number, required: true },
+        servings: { type: String, required: true },
         food: { type: foodData.schema, required: true },
       }],
     }, {
       timestamps: true,
     }
   ),
-  validate: (rawDatat) => {
+  validate: (rawData) => {
     return rawData
   },
   create: (valid) => {

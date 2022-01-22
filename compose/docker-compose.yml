@@ -45,13 +45,14 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entryPoints.web.address=:8080"
+      - "--entryPoints.web.address=:80"
       - "--entryPoints.traefik.address=:8082"
       # - "--entryPoints.websecure.address=:443"
       # - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
 
     ports:
+      - '80:80'
       # - '443:443'
       - '8080:8080'
       - '8082:8082'
@@ -67,7 +68,7 @@ services:
         dockerfile: dockerfile
     image: normak458/meal-tracker_mongo
     ports:
-      - '27017:27017'
+      - '27018:27017'
     networks:
       - proxy-net
     volumes:
@@ -81,7 +82,7 @@ services:
       dockerfile: Dockerfile_without-NGINX
     image: normak458/meal-tracker_client_local
     environment:
-      - REACT_APP_API_URL=https://${API_URL:-localhost}
+      - REACT_APP_API_URL=http://${API_URL:-localhost}
       - REACT_APP_VERSION=${APP_VERSION}
       - REACT_APP_API_PORT=${API_PORT}
       - NODE_ENV=${NODE_ENV}

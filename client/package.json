@@ -33,6 +33,7 @@
     "compseFile": "../compose/docker-compose.yml"
   },
   "scripts": {
+    "start_old": "react-scripts --openssl-legacy-provider start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
