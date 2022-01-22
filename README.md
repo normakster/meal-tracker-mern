@@ -6,7 +6,7 @@ DEMO: http://nutri.kameron.io
 
 See [Specs document](https://github.com/normakster/meal-tracker-mern/blob/main/docs/Spec.md)
 
-See [Backlog](https://github.com/normakster/meal-tracker-mern/blob/client-v0.0.2/docs/Product%20Backlog.md)
+See [Backlog](https://github.com/normakster/meal-tracker-mern/blob/main/docs/Product%20Backlog.md)
 
 ### *Scope and status*
 - Tracks food items from Grocery through Pantry to Consumption as Nutrients.
@@ -25,21 +25,32 @@ purposes only.
 ### *Environmental variables*
 
 ```
-N/A atm.
+NODE_ENV=development
+APP_VERSION=
+API_URL=
+API_VERSION=
+API_PORT=
+MONGODB_URI=
+FDA_KEY=
 ```
 
 ### *Deployment*
+* This project is build to run in Docker Containers.
 
-#### Local
+#### Local - Full
 ```
-cd meal-tracker-mern
-cd ./server
-npm ci --silent
-cd ../client
-npm ci --silent
-cd ../compose
-docker-compose up --build
+npm install
+npm build
+npm start
+npm run open:[ mac || win ]
 http://nutri.localhost
+```
+
+#### Local - Thin (w/o proxy or db)
+```
+npm run build:thin
+npm run start:thin
+npm run open:[ mac || win ]
 ```
 
 #### Cluster
@@ -54,3 +65,6 @@ http://nutri.[your_domain]
 Please reach out and contribute if you find this project interesting.  
 
 [//]: # (Socials: -  Discord)
+
+### Socials
+Github: [@normakster](https://github.com/normakster)  

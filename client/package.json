@@ -1,6 +1,6 @@
 {
-  "name": "meal-tracker-mern",
-  "version": "0.0.2",
+  "name": "meal-tracker_client",
+  "version": "0.0.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
@@ -19,11 +19,48 @@
     "react-select": "^4.3.0",
     "web-vitals": "^1.1.1"
   },
+  "devDependencies": {
+    "cross-conf-env": "^1.2.1",
+    "dotenv": "^10.0.0",
+    "jest": "26.6.0",
+    "supertest": "^6.1.6"
+  },
+  "config": {
+    "serviceName": "client",
+    "imageName": "meal-tracker_client",
+    "imageRepo": "normak458/meal-tracker_client",
+    "envFile": "../compose/.env",
+    "compseFile": "../compose/docker-compose.yml"
+  },
   "scripts": {
+    "start_old": "react-scripts --openssl-legacy-provider start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:jest": "jest",
+    "eject": "react-scripts eject",
+    "docker:cmd:compose": "cross-conf-env dotenv -e npm_package_config_envFile -- docker-compose -f npm_package_config_compseFile",
+    "docker:cmd:build": "npm run docker:cmd:compose -- build",
+    "docker:build": "cross-conf-env npm run docker:cmd:build -- npm_package_config_serviceName",
+    "docker:tag": "cross-conf-env docker tag npm_package_config_imageRepo:latest npm_package_config_imageRepo:npm_package_version",
+    "docker:run": "cross-conf-env npm run docker:cmd:compose -- up -d npm_package_config_serviceName",
+    "docker:run:attatched": "cross-conf-env npm run docker:cmd:compose -- up npm_package_config_serviceName",
+    "docker:publish": "cross-conf-env docker push npm_package_config_imageRepo:npm_package_version",
+    "docker:publish:latest": "cross-conf-env docker push npm_package_config_imageRepo:latest",
+    "docker:clean": "cross-conf-env docker rm -f npm_package_config_imageName",
+    "docker:run:local": "cross-conf-env npm run docker:cmd:compose -- up -d npm_package_config_serviceName-local",
+    "docker:build:local": "cross-conf-env npm run docker:cmd:build -- npm_package_config_serviceName-local",
+    "docker:clean:local": "cross-conf-env docker rm -f npm_package_config_imageName_local"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/public/",
+      "/src/config/",
+      "/src/data/",
+      "/src/app.test.js"
+    ]
   },
   "eslintConfig": {
     "extends": [

@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -41,14 +41,15 @@ const initialState = {
 const Meal = ({ ...props }) => {
   let history = useHistory();
   let location = useLocation();
-  let id = location.state ? location.state.id : undefined;
+  let { id } = useParams();
+  if(!id) id = (location.state) ? location.state.id : undefined;
   const [meal, dispatch] = useReducer(mealReducer,initialState.meal);
   const [isLoading,setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetch() {
       if(id) {
-        dispatch({type:'meal/init',payload:(await api.getMeal(id))})
+        dispatch({type:'meal/init',payload:(await api.meals.get(id))})
       }
     }
     fetch()
@@ -64,11 +65,11 @@ const Meal = ({ ...props }) => {
 
   async function handleSave(updatedMeal) {
     if(id) {
-      let data = await api.putMeal(updatedMeal);
+      let data = await api.meals.put(updatedMeal);
       console.log('Updated: ' + JSON.stringify(data._id));
       history.push('/');
     } else {
-      let data = await api.postMeal(updatedMeal);
+      let data = await api.meals.post(updatedMeal);
       console.log('Created: ' + JSON.stringify(data._id));
       console.log(updatedMeal);
       history.push('/');

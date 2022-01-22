@@ -3,7 +3,7 @@
 ## Minimum Viable Product (MVP) [Innovators]
 - Proof of concept showing functionality.
 1. Maintain an inventory.
-1. Search UPC / USDA for nutritional info.
+1. ~~Search UPC / USDA for nutritional info.~~
 1. Maintain a history of nutrients consumed.
 1. Set and maintain nutritional targets.
 1. Visualize historic data vs targets over time.

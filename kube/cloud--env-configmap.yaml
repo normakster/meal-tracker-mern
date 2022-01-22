@@ -3,11 +3,15 @@ kind: ConfigMap
 metadata:
   name: cloud--env
 data:
-  FRONTEND_HOST: "10.128.241.180:3000" # Frontend Host
-  MONGODB_URI: mongodb://10.128.19.57:27017
-  NODE_ENV: development
-  BACKEND_PORT: "8081" # Backend Port
+  # Frontend
   CHOKIDAR_USEPOLLING: "true"
   NODE_ENV: development
-  REACT_APP_API_URL: nutri.kameron.io
-  REACT_APP_VERSION: v0.0.2
+  REACT_APP_API_URL: http://kameron.io
+  REACT_APP_VERSION: v0.0.3
+
+  # Backend
+  NODE_ENV: development
+  API_VERSION: v0.0.3
+  API_URL: kameron.io
+  BACKEND_PORT: "8081" # Backend Port
+  MONGODB_URI: mongodb://10.128.19.57:27017

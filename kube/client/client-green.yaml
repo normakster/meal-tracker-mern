@@ -1,10 +1,4 @@
 apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: meal-tracker-client
-
----
-apiVersion: v1
 kind: Service
 metadata:
   name: client

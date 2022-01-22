@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { foodReducer, initialState } from './food-reducer'
 
 import Container from 'react-bootstrap/Container'
@@ -12,13 +12,14 @@ import api from '../../api'
 const Food = ({ foodItem }) => {
   let history = useHistory();
   let location = useLocation();
-  let id = location.state ? location.state.id : undefined;
+  let { id } = useParams();
+  if(!id) id = location.state ? location.state.id : undefined;
   const [food,dispatch] = useReducer(foodReducer,initialState.food)
 
   useEffect(() => {
     async function fetch() {
       if(id) {
-        dispatch({type:'food/init',payload:(await api.getFood(id))})
+        dispatch({type:'food/init',payload:(await api.foods_old.get(id))})
       }
     }
     fetch()
@@ -30,11 +31,11 @@ const Food = ({ foodItem }) => {
 
   async function handleSave(updatedFood) {
     if(id) {
-      let data = await api.putFood(updatedFood);
+      let data = await api.foods_old.put(updatedFood);
       console.log('Updated: ' + JSON.stringify(data._id));
       history.goBack();
     } else {
-      let data = await api.postFood(updatedFood);
+      let data = await api.foods_old.post(updatedFood);
       console.log('Created: ' + JSON.stringify(data._id));
       history.goBack();
     }
@@ -46,7 +47,7 @@ const Food = ({ foodItem }) => {
   }
 
   function handleRemove(e) {
-    api.deleteFood(food._id).then((data) => {apiSuccess('Deleted',data)})
+    api.foods_old.delete(food._id).then((data) => {apiSuccess('Deleted',data)})
   }
 
   function apiSuccess(type,data) {

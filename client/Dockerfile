@@ -1,9 +1,12 @@
 # Build
-FROM node:alpine as build
+FROM node:16-alpine as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --silent
-# Have a .dockerignore file ignoring node_modules and build
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL $REACT_APP_API_URL
+ARG REACT_APP_VERSION
+ENV REACT_APP_VERSION $REACT_APP_VERSION
 COPY . ./
 RUN npm run build
 

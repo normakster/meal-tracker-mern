@@ -1,37 +1,13 @@
-import * as food from './food-api'
-import * as meal from './meal-api'
-
-function handleResponse(res) {
-  if (res.status >= 400 && res.status < 600) {
-    throw new Error("Bad response");
-  }
-  // if (!res.headers.get("content-type").includes("application/json")) {
-  //   throw new TypeError("Response not JSON");
-  // }
-  // console.log(res.data);
-  return res.data;
-}
-
-export {
-  // Functions
-  handleResponse,
-}
-
+import Api from './api'
 const api = {
-
-  // Meal Routes
-  postMeal: meal.post,
-  getMeal: meal.get,
-  putMeal: meal.put,
-  deleteMeal: meal.remove,
-  getAllMeals: meal.getAll,
-
-  // Food Routes
-  postFood: food.post,
-  getFood: food.get,
-  putFood: food.put,
-  deleteFood: food.remove,
-  getAllFoods: food.getAll,
+  foods_old: new Api('foods'),
+  meals_old: new Api('mealsOld'),
+  meals: new Api('meals'),
+  pantry: new Api('pantry'),
+  fdaFood: new Api('fda/foods'),
+  fdaFoodSearch: new Api('fda/foods/search'),
+  upcFoods: new Api('upc'),
+  upcSearch: new Api('upc/search'),
 };
 
 export default api

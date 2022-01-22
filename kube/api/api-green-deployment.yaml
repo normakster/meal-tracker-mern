@@ -18,15 +18,20 @@ spec:
     spec:
       containers:
       - name: api
-        image: normak458/meal-tracker_api:latest
+        image: normak458/meal-tracker_api:v0.0.2
         imagePullPolicy: Always #Always #IfNotPresent
         ports:
         - containerPort: 8081
         env:
+          - name: API_VERSION
+            valueFrom:
+              configMapKeyRef:
+                key: API_VERSION
+                name: cloud--env
           - name: HOST
             valueFrom:
               configMapKeyRef:
-                key: FRONTEND_HOST
+                key: API_URL
                 name: cloud--env
           - name: MONGODB_URI
             valueFrom:

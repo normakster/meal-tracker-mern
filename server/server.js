@@ -33,25 +33,38 @@ const app = express();
 // app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 const corsOptions = {
   origin: [
+    `https://nutri.${host}`,
+    `http://nutri.${host}`,
+    `https://nutri.localhost`,
+    `http://nutri.localhost`,
     `https://${host}`,
     `http://${host}`,
-    `${host}`,
-    `http://nutri.localhost`
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  // credentials: true // enable set cookie
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }
-app.options('*', cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Path routing
 const usersRouter = require('./routes/users');
 const foodsRouter = require('./routes/foods');
 const mealsRouter = require('./routes/meals');
+const newMealsRouter = require('./routes/newMeals');
+const pantryRouter = require('./routes/pantry');
+const fdaFoodsRouter = require('./routes/fdaFoods');
+const upcFoodsRouter = require('./routes/upc');
 app.use('/api/users', usersRouter);
 app.use('/api/foods', foodsRouter);
-app.use('/api/meals', mealsRouter);
+app.use('/api/mealsOld', mealsRouter);
+app.use('/api/meals', newMealsRouter);
+app.use('/api/pantry', pantryRouter);
+app.use('/api/fda', fdaFoodsRouter);
+app.use('/api/upc', upcFoodsRouter);
+
+const healthRouter = require('./routes/health');
+app.use('/api/health', healthRouter);
 
 // -----------------------------------------------------
 

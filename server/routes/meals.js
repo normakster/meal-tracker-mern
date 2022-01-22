@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Meal } = require('../models/meal.model');
-const { Food } = require('../models/food.model');
 const logger = require('log4js').getLogger();
 
 router.route('/').post((req,res,next) => {

@@ -38,7 +38,7 @@ const MealHistory = () => {
     async function fetchData() {
       !didCancel && setIsLoading(true);
       try {
-        const data = await api.getAllMeals();
+        const data = await api.meals.getAll();
         !didCancel && dispatch({type:'meal/fetchAll',payload:(data)})
       } catch (e) {
         console.log(e);
@@ -52,8 +52,8 @@ const MealHistory = () => {
 
   async function handleRemove(id) {
     try {
-      await api.deleteMeal(id);
-      const data = await api.getAllMeals();
+      await api.meals.delete(id);
+      const data = await api.meals.getAll();
       dispatch({type:'meal/fetchAll',payload:(data)})
     } catch (e) {
       console.log(e);
@@ -82,6 +82,7 @@ const MealHistory = () => {
 
   return (
     <Container className=''>
+      <h5>Charts:</h5>
       <hr />
       <QuickBites />
       <hr />

@@ -2,15 +2,9 @@ const router = require('express').Router();
 const { Food } = require('../models/food.model');
 const logger = require('log4js').getLogger();
 
-const Foods = []
-
-// router.route('/').get((req, res) => {
-
-// })
 
 router.route('/').post((req, res, next) => {
   logger.debug(req.body);
-
 
   const newFood = new Food({
     name: req.body.name,
@@ -21,7 +15,7 @@ router.route('/').post((req, res, next) => {
     carb: Number(req.body.carb)
   });
 
-  logger.debug("Trying to add: \n" + newFood);
+  logger.debug("Trying to add: " + newFood);
 
   newFood.save()
   .then(() => res.json('Food added!'))
