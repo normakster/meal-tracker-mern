@@ -1,4 +1,5 @@
 import settings from '../config/settings';
+
 const About = () => {
   const apiURL = settings.apiURL + (settings.apiPort ? ':' + settings.apiPort : '')  + '/api';
   const port = settings.apiPort;
