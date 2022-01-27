@@ -1,36 +1,22 @@
-import List from '../atoms/List'
+import Table from '../atoms/Table'
 import Buttons from '../atoms/Buttons'
-import ButtonGroup from '../molecules/ButtonGroup'
-import List from '../atoms/List'
 
 const Scanner = {
-    Buttons: function ({ handleSearch, handleDone }) {
-        return (
-            <ButtonGroup>
-                <Buttons.Search callback={handleSearch} />
-                <Buttons.Scan callback={null} disabled />
-                <Buttons.Done callback={handleDone} />
-            </ButtonGroup>
-        )
+    Tables: {
+        Standard: (props) => <Table Head={Scanner.Heads.Standard} Row={Scanner.Rows.SearchResults} {...props} />,
     },
-    Table: function ({ items, handleAccept }) {
-        return (
-            <div className='row border border-info mt-3'>
-                <div className='container-fluid p-2 border border-info'>
-                    <List Head={Scanner.Head}>
-                        {items.map((item,i) => {
-                            return (
-                                <tr key={i}>
-                                    <Scanner.SearchResults item={item} handleAccept={() => handleAccept(item)} />
-                                </tr>
-                            )
-                        })}
-                    </List>
-                </div>
-            </div>
-        )
-    },
-    SearchResults: function ({ item, handleAccept }) {
+    Rows: {
+        SearchResults: function (props) {
+            const { item, dispatch, pantry } = props;
+
+            function handleAccept() {
+                !(pantry.some(inv => inv.food._id === item._id)) &&
+                    dispatch({ type:'pantry/add', payload:({quantity:1,food:item}) })
+            }
+
+            const Action = [Buttons.Accept,handleAccept];
+            const ActionButton = Action[0];
+
             return [
                 <td key={0}>{item.upc}</td>,
                 <td key={1}>{item.description}</td>,
@@ -38,19 +24,22 @@ const Scanner = {
                 <td key={3}></td>,
                 <td key={4}>{item.brandOwner}</td>,
                 <td key={5}>{item.gtinUpc}</td>,
-                <td key={6}><Buttons.Accept callback={handleAccept} /></td>,
+                <td key={6}><ActionButton width='col-md-6' callback={Action[1]} /></td>,
             ]
+        },
     },
-    Head: function ({}) {
-        return [
-            <td key={0}>UPC</td>,
-            <td key={1}>description</td>,
-            <td key={2}>Calories</td>,
-            <td key={3}>Action</td>,
-            <td key={4}><strike>Brand Owner</strike></td>,
-            <td key={5}><strike>GTIN UPC</strike></td>,
-            <td key={6}>Accept?</td>,
-        ]
+    Heads: {
+        Standard: function ({}) {
+            return [
+                <th key={0}>UPC</th>,
+                <th key={1}>description</th>,
+                <th key={2}>Calories</th>,
+                <th key={3}>Action</th>,
+                <th key={4}><strike>Brand Owner</strike></th>,
+                <th key={5}><strike>GTIN UPC</strike></th>,
+                <th key={6}>Accept?</th>,
+            ]
+        },
     },
 }
 

@@ -2,15 +2,13 @@ import { useState, useReducer, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import api from '../api'
-import SearchBar from '../molecules/SearchBar'
+import SearchInput from '../atoms/SearchInput'
+import Buttons from '../atoms/Buttons'
+import ButtonGroup from '../atoms/ButtonGroup'
 import InspectionBox from '../molecules/InspectionBox'
 import Scanner from '../organisms/Scanner'
 import Pantry from '../organisms/Pantry'
 import scannerReducer from '../reducers/scanner.reducer';
-import SearchBar from '../modules/SearchBar'
-import InspectionBox from '../modules/InspectionBox'
-import api from '../api'
-import Pantry from '../organisms/Pantry'
 import pantryReducer from '../reducers/pantry.reducer';
 
 const ScannerNew = () => {
@@ -21,10 +19,11 @@ const ScannerNew = () => {
 
     async function handleSearch() {
         if( searchTerm === '' ) {
-            dispatch({
-                type:'scanner/init',
-                payload:( await api.upc.getAll() )
-            });
+            alert('Please enter a UPC or search term.');
+            // dispatch({
+            //     type:'scanner/init',
+            //     payload:( await api.upc.getAll() )
+            // });
         } else {
             dispatch({
                 type:'scanner/init',
@@ -40,20 +39,44 @@ const ScannerNew = () => {
                 .catch((err) => console.log('Rejected: '+err));
             console.log(item.food.description);
         });
-        history.push('/PantryNew')
+        history.push('/Pantry')
     }
 
-    function handleAccept(item) {
-        !(pantry.some(inv => inv.food._id === item._id)) &&
-            pantryDispatch({ type:'pantry/add', payload:({quantity:1,food:item}) })
+    function handleReset() {
+        dispatch({
+            type:'scanner/reset',
+            payload:( {foods:[],selected:[]} )
+        });
+        setSearchTerm('');
     }
+
+    // useEffect(async () => {
+    //     let res = await api.upcSearch.post({query: searchTerm, requireAllWords:false});
+    //     setSearchResults(res);
+    // },[searchTerm])
 
     return (
         <div id='Scanner' className='container-fluid'>
-            <SearchBar search={searchTerm} setSearch={setSearchTerm} />
-            <Scanner.Buttons handleSearch={handleSearch} handleDone={handleDone} />
-            <Scanner.Table items={searchResults.foods} handleAccept={handleAccept} />
-            {(pantry.length>0) && <Pantry.Table items={pantry} dispatch={pantryDispatch} />}
+            <SearchInput label={'Search :'} placeholder={'Enter part of a UPC or search term'} search={searchTerm} setSearch={setSearchTerm} reset={handleReset} />
+            
+            <ButtonGroup>
+                <Buttons.Search callback={handleSearch} disabled={(searchTerm === '')} />
+                {/* <Buttons.Scan callback={null} disabled /> */}
+            </ButtonGroup>
+
+            {(searchResults.foods.length>0) && 
+                <Scanner.Tables.Standard items={searchResults.foods} dispatch={pantryDispatch} pantry={pantry} />
+            }
+            
+            {(pantry.length>0) && 
+                <Pantry.Tables.Standard items={pantry} dispatch={pantryDispatch} />
+            }
+            
+            <ButtonGroup>
+                <Buttons.Process callback={handleDone} disabled={pantry.length==0} />
+            </ButtonGroup>
+
+
             <InspectionBox name='Pantry'>
                 <pre>{JSON.stringify(pantry, null, 1)}</pre>
             </InspectionBox>

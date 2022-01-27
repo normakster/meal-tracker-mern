@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Navbar from './organisms/Navbar'
+import Navbar from './organisms/navbar'
 import About from './pages/about'
 
 import ScannerNew from './pages/scanner'

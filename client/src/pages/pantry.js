@@ -2,11 +2,12 @@ import { useState, useReducer, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import api from '../api'
-import Pantry from '../organisms/Pantry'
-import SearchBar from '../molecules/SearchBar'
+import SearchInput from '../atoms/SearchInput'
+import Buttons from '../atoms/Buttons'
+import ButtonGroup from '../atoms/ButtonGroup'
 import InspectionBox from '../molecules/InspectionBox'
+import Pantry from '../organisms/Pantry'
 import pantryReducer from '../reducers/pantry.reducer';
-import api from '../api'
 
 const PantryPageNew = () => {
     let history = useHistory();
@@ -15,7 +16,7 @@ const PantryPageNew = () => {
     let filtered = items.filter(({ food }) => food.description.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1);
 
     function handleAdd() {
-        history.push('/ScannerNew');
+        history.push('/Scanner');
     }
 
     useEffect(() => {
@@ -27,9 +28,17 @@ const PantryPageNew = () => {
 
     return (
         <div id='Pantry' className='container-fluid'>
-            <SearchBar search={filterValue} setSearch={setFilterValue} />
-            <Pantry.Buttons handleAdd={handleAdd} />
-            <Pantry.Table items={filtered} dispatch={dispatch} />
+            <SearchInput label={'Filter :'} search={filterValue} setSearch={setFilterValue} reset={() => setFilterValue('')} />
+            
+            {(filtered.length>0) && 
+                <Pantry.Tables.Standard items={filtered} dispatch={dispatch} />
+            }
+
+            <ButtonGroup>
+                <Buttons.Add callback={handleAdd} />
+            </ButtonGroup>
+            
+
             <InspectionBox name='Filtered Items'>
                 <pre>{JSON.stringify(filtered, null, 1)}</pre>
             </InspectionBox>

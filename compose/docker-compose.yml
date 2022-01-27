@@ -7,138 +7,25 @@ networks:
 
 volumes:
   dbdata:
-  jenkins-data:
-  jenkins-docker-certs:
 
 services:
-  jenkins:
-    container_name: jenkins-blueocean
-    build:
-        context: ../jenkins
-        dockerfile: dockerfile
-    image: normak458/myjenkins-blueocean:v0.1
-    environment:
-      - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1
-    labels:
-     - "traefik.enable=true"
-     - "traefik.http.routers.jenkins.rule=Host(`jenkins.localhost`)"
-     - "traefik.http.routers.jenkins.entrypoints=web"
-    ports:
-      - '8082:8080'
-      - '50000:50000'
-    volumes:
-      - type: volume
-        source: jenkins-data
-        target: /var/jenkins_home
-      - type: volume
-        source: jenkins-docker-certs
-        target: /certs/client
-        read_only: true
-    networks:
-      - jenkins
-      - proxy-net
-  reverse-proxy:
-    image: traefik:v2.4
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entryPoints.web.address=:80"
-      - "--entryPoints.traefik.address=:8082"
-      # - "--entryPoints.websecure.address=:443"
-      # - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      # - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
 
-    ports:
-      - '80:80'
-      # - '443:443'
-      - '8080:8080'
-      - '8082:8082'
-    networks:
-      - proxy-net
-      - jenkins
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+  rerverse-proxy:
+    extends: 
+      file: ./extentions/infra.yml
+      service: reverse-proxy
+
   mongo:
-    container_name: mongo
-    build:
-        context: ../db
-        dockerfile: dockerfile
-    image: normak458/meal-tracker_mongo
-    ports:
-      - '27018:27017'
-    networks:
-      - proxy-net
-    volumes:
-      - type: volume
-        source: dbdata
-        target: /data/db
-  client-local:
-    container_name: client-local
-    build:
-      context: ../client
-      dockerfile: Dockerfile_without-NGINX
-    image: normak458/meal-tracker_client_local
-    environment:
-      - REACT_APP_API_URL=http://${API_URL:-localhost}
-      - REACT_APP_VERSION=${APP_VERSION}
-      - REACT_APP_API_PORT=${API_PORT}
-      - NODE_ENV=${NODE_ENV}
-      - CHOKIDAR_USEPOLLING=true
-    # env_file:
-    #  - ../client/.env
-    labels:
-     - "traefik.enable=true"
-     - "traefik.http.routers.client.rule=Host(`${API_URL:-localhost}`)&&PathPrefix(`/`)"
-     - "traefik.http.routers.client.entrypoints=web"
-    ports:
-     - "3000:3000"
-    networks:
-      - proxy-net
-    # stdin_open: true
-    volumes:
-      - ../client:/opt/app
-  client:
-    container_name: client
-    build:
-      context: ../client
-      args:
-        SITE: ${SITE}
-        REACT_APP_API_URL: http://${API_URL:-localhost}
-        REACT_APP_VERSION: ${APP_VERSION}
-      dockerfile: Dockerfile
-    image: normak458/meal-tracker_client
-    environment:
-      - REACT_APP_API_URL=http://${API_URL:-localhost}
-      - REACT_APP_VERSION=${APP_VERSION}
-    labels:
-     - "traefik.enable=true"
-     - "traefik.http.routers.client_nginx.rule=Host(`localhost`)&&PathPrefix(`/${SITE}`)"
-     - "traefik.http.routers.client_nginx.entrypoints=web"
-    networks:
-      - proxy-net
+    extends:
+      file: ./extentions/db.yml
+      service: mongo
+  
   api:
-    build:
-      context: ../server
-      dockerfile: Dockerfile
-    image: normak458/meal-tracker_api
-    entrypoint: [ "npm", "run", "start:dev" ]
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - API_VERSION=${API_VERSION}
-      - HOST=${API_URL}
-      - PORT=${API_PORT}
-      - MONGODB_URI=${MONGODB_URI}
-      - FDA_KEY=${FDA_KEY}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`${API_URL:-localhost}`)&&PathPrefix(`/api`)"
-      - "traefik.http.routers.api.entrypoints=web"
-    ports:
-      - "8081:8081"
-    networks:
-      - proxy-net
-    volumes:
-      - ../server:/opt/app
+    extends:
+      file: ./extentions/local.yml
+      service: api
+
+  client:
+    extends:
+      file: ./extentions/local.yml
+      service: client-local

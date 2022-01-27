@@ -1,7 +1,7 @@
 const InputGroup = (props) => {
 
     return (
-        <div className='row row-cols-2 border border-info mt-3'>
+        <div className=''>
             {props.children}
         </div>
     )

@@ -1,0 +1,31 @@
+version: "3.8"
+
+networks:
+  proxy-net:
+    name: web
+  jenkins:
+
+volumes:
+  jenkins-data:
+  jenkins-docker-certs:
+
+services:
+
+  reverse-proxy:
+    image: traefik:v2.4
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.traefik.address=:8082"
+      - "--entryPoints.db.address=:27017"
+
+    ports:
+      - '80:80'
+      - '8082:8082'
+    networks:
+      - proxy-net
+      - jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

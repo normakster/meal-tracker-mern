@@ -2,21 +2,9 @@ import { useEffect, } from 'react';
 
 import Formatter from '../atoms/Formatter'
 import Buttons from '../atoms/Buttons'
-import ButtonGroup from '../molecules/ButtonGroup'
 import InputGroup from '../molecules/InputGroup'
-import Buttons from '../atoms/Buttons'
-import Formatter from '../atoms/Formatter'
 
 const Food = {
-    Buttons: function ({handleSave, handleCancel, handleRemove, disabled}) {
-        return (
-            <ButtonGroup>
-                <Buttons.Save callback={handleSave} />
-                <Buttons.Cancel callback={handleCancel} />
-                <Buttons.Delete callback={handleRemove} disabled={disabled} />
-            </ButtonGroup>
-        )
-    },
     Meta: function ({food, dispatch}) {
         const keys = [
             ['UPC','upc'],

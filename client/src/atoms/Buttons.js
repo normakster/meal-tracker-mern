@@ -1,21 +1,22 @@
 import Button from './Button'
 
 const Buttons = {
-    Add: ({callback,disabled}) => <Button label='Add' variant={'success'} callback={callback} disabled={disabled} />,
-    Accept: ({callback,disabled}) => <Button label='Accept' variant={'primary'} callback={callback} disabled={disabled} />,
-    Close: ({callback,disabled}) => <Button label='X' variant={'light'} callback={callback} disabled={disabled} />,
-    Edit: ({callback,disabled}) => <Button label='Edit' variant={'info'} callback={callback} disabled={disabled} />,
-    Update: ({callback,disabled}) => <Button label='Update' variant={'success'} callback={callback} disabled={disabled} />,
-    Save: ({callback,disabled}) => <Button label='Save' variant={'primary'} callback={callback} disabled={disabled} />,
-    Cancel: ({callback,disabled}) => <Button label='Cancel' variant={'warning'} callback={callback} disabled={disabled} />,
-    Delete: ({callback,disabled}) => <Button label='Remove' variant={'danger'} callback={callback} disabled={disabled} />,
-    Remove: ({callback,disabled}) => <Button label='X' variant={'warning'} callback={callback} disabled={disabled} />,
-    More_Items: ({callback,disabled,toggle}) => <Button label={toggle?'More Items':'Add Items'} variant={'info'} callback={callback} disabled={disabled} />,
-    Add_Items: ({callback,disabled}) => <Button label='Add Items' variant={'info'} callback={callback} disabled={disabled} />,
-    Inspect: ({callback,disabled,label}) => <Button label={'Inspect '+label} variant={'info'} callback={callback} disabled={disabled} />,
-    Search: ({callback,disabled}) => <Button label='Search' variant={'primary'} callback={callback} disabled={disabled} />,
-    Scan: ({callback,disabled}) => <Button label={'Scan'} variant={'secondary'} callback={callback} disabled={disabled} />,
-    Done: ({callback,disabled}) => <Button label='Done' variant={'success'} callback={callback} disabled={disabled} />,
+    Add: (props) => <Button label='Add' variant={'success'} {...props} />,
+    Accept: (props) => <Button label='Accept' variant={'primary'} {...props} />,
+    Close: (props) => <Button label='X' variant={'outline-danger'} width='col-1' {...props} />,
+    Edit: (props) => <Button label='Edit' variant={'secondary'} {...props} />,
+    Update: (props) => <Button label='Update' variant={'success'} {...props} />,
+    Save: (props) => <Button label='Save' variant={'primary'} {...props} />,
+    Cancel: (props) => <Button label='Cancel' variant={'warning'} {...props} />,
+    Delete: (props) => <Button label='Remove' variant={'danger'} {...props} />,
+    Remove: (props) => <Button label='X' variant={'warning'} {...props} />,
+    More_Items: (props) => <Button label={'More Items'} variant={'outline-info'} {...props} />,
+    Add_Items: (props) => <Button label='Add Items' variant={'outline-info'} {...props} />,
+    Inspect: (props) => <Button label={'Inspect '+props.name} variant={'light btn-sm'} {...props} />,
+    Search: (props) => <Button label='Search' variant={'primary'} {...props} />,
+    Scan: (props) => <Button label={'Scan'} variant={'secondary'} {...props} />,
+    Done: (props) => <Button label='Done' variant={'success'} {...props} />,
+    Process: (props) => <Button label='Process' variant={'success'} {...props} />,
 }
 
 

@@ -1,22 +1,10 @@
-import List from '../atoms/List'
+import Table from '../atoms/Table'
 import Formatter from '../atoms/Formatter'
 import Date_Picker from '../atoms/DatePicker'
 import Buttons from '../atoms/Buttons'
-import ButtonGroup from '../molecules/ButtonGroup'
 import InputGroup from '../molecules/InputGroup'
-import Date_Picker from '../atoms/DatePicker'
-import Formatter from '../atoms/Formatter'
-import List from '../atoms/List'
 
 const Cook = {
-    Buttons: function ({toggle, handleSave, showPopup}) {
-        return (
-            <ButtonGroup>
-                <Buttons.More_Items callback={showPopup} toggle={toggle} />
-                <Buttons.Save callback={handleSave} />
-            </ButtonGroup>
-        )
-    },
     Meta: function ({meal, dispatch, datetime, callback}) {
         return (
             <div>
@@ -31,51 +19,49 @@ const Cook = {
             </div>
         )
     },
-    Table: function ({items, dispatch}) {
-        return (
-            <div className='row border border-info mt-3'>
-                <div className='container-fluid p-2 border border-info'>
-                    <List items={items} Head={Cook.Head}>
-                        {items.map((item,i) => {
-                            return (
-                                <tr key={i}>
-                                    <Cook.Editable item={item} dispatch={dispatch} />
-                                </tr>
-                            )
-                        })}
-                    </List>
-                </div>
-            </div>
-        )
+    Tables: {
+        Standard: (props) => <Table Head={Cook.Heads.Standard} Row={Cook.Rows.Editable} {...props} />,
     },
-    Editable: function ({item, dispatch}) {
-        function remove() {
-            dispatch({type: 'meal_food/remove', payload:{food: item.food}});
-        }
-        return [
-            <td key={0}>{item.quantity * item.food.servingSize}</td>,
-            <td key={1}>
-                <input type='text' name='servings' className=''
-                    placeholder='Servings (required)'
-                    value={item.servings} onChange={(e) => {
-                    dispatch({type:'meal_ingr/update',payload:{ id:item.id, servings:e.target.value }})
-                    }}
-                />
-            </td>,
-            <td key={2}>{item.food.description}</td>,
-            <td key={3}>{item.food.labelNutrients.calories}</td>,
-            <td key={4}><Buttons.Remove callback={remove} /></td>,
-        ]
+    Rows: {
+        Editable: function (props) {
+            const { item, dispatch } = props;
+
+            function handleRemove() {
+                dispatch({type: 'meal_food/remove', payload:{food: item.food}});
+            }
+
+            function handleUpdate(e) {
+                dispatch({type:'meal_ingr/update',payload:{ id:item.id, servings:e.target.value }});
+            }
+
+            const Action = [Buttons.Remove,handleRemove];
+            const ActionButton = Action[0];
+
+            return [
+                <td key={0}>{item.quantity * item.food.servingSize}</td>,
+                <td key={1}>
+                    <input type='text' name='servings' className=''
+                        placeholder='Servings (required)'
+                        value={item.servings} onChange={(e) => handleUpdate(e)}
+                    />
+                </td>,
+                <td key={2}>{item.food.description}</td>,
+                <td key={3}>{item.food.labelNutrients.calories}</td>,
+                <td key={4}><ActionButton callback={Action[1]} /></td>,
+            ]
+        },
     },
-    Head: function () {
-        return [
-            <td key={0}>Available</td>,
-            <td key={1}>Servings</td>,
-            <td key={2}>Ingredient</td>,
-            <td key={3}>Calories</td>,
-            <td key={4}>Action</td>,
-        ]
-    }
+    Heads: {
+        Standard: function () {
+            return [
+                <th key={0}>Available</th>,
+                <th key={1}>Servings</th>,
+                <th key={2}>Ingredient</th>,
+                <th key={3}>Calories</th>,
+                <th key={4}>Action</th>,
+            ]
+        },
+    },
 }
 
 export default Cook

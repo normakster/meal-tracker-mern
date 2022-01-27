@@ -1,0 +1,29 @@
+version: "3.8"
+
+networks:
+  proxy-net:
+    name: web
+  jenkins:
+
+volumes:
+  dbdata:
+
+services:
+  mongo:
+    container_name: mongo
+    build:
+        context: ../../db
+        dockerfile: dockerfile
+    image: normak458/meal-tracker_mongo
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.mongo.rule=Host(`db.localhost`)&&PathPrefix(`/`)"
+     - "traefik.http.routers.mongo.entrypoints=web"
+    ports:
+      - '27018:27017'
+    networks:
+      - proxy-net
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /data/db

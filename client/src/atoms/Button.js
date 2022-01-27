@@ -1,7 +1,15 @@
 const Button = (props) => {
-    const { label, variant, callback, disabled } = props;
+    const { label, variant, width, callback, disabled } = props;
     return (
-        <input type='button' className={'col btn btn-'+variant+' mx-2'} onClick={callback} value={label} disabled={disabled} />
+        <button type='button' 
+            className={'btn btn-'+
+                variant+
+                ' '+
+                (width?width:'col-md-2')+
+                ' '} 
+            onClick={callback} 
+            disabled={disabled} 
+        >{label}</button>
     )
 }
 

@@ -1,8 +1,8 @@
 const Formatter = {
     WithLabel: function WithLabel({label,children}) {
         return (
-            <div className='col'>
-                <div className='input-group row'>
+            <div className=''>
+                <div className='input-group'>
                     <span className="input-group-text">{label}</span>
                     {children}
                 </div>
@@ -12,8 +12,8 @@ const Formatter = {
 
     InputItem: function InputItem({obj,dispatch,action,title,field}) {
         return (
-            <div className='col'>
-                <div className='input-group row'>
+            <div className='col col-sm-6 col-auto'>
+                <div className='input-group'>
                     <span className="input-group-text">{title}</span>
                     <input type="text" className="form-control" 
                         placeholder={field} name={field} value={obj[field]}

@@ -1,0 +1,28 @@
+version: "3.8"
+
+networks:
+  proxy-net:
+    name: web
+  jenkins:
+
+services:
+  
+  client:
+    container_name: client
+    build:
+      context: ../../client
+      args:
+        SITE: ${SITE}
+        REACT_APP_API_URL: http://${API_URL:-localhost}
+        REACT_APP_VERSION: ${APP_VERSION}
+      dockerfile: Dockerfile
+    image: normak458/meal-tracker_client
+    environment:
+      - REACT_APP_API_URL=http://${API_URL:-localhost}
+      - REACT_APP_VERSION=${APP_VERSION}
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.client_nginx.rule=Host(`localhost`)&&PathPrefix(`/${SITE}`)"
+     - "traefik.http.routers.client_nginx.entrypoints=web"
+    networks:
+      - proxy-net
